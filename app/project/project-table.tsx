@@ -7,115 +7,57 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  getKeyValue,
 } from "@nextui-org/table";
-import {deleteProject, Project, saveProject, updateProject} from "@/service/project.service";
-import {Button} from "@nextui-org/button";
-import {DeleteIcon, EditIcon} from "@/app/components/icons";
-import React, {useState} from "react";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure} from "@nextui-org/modal";
-import {Input, Textarea} from "@nextui-org/input";
+import { Button } from "@nextui-org/button";
+import React, { useState } from "react";
+import { DeleteIcon, EditIcon } from "@/app/components/icons";
+import {
+  deleteProject,
+  Project,
+} from "@/service/project.service";
+import { useRouter } from 'next/navigation'
 
-export default function ProjectTable({rows, columns, onDelete, onEdit}) {
+export default function ProjectTable({ rows, columns, onDelete}) {
 
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-  const [titleValue, setTitleValue] = useState("");
-  const [summeryValue, setSummeryValue] = useState("");
-  const [project, setProject]: [Project, (project: Project) => void] = useState();
-
+  const router = useRouter();
 
   const getKeyValue = (item, columnKey) => {
-    if(columnKey === 'action'){
-        return (
-            <div className={'flex'}>
-              <Button className={'mx-1'} isIconOnly onClick={() => handleDelete(item)}><DeleteIcon/></Button>
-              <Button className={'mx-1'} isIconOnly onClick={() => handleEdit(item)}><EditIcon/></Button>
-            </div>
-        );
-    }else {
+    if (columnKey === "action") {
+      return (
+        <div className={"flex"}>
+          <Button
+            isIconOnly
+            className={"mx-1"}
+            onClick={() => handleDelete(item)}
+          >
+            <DeleteIcon />
+          </Button>
+          <Button
+            isIconOnly
+            className={"mx-1"}
+            onClick={() => handleEdit(item)}
+          >
+            <EditIcon />
+          </Button>
+        </div>
+      );
+    }
+    else {
       return item[columnKey];
     }
-  }
+  };
 
-  const handleDelete = (project: Project) => {
-    deleteProject(project.id).then(
-        res => {
-          onDelete(project.id);
-        }
-    );
-
-  }
+  const handleDelete = async (project: Project) => {
+    const res = await deleteProject(project.id);
+    onDelete(project.id);
+  };
 
   const handleEdit = (project: Project) => {
-    setSummeryValue(project.summary);
-    setTitleValue(project.title);
-    setProject(project);
-    onOpen();
+    router.push(`/project/${project.id}`);
   };
 
-  const onSubmit = () => {
-    project.title = titleValue;
-    project.summary = summeryValue;
-    console.log(project);
-
-    updateProject(project).then((res) => {
-      console.log(res);
-      onEdit(res);
-      clearForm();
-      onClose();
-    });
-  };
-
-  const clearForm = () => {
-    setTitleValue("");
-    setSummeryValue("");
-  };
-
-
-
-
-    return (
+  return (
     <>
-      <Modal
-          isOpen={isOpen}
-          placement="top-center"
-          onClose={onClose}
-          onOpenChange={onOpenChange}
-      >
-        <ModalContent>
-          <>
-            <ModalHeader className="flex flex-col gap-1">
-              Add Project
-            </ModalHeader>
-            <ModalBody>
-              <Input
-                  label="title"
-                  placeholder="Enter title"
-                  type="text"
-                  value={titleValue}
-                  variant="bordered"
-                  onValueChange={setTitleValue}
-              />
-              <Textarea
-                  label="summery"
-                  placeholder="Enter summery"
-                  type="text"
-                  value={summeryValue}
-                  variant="bordered"
-                  onValueChange={setSummeryValue}
-              />
-            </ModalBody>
-            <ModalFooter>
-              <Button color="danger" variant="flat" onPress={onClose}>
-                Close
-              </Button>
-              <Button color="primary" type="submit" onPress={onSubmit}>
-                Submit
-              </Button>
-            </ModalFooter>
-          </>
-        </ModalContent>
-      </Modal>
       <Table aria-label="Project table">
         <TableHeader columns={columns}>
           {(column: Column) => (
@@ -129,9 +71,7 @@ export default function ProjectTable({rows, columns, onDelete, onEdit}) {
                 <TableCell>{getKeyValue(item, columnKey)}</TableCell>
               )}
             </TableRow>
-
           )}
-
         </TableBody>
       </Table>
     </>

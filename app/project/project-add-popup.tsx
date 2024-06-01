@@ -1,3 +1,5 @@
+"use client";
+
 import React, {useState} from 'react';
 import {Button} from "@nextui-org/button";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure} from "@nextui-org/modal";
@@ -10,19 +12,17 @@ export function ProjectAddPopup({ onSave}) {
     const [titleValue, setTitleValue] = useState("");
     const [summeryValue, setSummeryValue] = useState("");
 
-    const onSubmit = () => {
-        saveProject({
+    const onSubmit = async () => {
+        const res = await saveProject({
             id: "",
             title: titleValue,
             summary: summeryValue,
             student: "665621b3b07edc6459bee227",
             technology: ["66562241b07edc6459bee22c", "66562257b07edc6459bee230"],
-        }).then((res) => {
-            console.log(res);
-            onSave(res);
-            clearForm();
-            onClose();
-        });
+        })
+        onSave(res);
+        clearForm();
+        onClose();
     };
 
     const clearForm = () => {

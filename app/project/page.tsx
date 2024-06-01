@@ -1,61 +1,64 @@
 "use client";
 
-import ProjectTable from "@/app/project/project-table";
-import {getAllProject, Project, saveProject} from "@/service/project.service";
-import React, {useEffect, useState} from "react";
-import {ProjectAddPopup} from "@/app/project/project-add-popup";
+import React, { useEffect, useState } from "react";
 
+import ProjectTable from "@/app/project/project-table";
+import { getAllProject, Project } from "@/service/project.service";
+import { ProjectAddPopup } from "@/app/project/project-add-popup";
 
 export default function ProjectPage() {
+  const columns: Column[] = [
+    {
+      key: "id",
+      label: "ID",
+    },
+    {
+      key: "title",
+      label: "TITLE",
+    },
+    {
+      key: "summary",
+      label: "SUMMARY",
+    },
+    {
+      key: "action",
+      label: "Action",
+    },
+  ];
 
-    const columns: Column[] = [
-        {
-            key: "id",
-            label: "ID",
-        },
-        {
-            key: "title",
-            label: "TITLE",
-        },
-        {
-            key: "summary",
-            label: "SUMMARY",
-        },
-        {
-            key: "action",
-            label: "Action",
+  const [rows, setRows]: [Project[], React.Dispatch<(prevRows: Project[]) => Project[]>]= useState([]);
+
+  useEffect(() => {
+    getAllProject().then(
+        res => {
+            console.log("fetch response: ", res);
+            setRows((prevRows: Project[]) => res);
         }
-    ];
+    )
+  }, []);
 
-    const [rows, setRows]: [Project[], (rows: Project[]) => void] = useState([]);
+  useEffect(() => {
+    console.log("useEffect: ", rows);
+  }, [rows]);
 
-    useEffect(() => {
-        getAllProject().then((res: Project[]) => {
-            setRows(res);
-        });
-    }, []);
+  const handleSave = (project: Project) => {
+    console.log("Trying to save: ", project);
+    setRows((prevRows: Project[]) => [...prevRows, project]);
+  };
 
-    const handleSave = (project: Project)=> {
-        rows.push(project);
-        setRows([...rows]);
-    }
-
-    const handleEdit = (project: Project)=> {
-        const updatedRows = rows.map(pro => pro.id === project.id ? project : pro);
-        setRows(updatedRows);
-    }
-
-    const handleDelete = (id: string) => {
-        const updatedRows = rows.filter(project => project.id !== id);
-        setRows(updatedRows);
-    }
-
-
+  const handleDelete = (id: string) => {
+    console.log("Trying to delete: ", id);
+    setRows((prevRows: Project[]) => prevRows.filter((item) => item.id !== id));
+  };
 
   return (
-      <>
-        <ProjectAddPopup onSave={handleSave}/>
-        <ProjectTable rows={rows} columns={columns} onDelete={handleDelete} onEdit={handleEdit}/>
-      </>
+    <>
+      <ProjectAddPopup onSave={handleSave} />
+      <ProjectTable
+        columns={columns}
+        rows={rows}
+        onDelete={handleDelete}
+      />
+    </>
   );
 }
