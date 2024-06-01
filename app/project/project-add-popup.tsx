@@ -33,7 +33,7 @@ export function ProjectAddPopup({ onSave}) {
 
     return (
         <>
-            <Button  onPress={onOpen}>Add</Button>
+            <Button  onPress={onOpen}>Add New Project</Button>
             <Modal
                 isOpen={isOpen}
                 placement="top-center"

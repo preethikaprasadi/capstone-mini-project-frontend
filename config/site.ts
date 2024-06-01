@@ -13,16 +13,20 @@ export const siteConfig = {
       href: "/student",
     },
     {
-      label: "Mentor",
-      href: "/mentor",
+      label: "Guide",
+      href: "/guide",
     },
     {
       label: "Project",
       href: "/project",
     },
     {
-      label: "About",
-      href: "/about",
+      label: "Technology",
+      href: "/technology",
+    },
+    {
+      label: "Feedback",
+      href: "/feedback",
     },
   ],
   navMenuItems: [
@@ -39,16 +43,20 @@ export const siteConfig = {
       href: "/student",
     },
     {
-      label: "Mentor",
-      href: "/mentor",
+      label: "Guide",
+      href: "/guide",
     },
     {
       label: "Project",
       href: "/project",
     },
     {
-      label: "About",
-      href: "/about",
+      label: "Technology",
+      href: "/technology",
+    },
+    {
+      label: "Feedback",
+      href: "/feedback",
     },
     {
       label: "Logout",

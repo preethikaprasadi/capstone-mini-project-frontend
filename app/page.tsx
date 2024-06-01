@@ -11,10 +11,10 @@ export default function Home() {
         <h1 className={title()}>Software Development Skills</h1>
         <br />
         <h1 className={title()}>with </h1>
-        <h1 className={title({ color: "violet" })}>Capstone</h1>
+        <h1 className={title({ color: "violet" })}>Guidly</h1>
         <br />
         <h2 className={subtitle({ class: "mt-6" })}>
-          Connecting university student and industrial professionals together !
+          Connecting University Students and Guiders Together
         </h2>
       </div>
 
@@ -31,9 +31,9 @@ export default function Home() {
         </NextLink>
         <NextLink
           className={buttonStyles({ variant: "bordered", radius: "full" })}
-          href="/mentor"
+          href="/guide"
         >
-          Mentor
+          Guide
         </NextLink>
       </div>
     </section>

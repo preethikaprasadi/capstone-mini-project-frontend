@@ -1,9 +1,9 @@
 import { title } from "@/app/components/primitives";
 
-export default function MentorPage() {
+export default function GuidePage() {
   return (
     <div>
-      <h1 className={title()}>Mentor</h1>
+      <h1 className={title()}>Guide</h1>
     </div>
   );
 }

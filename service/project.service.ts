@@ -7,7 +7,7 @@ export interface Project {
 }
 
 export async function getAllProject(): Promise<Project[]> {
-  const url: string = "http://localhost:8080/projects";
+  const url: string = "http://localhost:3000/projects";
   const response: Response = await fetch(url, { cache: "no-store" });
   const projects: Project[] = await response.json();
 
@@ -15,7 +15,7 @@ export async function getAllProject(): Promise<Project[]> {
 }
 
 export async function getOneProject(id: string): Promise<Project> {
-  const url: string = "http://localhost:8080/projects/" + id;
+  const url: string = "http://localhost:3000/projects/" + id;
   const response: Response = await fetch(url,{ cache: "no-store" });
   const project: Project = await response.json();
 
@@ -23,7 +23,7 @@ export async function getOneProject(id: string): Promise<Project> {
 }
 
 export async function saveProject(projectRequest: Project): Promise<Project> {
-  const url: string = "http://localhost:8080/projects";
+  const url: string = "http://localhost:3000/projects";
   const request = new Request(url, {
     body: JSON.stringify(projectRequest),
     headers: {
@@ -40,7 +40,7 @@ export async function saveProject(projectRequest: Project): Promise<Project> {
 }
 
 export async function updateProject(projectRequest: Project): Promise<Project> {
-  const url: string = "http://localhost:8080/projects/" + projectRequest.id;
+  const url: string = "http://localhost:3000/projects/" + projectRequest.id;
   const dto = {
     title: projectRequest.title,
     summary: projectRequest.summary,
@@ -63,7 +63,7 @@ export async function updateProject(projectRequest: Project): Promise<Project> {
 }
 
 export async function deleteProject(id: string): Promise<Project> {
-  const url: string = "http://localhost:8080/projects/" + id;
+  const url: string = "http://localhost:3000/projects/" + id;
   const request = new Request(url, {
     headers: {
       "Content-Type": "application/json",
