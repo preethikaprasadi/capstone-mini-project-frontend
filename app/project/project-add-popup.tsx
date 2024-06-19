@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Button } from "@nextui-org/button";
 import {
   Modal,
@@ -11,22 +11,24 @@ import {
   useDisclosure,
 } from "@nextui-org/modal";
 import { Input, Textarea } from "@nextui-org/input";
-
 import { saveProject } from "@/service/project.service";
+import {getAllTechnology, Technology} from "@/service/technology.service";
+import ParentTechnologySet from "@/app/project/parentTechnologySet";
 
 export function ProjectAddPopup({ onSave }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-
+  const [scrollBehavior, setScrollBehavior] = React.useState("inside");
   const [titleValue, setTitleValue] = useState("");
   const [summeryValue, setSummeryValue] = useState("");
-
+  const [selectedTechnologies, setSelectedTechnologies] = useState([]);
   const onSubmit = async () => {
+
     const res = await saveProject({
       id: "",
       title: titleValue,
       summary: summeryValue,
       student: "6629057e417621220cbc963a",
-      technology: [],
+      technology: selectedTechnologies,
     });
 
     onSave(res);
@@ -37,16 +39,22 @@ export function ProjectAddPopup({ onSave }) {
   const clearForm = () => {
     setTitleValue("");
     setSummeryValue("");
+    setSelectedTechnologies([]); // Clear the selectedTechnologies array
   };
+
+
 
   return (
     <>
+
       <Button onPress={onOpen}>Add New Project</Button>
+
       <Modal
         isOpen={isOpen}
         placement="top-center"
         onClose={onClose}
         onOpenChange={onOpenChange}
+         scrollBehavior={scrollBehavior}
       >
         <ModalContent>
           <>
@@ -70,6 +78,11 @@ export function ProjectAddPopup({ onSave }) {
                 variant="bordered"
                 onValueChange={setSummeryValue}
               />
+              <ParentTechnologySet
+                  selectedTechnologies={selectedTechnologies}
+                  setSelectedTechnologies={setSelectedTechnologies}
+              />
+
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="flat" onPress={onClose}>

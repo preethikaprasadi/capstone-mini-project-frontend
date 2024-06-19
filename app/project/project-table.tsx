@@ -11,7 +11,6 @@ import {
 import { Button } from "@nextui-org/button";
 import React from "react";
 import { useRouter } from "next/navigation";
-
 import { DeleteIcon, EditIcon } from "@/app/components/icons";
 import { deleteProject, Project } from "@/service/project.service";
 
