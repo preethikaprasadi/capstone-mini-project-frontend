@@ -51,3 +51,35 @@ export const subtitle = tv({
     fullWidth: true,
   },
 });
+
+export const hedding = tv({
+  base: "tracking-tight inline font-semibold",
+  variants: {
+    color: {
+      violet: "from-[#FF1CF7] to-[#b249f8]",
+    },
+    size: {
+      sm: "text-xl lg:text-2xl",
+      md: "text-2xl lg:text-3xl",
+      lg: "text-4xl lg:text-6xl",
+    },
+    fullWidth: {
+      true: "w-full block",
+    },
+  },
+  defaultVariants: {
+    size: "md",
+  },
+  compoundVariants: [
+    {
+      color: [
+        "violet",
+      ],
+      class: "bg-clip-text text-transparent bg-gradient-to-b",
+    },
+  ],
+});
+
+
+
+
