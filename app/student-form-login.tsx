@@ -65,6 +65,15 @@ export default function LoginStudentForm({ onSave }) {
         {/*  onChange={(e) => setLastName(e.target.value)}*/}
         {/*  onClear={() => console.log("input cleared")}*/}
         {/*/>*/}
+        <Input
+            className="max-w-xs"
+            label="Email"
+            placeholder="Enter your email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            variant={"bordered"}
+        />
 
         <Input
           className="max-w-xs"
@@ -89,15 +98,7 @@ export default function LoginStudentForm({ onSave }) {
           variant="bordered"
         />
 
-        <Input
-          className="max-w-xs"
-          label="Email"
-          placeholder="Enter your email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          variant={"bordered"}
-        />
+
         {/*<Button color="primary" type="submit" onPress={onSubmit}>*/}
         {/*  Submit*/}
         {/*</Button>*/}
