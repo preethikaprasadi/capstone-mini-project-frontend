@@ -14,7 +14,7 @@ export default function StudentPage() {
 
   return (
     <>
-      <StudentForm onSave={handleSave} />
+      {/*<StudentForm onSave={handleSave} />*/}
     </>
   );
 }
