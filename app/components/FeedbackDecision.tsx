@@ -1,11 +1,8 @@
 
-import { Feedback } from './feedback';
-import React,{ useEffect } from 'react';
+import { Feedback } from '../feedback/feedback';
+import React from 'react';
 import { FaStar } from 'react-icons/fa';
 import { hedding } from "@/app/components/primitives";
-
-
-
 
 interface DisplayFeedbackPageProps {
     feedbacks: Feedback[];
@@ -13,16 +10,10 @@ interface DisplayFeedbackPageProps {
 }
 
 const DisplayFeedbackPage: React.FC<DisplayFeedbackPageProps> = ({ feedbacks, setCurrentStep }) => {
-    useEffect(() => {
-        document.body.style.overflow = 'hidden'; 
-        return () => {
-            document.body.style.overflow = '';  
-        };
-    }, []);
-
+  
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50 overflow-hidden mt-10 max-h-90">
-            <div className="w-full max-w-3xl mx-auto bg-black shadow-lg rounded-lg p-0 text-white relative mb-10 max-h-90 mb-20">
+        <div className=" inset-0 flex items-center justify-center bg-black bg-opacity-75  m-2  max-h-90 " >
+            <div className="w-full max-w-3xl mx-auto bg-black shadow-lg rounded-lg p-0 text-white relative max-h-90 ">
             <div className="   text-center justify-center mb-5">
         <h3 className={hedding({size:"sm"})}>Would you like to give</h3>
         <h2 className={hedding({ color: "violet",size:"md"})}> feedback?</h2>

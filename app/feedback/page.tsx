@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import { fetchFeedbacks, createFeedback, deleteFeedback } from '../../service/feedback.service';
 import { Feedback, FeedbackRequest } from './feedback';
-import DecisionPage from './DecisionPage';
+import FeedbackDecision from '../components/FeedbackDecision';
 import FeedbackFormPage from './FeedbackFormPage';
-import DisplayFeedbackPage from './DisplayFeedbackPage';
+import FeedbackDisplay from './FeedbackDisplay';
 
 const HomePage = () => {
     const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
-    const [currentStep, setCurrentStep] = useState(1); // 1 for Decision, 2 for Form, 3 for Display
+    const [currentStep, setCurrentStep] = useState(1); 
     const [feedbackText, setFeedbackText] = useState('');
     const [rating, setRating] = useState(0);
 
@@ -45,9 +45,9 @@ const HomePage = () => {
     };
 
     return (
-        <div className="bg-black min-h-screen text-white">
+        <div className="bg-black  text-white w-3/5 relative left-2">
             {currentStep === 1 && (
-                <DecisionPage setCurrentStep={setCurrentStep} feedbacks={feedbacks} />
+                <FeedbackDecision setCurrentStep={setCurrentStep} feedbacks={feedbacks} />
             )}
             {currentStep === 2 && (
                 <FeedbackFormPage
@@ -60,7 +60,7 @@ const HomePage = () => {
                 />
             )}
             {currentStep === 3 && (
-                <DisplayFeedbackPage
+                <FeedbackDisplay
                     feedbacks={feedbacks}
                     handleDeleteFeedback={handleDeleteFeedback}
                 />

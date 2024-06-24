@@ -40,10 +40,9 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
             document.body.style.overflow = '';
         };
     }, []);
-
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-hidden mb-10">
-            <div className="w-1/2 mx-auto bg-gray-900 shadow-lg rounded-lg p-9 text-white overflow-hidden">
+        <div className=" inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-hidden mb-10">
+            <div className="w-full mx-auto bg-gray-900 shadow-lg rounded-lg p-9 text-white overflow-hidden">
                 <h2 className="text-xl font-bold text-center mb-4">What was it like working with this guide?</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <textarea

@@ -1,21 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Feedback } from './feedback';
 import { FaStar, FaTrash } from 'react-icons/fa';
 
 interface DisplayFeedbackPageProps {
     feedbacks: Feedback[];
-    handleDeleteFeedback: (id: string) => void;
+     handleDeleteFeedback: (id: string) => void;
+    
 }
-const DisplayFeedbackPage: React.FC<DisplayFeedbackPageProps> = ({ feedbacks, handleDeleteFeedback }) => {
-    useEffect(() => {
-        document.body.style.overflow = 'hidden';  
-        return () => {
-            document.body.style.overflow = ''; 
-        };
-    }, []);
+const DisplayFeedbackPage: React.FC<DisplayFeedbackPageProps> = ({ feedbacks, handleDeleteFeedback  }) => {
+    
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50 mb-20 overflow-hidden">
+        <div className="inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50 mb-20 ">
             <div className="w-full max-w-3xl mx-auto bg-black shadow-lg rounded-lg p-8 text-white relative">
                 <h2 className="text-1xl font-bold text-left mb-4">Comments</h2>
                 <div className="space-y-6">
