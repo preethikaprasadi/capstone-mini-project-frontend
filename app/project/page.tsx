@@ -7,9 +7,13 @@ import { getAllProject, Project } from "@/service/project.service";
 import { ProjectAddPopup } from "@/app/project/project-add-popup";
 import {subtitle, title} from "@/app/components/primitives";
 import {Button} from "@nextui-org/react";
+import {useRouter} from "next/navigation";
 
 
 export default function ProjectPage() {
+
+  const route=useRouter();
+
   const columns: Column[] = [
     {
       key: "id",
@@ -54,6 +58,9 @@ export default function ProjectPage() {
     console.log("Trying to delete: ", id);
     setRows((prevRows: Project[]) => prevRows.filter((item) => item.id !== id));
   };
+  const routeCreateProject = () => {
+    route.push('/project/create-new-project-form-1');
+  };
 
   return (
     <>
@@ -79,7 +86,8 @@ export default function ProjectPage() {
           </div>
 
         <div className={"flex flex-row gap-3 mt-8"}>
-          <Button color={"secondary"} radius="full" className=" text-white shadow-lg text-lg font-semibold p-7">Create New Project</Button>
+          {/*<Button onPress={routeCreateProject} color={"secondary"} radius="full" className="  text-white shadow-lg text-lg font-semibold p-7" >Create New Project</Button>*/}
+         <ProjectAddPopup onSave={handleSave}/>
           <Button color={"secondary"} variant="bordered" radius="full" className="  text-white shadow-lg text-lg font-semibold p-7" >View Existing Projects</Button>
         </div>
 

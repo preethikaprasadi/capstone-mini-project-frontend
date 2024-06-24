@@ -5,6 +5,7 @@ import { getAllTechnology, Technology } from "@/service/technology.service";
 import { TechnologyAddPopup } from "@/app/technology/technology-add-popup";
 import TechnologyTable from "@/app/technology/technology-table";
 import CategorizeObjects from "@/app/technology/CategorizeObjects";
+import ParentCategorizeObjects from "@/app/technology/parentCategorizeObjects";
 
 
 export default function Page() {
@@ -46,9 +47,9 @@ export default function Page() {
 
   return (
       <>
-
+      <ParentCategorizeObjects data={rows}/>
         <TechnologyAddPopup onSave={handleSave} />
-        <CategorizeObjects data={rows} />
+        {/*<CategorizeObjects data={rows} />*/}
          {/*<TechnologyTable columns={columns} rows={rows} />*/}
       </>
   );

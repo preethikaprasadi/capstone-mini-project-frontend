@@ -10,56 +10,56 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/modal";
-import { Input, Textarea } from "@nextui-org/input";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from "@nextui-org/react";
+import { Textarea } from "@nextui-org/input";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@nextui-org/react";
+
 // import { saveProject } from "@/service/project.service";
-import {saveTechnology} from "@/service/technology.service";
-import {DeleteIcon, EditIcon} from "@/app/components/icons";
+import { saveTechnology } from "@/service/technology.service";
 
 export function TechnologyAddPopup({ onSave }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [techTypeValue, setTechTypeValue] = useState("");
   const [techNameValue, setTechNameValue] = useState("");
 
-
   const clearForm = () => {
     setTechTypeValue("");
     setTechNameValue("");
   };
 
-
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["Select Technology Type"]));
+  const [selectedKeys, setSelectedKeys] = React.useState(
+    new Set(["Select Technology Type"]),
+  );
 
   const selectedValue = React.useMemo(
-      () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
-      [selectedKeys]
-
+    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
+    [selectedKeys],
   );
 
   const handleSelectionChange = (keys) => {
     setSelectedKeys(new Set(keys));
     const selectedKey = Array.from(keys)[0];
+
     setTechTypeValue(selectedKey); // Ensure this updates techTypeValue
   };
 
   const onSubmit = async () => {
     const res = await saveTechnology({
       id: "",
-      technologyType:selectedValue.toString(),
-      technologyName:techNameValue,
-
-
+      technologyType: selectedValue.toString(),
+      technologyName: techNameValue,
     });
-    console.log("selectedValue:"+selectedValue);
+
+    console.log("selectedValue:" + selectedValue);
 
     onSave(res);
     clearForm();
     onClose();
   };
-
-
-
-
 
   return (
     <>
@@ -76,29 +76,23 @@ export function TechnologyAddPopup({ onSave }) {
               Add Technology
             </ModalHeader>
             <ModalBody>
-
               <Dropdown>
                 <DropdownTrigger>
-                  <Button
-                      variant="bordered"
-                      className="capitalize"
-                  >
+                  <Button className="capitalize" variant="bordered">
                     {selectedValue}
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu
-                    aria-label="Single selection example"
-                    variant="flat"
-                    disallowEmptySelection
-                    selectionMode="single"
-                    selectedKeys={selectedKeys}
-                    onSelectionChange={handleSelectionChange}
+                  disallowEmptySelection
+                  aria-label="Single selection example"
+                  selectedKeys={selectedKeys}
+                  selectionMode="single"
+                  variant="flat"
+                  onSelectionChange={handleSelectionChange}
                 >
-
                   <DropdownItem key="0">Language</DropdownItem>
                   <DropdownItem key="1">Framework</DropdownItem>
                   <DropdownItem key="2">Database</DropdownItem>
-
                 </DropdownMenu>
               </Dropdown>
 

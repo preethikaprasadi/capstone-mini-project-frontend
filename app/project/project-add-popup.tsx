@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from "@nextui-org/modal";
 import { Input, Textarea } from "@nextui-org/input";
-import { saveProject } from "@/service/project.service";
+import {Project, saveProject} from "@/service/project.service";
 import {getAllTechnology, Technology} from "@/service/technology.service";
 import ParentTechnologySet from "@/app/project/parentTechnologySet";
 
@@ -36,6 +36,7 @@ export function ProjectAddPopup({ onSave }) {
     onClose();
   };
 
+
   const clearForm = () => {
     setTitleValue("");
     setSummeryValue("");
@@ -47,8 +48,8 @@ export function ProjectAddPopup({ onSave }) {
   return (
     <>
 
-      <Button onPress={onOpen}>Add New Project</Button>
-
+      {/*<Button onPress={onOpen}>Add New Project</Button>*/}
+      <Button onPress={onOpen} color={"secondary"} radius="full" className=" text-white shadow-lg text-lg font-semibold p-7">Create New Project</Button>
       <Modal
         isOpen={isOpen}
         placement="top-center"
