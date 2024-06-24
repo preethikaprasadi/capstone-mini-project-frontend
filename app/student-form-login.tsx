@@ -6,6 +6,7 @@ import { useDisclosure } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
 
 import { saveStudent } from "@/service/student";
+import {useRouter} from "next/navigation";
 
 export default function LoginStudentForm({ onSave }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -14,6 +15,7 @@ export default function LoginStudentForm({ onSave }) {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const toggleVisibility = () => setIsVisible(!isVisible);
   const variants = ["bordered"];
   const sizes = ["sm", "md", "lg"];
@@ -29,7 +31,9 @@ export default function LoginStudentForm({ onSave }) {
     onSave(res);
     clearForm();
     onClose();
+
     console.log("trying to save",res);
+
   };
 
   const clearForm = () => {

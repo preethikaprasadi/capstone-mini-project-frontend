@@ -50,7 +50,7 @@ export default function Home() {
           </div>
 
           <div className="flex gap-3">
-            <NewStudentFormPopup/>
+            <NewStudentFormPopup onSave={handleSave}/>
             {/*<Button onPress={onOpen}>Student</Button>*/}
 
             {/*<Modal isOpen={isOpen} onOpenChange={onOpenChange}>*/}

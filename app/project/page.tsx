@@ -54,8 +54,8 @@ export default function ProjectPage() {
 
   return (
     <>
-      <ProjectAddPopup onSave={handleSave} />
-      <ProjectTable columns={columns} rows={rows} onDelete={handleDelete} />
+      {/*<ProjectAddPopup onSave={handleSave} />*/}
+      {/*<ProjectTable columns={columns} rows={rows} onDelete={handleDelete} />*/}
     </>
   );
 }
