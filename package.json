@@ -58,5 +58,8 @@
 		"tailwind-variants": "^0.1.20",
 		"tailwindcss": "3.4.3",
 		"typescript": "5.0.4"
+	},
+	"devDependencies": {
+		"@next/swc-win32-x64-msvc": "^15.0.0-rc.0"
 	}
 }
