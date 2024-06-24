@@ -17,8 +17,8 @@ export function ProjectAddPopup({ onSave}) {
             id: "",
             title: titleValue,
             summary: summeryValue,
-            student: "665621b3b07edc6459bee227",
-            technology: ["66562241b07edc6459bee22c", "66562257b07edc6459bee230"],
+            student: "663470a113ca456458bd3c3bg",
+            technology: [],
         })
         onSave(res);
         clearForm();
