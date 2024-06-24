@@ -9,16 +9,12 @@ import {
   TableCell,
 } from "@nextui-org/table";
 import { Button } from "@nextui-org/button";
-import React, { useState } from "react";
+import React from "react";
+import { useRouter } from "next/navigation";
 import { DeleteIcon, EditIcon } from "@/app/components/icons";
-import {
-  deleteProject,
-  Project,
-} from "@/service/project.service";
-import { useRouter } from 'next/navigation'
+import { deleteProject, Project } from "@/service/project.service";
 
-export default function ProjectTable({ rows, columns, onDelete}) {
-
+export default function ProjectTable({ rows, columns, onDelete }) {
   const router = useRouter();
 
   const getKeyValue = (item, columnKey) => {
@@ -41,14 +37,14 @@ export default function ProjectTable({ rows, columns, onDelete}) {
           </Button>
         </div>
       );
-    }
-    else {
+    } else {
       return item[columnKey];
     }
   };
 
   const handleDelete = async (project: Project) => {
     const res = await deleteProject(project.id);
+
     onDelete(project.id);
   };
 
