@@ -21,14 +21,6 @@ export default function Home() {
     console.log("Trying to save: ", student);
   };
 
-  // const handleLoginClick = () => {
-  //   onClose();  // Close the "Create New Account" modal
-  //   onLoginOpen();  // Open the login modal
-  // };
-  // const handleSignUpClick =()=>{
-  //   onLoginClose();
-  //   onOpen();
-  // }
 
   return (
       <>
@@ -51,59 +43,6 @@ export default function Home() {
 
           <div className="flex gap-3">
             <NewStudentFormPopup onSave={handleSave}/>
-            {/*<Button onPress={onOpen}>Student</Button>*/}
-
-            {/*<Modal isOpen={isOpen} onOpenChange={onOpenChange}>*/}
-            {/*  <ModalContent>*/}
-            {/*    {(onClose) => (*/}
-            {/*        <>*/}
-            {/*          <ModalHeader className="flex flex-col gap-1">Create New Account</ModalHeader>*/}
-
-            {/*          <ModalBody>*/}
-            {/*            <div className="flex flex-row items-center gap-2">*/}
-            {/*              <p> Do you already have an account? </p>*/}
-            {/*              <Link href="#" underline="always" onClick={handleLoginClick}>Login</Link>*/}
-            {/*            </div>*/}
-            {/*            <NewStudentForm onSave={handleSave}  />*/}
-            {/*          </ModalBody>*/}
-            {/*          <ModalFooter>*/}
-            {/*            <Button color="danger" variant="light" onPress={onClose}>*/}
-            {/*              Close*/}
-            {/*            </Button>*/}
-            {/*            <Button color="primary" onPress={onClose}>*/}
-            {/*              Create Account*/}
-            {/*            </Button>*/}
-            {/*          </ModalFooter>*/}
-            {/*        </>*/}
-            {/*    )}*/}
-            {/*  </ModalContent>*/}
-            {/*</Modal>*/}
-
-            {/*<Modal isOpen={isLoginOpen} onOpenChange={onLoginOpenChange}>*/}
-            {/*  <ModalContent>*/}
-            {/*    {(onClose) => (*/}
-            {/*        <>*/}
-            {/*          <ModalHeader className="flex flex-col gap-1">Login</ModalHeader>*/}
-            {/*          <ModalBody>*/}
-            {/*            <div className="flex flex-row items-center gap-2">*/}
-            {/*              <p> Do you not have an account? </p>*/}
-            {/*              <Link href="#" underline="always" onClick={handleSignUpClick}>Create New Account</Link>*/}
-            {/*            </div>*/}
-            {/*            <LoginStudentForm/>*/}
-            {/*          </ModalBody>*/}
-            {/*          <ModalFooter>*/}
-            {/*            <Button color="danger" variant="light" onPress={onClose}>*/}
-            {/*              Close*/}
-            {/*            </Button>*/}
-            {/*            <Button color="primary" onPress={onClose}>*/}
-            {/*              Login*/}
-            {/*            </Button>*/}
-            {/*          </ModalFooter>*/}
-            {/*        </>*/}
-            {/*    )}*/}
-            {/*  </ModalContent>*/}
-            {/*</Modal>*/}
-
             <NextLink
                 className={buttonStyles({ variant: "bordered", radius: "full" })}
                 href="/guide"
