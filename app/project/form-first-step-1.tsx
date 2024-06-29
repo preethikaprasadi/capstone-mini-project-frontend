@@ -1,46 +1,3 @@
-// import React from 'react';
-// import { Input, Textarea } from "@nextui-org/input";
-// import {Button} from "@nextui-org/react";
-//
-// function FormFirstStep() {
-//     return ( <>
-//         <div className=" flex items-center justify-center">
-//             <section className="w-6/12">
-//                 <div className="flex flex-col gap-4">
-//                     <div>
-//                         <Input
-//                             label="Title"
-//                             placeholder="Enter title"
-//                             type="text"
-//                             variant="flat"
-//                             className="w-full"
-//                         />
-//                     </div>
-//                     <div>
-//                         <Textarea
-//                             label="Summery"
-//                             placeholder="Enter summery"
-//                             type="text"
-//                             variant="flat"
-//                             className="w-full"
-//                         />
-//                     </div>
-//                     <br/>
-//
-//                     <Button radius="full"  variant="shadow" color="primary">
-//                         Next
-//                     </Button>
-//
-//                 </div>
-//
-//             </section>
-//         </div>
-//
-//        </>
-//     );
-// }
-//
-// export default FormFirstStep;
 import React, {useState} from 'react';
 import { Input, Textarea } from "@nextui-org/input";
 import { Button } from "@nextui-org/react";
@@ -52,10 +9,6 @@ function FormFirstStep() {
 
     const handleNext = () => {
      ;
-
-
-
-
         setStep(prevStep => prevStep + 1);
         console.log("current step: ", currentStep);
          console.log("user data: ", userData);
