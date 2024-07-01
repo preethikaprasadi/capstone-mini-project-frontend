@@ -4,14 +4,13 @@ import { EyeFilledIcon, EyeSlashFilledIcon } from "@nextui-org/shared-icons";
 import { Input } from "@nextui-org/input";
 import { Modal, ModalBody, ModalContent, useDisclosure } from "@nextui-org/modal";
 import { Link, Button } from "@nextui-org/react";
-
 import { saveStudent } from "@/service/student";
-import LoginStudentForm from "@/app/student-form-login";
+import LoginStudentForm from "@/app/student/student-login-popup";
 import { useRouter } from "next/navigation";
-import NewStudAccCreatedPopup from "@/app/stud-acc-successfully-created-popup";
+import NewStudAccCreatedPopup from "@/app/student/stud-acc-successfully-created-popup";
 import {BsCheckLg} from "react-icons/bs";
 
-export default function NewStudentFormPopup({ onSave }) {
+export default function NewStudentSignupPopup({ onSave }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const { isOpen: isLoginOpen, onOpen: onLoginOpen, onOpenChange: onLoginOpenChange, onClose: onLoginClose } = useDisclosure();
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
@@ -61,7 +60,6 @@ export default function NewStudentFormPopup({ onSave }) {
       <>
         <div className="flex gap-3">
           <Button radius="full" onPress={onOpen}>Student</Button>
-
           <Modal className={"p-0 m-0 max-w-3xl h-max"} isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent className={"fixed-size pt-0"}>
               {(onClose) => (
@@ -70,7 +68,6 @@ export default function NewStudentFormPopup({ onSave }) {
                       <div>
                         <ModalBody className={"h-full p-0 m-0"}>
                           <div className={"flex flex-row gap-3"}>
-
                               <div className="container basis-2/5 border-r-1 pr-10 pt-10 pl-8 bg-zinc-800">
                                 <p>Your Projects Success Starts from here</p>
                                 <ul className="check-list">
@@ -184,22 +181,10 @@ export default function NewStudentFormPopup({ onSave }) {
                             <div className={"basis-3/5"}>
                               <div className="w-full flex flex-row gap-2 justify-center pt-10 pb-20">
                                 <p>Do you not have an account?</p>
-                                <Link href="#" underline="always" onClick={handleSignUpClick}>Create New Account</Link>
+                                <Link href="app#" underline="always" onClick={handleSignUpClick}>Create New Account</Link>
                               </div>
                               <div className={"w-full flex items-center justify-center flex-col gap-4 pb-20"}>
                                 <LoginStudentForm />
-                              </div>
-                              <div className={"flex flex-row justify-end p-10 pb-5"}>
-                                <div>
-                                  <Button color="danger" variant="light" onPress={onClose}>
-                                    Close
-                                  </Button>
-                                </div>
-                                <div>
-                                  <Button color="primary" onPress={onClose}>
-                                    Login
-                                  </Button>
-                                </div>
                               </div>
                             </div>
                           </div>

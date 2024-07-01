@@ -83,7 +83,6 @@ import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import ThemeProvider from "@/app/themeProvider";
 import StepContextProvider from "@/app/step-context";
-
 export const metadata: Metadata = {
     title: {
         default: siteConfig.name,

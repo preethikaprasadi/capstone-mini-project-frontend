@@ -6,12 +6,11 @@ import { title, subtitle } from "@/app/components/primitives";
 import { Navbar } from "@/app/components/navbar";
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/modal";
 import { Button } from "@nextui-org/react";
-import NewStudentForm from "@/app/new-student-form-popup";
+import NewStudentForm from "@/app/student/new-student-signup-popup";
 import { Student } from "@/service/student";
 import { Link } from "@nextui-org/link";
-import LoginStudentForm from "@/app/student-form-login";
-import NewStudentFormPopup from "@/app/new-student-form-popup";
-
+import LoginStudentForm from "@/app/student/student-login-popup";
+import NewStudentSignupPopup from "@/app/student/new-student-signup-popup";
 
 
 export default function Home() {
@@ -43,7 +42,7 @@ export default function Home() {
           </div>
 
           <div className="flex gap-3">
-            <NewStudentFormPopup onSave={handleSave}/>
+            <NewStudentSignupPopup onSave={handleSave}/>
             <NextLink
                 className={buttonStyles({ variant: "bordered", radius: "full" })}
                 href="/guide"

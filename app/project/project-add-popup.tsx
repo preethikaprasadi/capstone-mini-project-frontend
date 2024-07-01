@@ -14,13 +14,16 @@ import { Input, Textarea } from "@nextui-org/input";
 import {Project, saveProject} from "@/service/project.service";
 import {getAllTechnology, Technology} from "@/service/technology.service";
 import ParentTechnologySet from "@/app/project/parentTechnologySet";
+// import {useNavigate} from "react-router";
 
 export function ProjectAddPopup({ onSave }) {
+
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [scrollBehavior, setScrollBehavior] = React.useState("inside");
   const [titleValue, setTitleValue] = useState("");
   const [summeryValue, setSummeryValue] = useState("");
   const [selectedTechnologies, setSelectedTechnologies] = useState([]);
+  // const navigate = useNavigate();
   const onSubmit = async () => {
 
     const res = await saveProject({

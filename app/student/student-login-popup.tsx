@@ -20,55 +20,29 @@ export default function LoginStudentForm({ onSave }) {
   const variants = ["bordered"];
   const sizes = ["sm", "md", "lg"];
   const onSubmit = async () => {
-    const res = await saveStudent({
-      id: "",
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-    });
-
-    onSave(res);
-    clearForm();
-    onClose();
-
-    console.log("trying to save",res);
-
+  //   // const res = await saveStudent({
+  //   //   email: email,
+  //   //   password: password,
+  //   // });
+  //
+  //   onSave(res);
+  //   clearForm();
+  //   onClose();
+  //
+  //   console.log("trying to save",res);
+  //
   };
 
-  const clearForm = () => {
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPassword("");
-  };
+  // const clearForm = () => {
+  //   setFirstName("");
+  //   setLastName("");
+  //   setEmail("");
+  //   setPassword("");
+  // };
 
   return (
     <>
-      {/*<div className={"flex items-center justify-center h-screen"}>*/}
       <div className={"w-full flex items-center justify-center flex-col gap-4"}>
-        {/*<Input*/}
-        {/*  isClearable*/}
-        {/*  className="max-w-xs"*/}
-        {/*  label="First Name"*/}
-        {/*  placeholder="Enter your first name"*/}
-        {/*  type="text"*/}
-        {/*  value={firstName}*/}
-        {/*  variant="bordered"*/}
-        {/*  onChange={(e) => setFirstName(e.target.value)}*/}
-        {/*  onClear={() => console.log("input cleared")}*/}
-        {/*/>*/}
-        {/*<Input*/}
-        {/*  isClearable*/}
-        {/*  className="max-w-xs"*/}
-        {/*  label="Last Name"*/}
-        {/*  placeholder="Enter your last name"*/}
-        {/*  type="text"*/}
-        {/*  value={lastName}*/}
-        {/*  variant="bordered"*/}
-        {/*  onChange={(e) => setLastName(e.target.value)}*/}
-        {/*  onClear={() => console.log("input cleared")}*/}
-        {/*/>*/}
         <Input
             className="max-w-xs"
             label="Email"
@@ -103,9 +77,9 @@ export default function LoginStudentForm({ onSave }) {
         />
 
 
-        {/*<Button color="primary" type="submit" onPress={onSubmit}>*/}
-        {/*  Submit*/}
-        {/*</Button>*/}
+        <Button color="primary" type="submit" onPress={onSubmit}>
+          Submit
+        </Button>
       </div>
       {/*</div>*/}
     </>
