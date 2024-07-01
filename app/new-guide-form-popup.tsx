@@ -4,13 +4,14 @@ import { EyeFilledIcon, EyeSlashFilledIcon } from "@nextui-org/shared-icons";
 import { Input } from "@nextui-org/input";
 import { Modal, ModalBody, ModalContent, useDisclosure } from "@nextui-org/modal";
 import { Link, Button } from "@nextui-org/react";
-import { saveStudent } from "@/service/student";
-import LoginStudentForm from "@/app/student/student-login-popup";
+
+import { saveGuide } from "@/service/guide.service";
+import LoginGuideForm from "@/app/guide-form-login";
 import { useRouter } from "next/navigation";
-import NewStudAccCreatedPopup from "@/app/student/stud-acc-successfully-created-popup";
+import NewStudAccCreatedPopup from "@/app/guide-acc-successfully-created-popup";
 import {BsCheckLg} from "react-icons/bs";
 
-export default function NewStudentSignupPopup({ onSave }) {
+export default function NewGuideFormPopup({ onSave }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const { isOpen: isLoginOpen, onOpen: onLoginOpen, onOpenChange: onLoginOpenChange, onClose: onLoginClose } = useDisclosure();
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
@@ -20,16 +21,26 @@ export default function NewStudentSignupPopup({ onSave }) {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [profilePic, setProfilePic] = useState("");
+  const [job, setjob] = useState("");
+  const [about, setAbout] = useState("");
+  const [milestones, setMilestones] = useState("");
+  const [socialMediaLinks, setSocialMediaLinks] = useState("");
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const onSubmit = async () => {
-    const res = await saveStudent({
+    const res = await saveGuide({
       id: "",
       firstName: firstName,
       lastName: lastName,
       email: email,
       password: password,
+      profilePic:profilePic,
+      job:job,
+      about:about,
+      milestones:milestones,
+      socialMediaLinks:socialMediaLinks,
     });
 
     onSave(res);
@@ -44,6 +55,11 @@ export default function NewStudentSignupPopup({ onSave }) {
     setLastName("");
     setEmail("");
     setPassword("");
+    setProfilePic("");
+    setjob("");
+    setAbout("");
+    setMilestones("");
+    setSocialMediaLinks("");
   };
 
   const handleLoginClick = () => {
@@ -59,7 +75,8 @@ export default function NewStudentSignupPopup({ onSave }) {
   return (
       <>
         <div className="flex gap-3">
-          <Button radius="full" onPress={onOpen}>Student</Button>
+          <Button radius="full" onPress={onOpen}>Guide</Button>
+
           <Modal className={"p-0 m-0 max-w-3xl h-max"} isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent className={"fixed-size pt-0"}>
               {(onClose) => (
@@ -68,6 +85,7 @@ export default function NewStudentSignupPopup({ onSave }) {
                       <div>
                         <ModalBody className={"h-full p-0 m-0"}>
                           <div className={"flex flex-row gap-3"}>
+
                               <div className="container basis-2/5 border-r-1 pr-10 pt-10 pl-8 bg-zinc-800">
                                 <p>Your Projects Success Starts from here</p>
                                 <ul className="check-list">
@@ -139,6 +157,66 @@ export default function NewStudentSignupPopup({ onSave }) {
                                     onChange={(e) => setPassword(e.target.value)}
                                     variant="bordered"
                                 />
+                                 <Input
+                                    isRequired
+                                    isClearable
+                                    className="max-w-xs"
+                                    label="Profilepic"
+                                    placeholder="Enter your Profile picture"
+                                    type="text"
+                                    value={profilePic}
+                                    variant="bordered"
+                                    onChange={(e) => setProfilePic(e.target.value)}
+                                    onClear={() => console.log("input cleared")}
+                                />
+                                 <Input
+                                    isRequired
+                                    isClearable
+                                    className="max-w-xs"
+                                    label="job"
+                                    placeholder="Enter your job"
+                                    type="text"
+                                    value={job}
+                                    variant="bordered"
+                                    onChange={(e) => setjob(e.target.value)}
+                                    onClear={() => console.log("input cleared")}
+                                />
+                                 <Input
+                                    isRequired
+                                    isClearable
+                                    className="max-w-xs"
+                                    label="about"
+                                    placeholder="Enter your about"
+                                    type="text"
+                                    value={about}
+                                    variant="bordered"
+                                    onChange={(e) => setAbout(e.target.value)}
+                                    onClear={() => console.log("input cleared")}
+                                />
+                                 <Input
+                                    isRequired
+                                    isClearable
+                                    className="max-w-xs"
+                                    label="milestones"
+                                    placeholder="Enter your Milestones"
+                                    type="text"
+                                    value={milestones}
+                                    variant="bordered"
+                                    onChange={(e) => setMilestones(e.target.value)}
+                                    onClear={() => console.log("input cleared")}
+                                />
+                                 <Input
+                                    isRequired
+                                    isClearable
+                                    className="max-w-xs"
+                                    label="Social Media Links"
+                                    placeholder="Enter your Social Media links"
+                                    type="text"
+                                    value={socialMediaLinks}
+                                    variant="bordered"
+                                    onChange={(e) => setSocialMediaLinks(e.target.value)}
+                                    onClear={() => console.log("input cleared")}
+                                />
                               </div>
                               <div className={"flex flex-row justify-end p-10 pb-5"}>
                                 <div>
@@ -184,7 +262,19 @@ export default function NewStudentSignupPopup({ onSave }) {
                                 <Link href="#" underline="always" onClick={handleSignUpClick}>Create New Account</Link>
                               </div>
                               <div className={"w-full flex items-center justify-center flex-col gap-4 pb-20"}>
-                                <LoginStudentForm />
+                                <LoginGuideForm />
+                              </div>
+                              <div className={"flex flex-row justify-end p-10 pb-5"}>
+                                <div>
+                                  <Button color="danger" variant="light" onPress={onClose}>
+                                    Close
+                                  </Button>
+                                </div>
+                                <div>
+                                  <Button color="primary" onPress={onClose}>
+                                    Login
+                                  </Button>
+                                </div>
                               </div>
                             </div>
                           </div>

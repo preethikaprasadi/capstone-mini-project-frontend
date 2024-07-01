@@ -25,7 +25,7 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
             const feedbackRequest: FeedbackRequest = {
                 content: feedbackText,
                 rating,
-                student: "6629057e417621220cbc963a",
+                student: "6627d68922ab8ba8199a3f07",
             };
             handleFeedbackSubmit(feedbackRequest);
             setCurrentStep(3);

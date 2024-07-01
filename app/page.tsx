@@ -11,6 +11,7 @@ import { Student } from "@/service/student";
 import { Link } from "@nextui-org/link";
 import LoginStudentForm from "@/app/student/student-login-popup";
 import NewStudentSignupPopup from "@/app/student/new-student-signup-popup";
+import NewGuideFormPopup from "./new-guide-form-popup";
 
 
 export default function Home() {
@@ -20,7 +21,6 @@ export default function Home() {
   const handleSave = (student: Student) => {
     console.log("Trying to save: ", student);
   };
-
 
   return (
       <>
@@ -43,12 +43,7 @@ export default function Home() {
 
           <div className="flex gap-3">
             <NewStudentSignupPopup onSave={handleSave}/>
-            <NextLink
-                className={buttonStyles({ variant: "bordered", radius: "full" })}
-                href="/guide"
-            >
-              Guide
-            </NextLink>
+            <NewGuideFormPopup onSave={handleSave}/>
           </div>
         </section>
       </>

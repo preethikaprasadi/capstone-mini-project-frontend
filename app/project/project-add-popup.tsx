@@ -30,7 +30,7 @@ export function ProjectAddPopup({ onSave }) {
       id: "",
       title: titleValue,
       summary: summeryValue,
-      student: "6629057e417621220cbc963a",
+      student: "6627d68922ab8ba8199a3f07",
       technology: selectedTechnologies,
     });
 
