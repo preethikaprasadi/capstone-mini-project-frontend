@@ -89,6 +89,11 @@ const TechnologySet = ({
                       )
                     }
                   >
+                    {/*<Checkbox*/}
+                    {/*    value={column1[rowIndex].technologyName}*/}
+                    {/*    checked={selectedTechnologies.includes(column1[rowIndex].id)}*/}
+                    {/*    onChange={(e) => handleCheckboxChange(column1[rowIndex].id, e.target.checked)}*/}
+                    {/*>*/}
                     {column1[rowIndex].technologyName}
                   </Checkbox>
                 )}
@@ -104,6 +109,11 @@ const TechnologySet = ({
                       )
                     }
                   >
+                    {/*<Checkbox*/}
+                    {/*    value={column2[rowIndex].technologyName}*/}
+                    {/*    checked={selectedTechnologies.includes(column2[rowIndex].id)}*/}
+                    {/*    onChange={(e) => handleCheckboxChange(column2[rowIndex].id, e.target.checked)}*/}
+                    {/*>*/}
                     {column2[rowIndex].technologyName}
                   </Checkbox>
                 )}
@@ -119,6 +129,11 @@ const TechnologySet = ({
                       )
                     }
                   >
+                     {/*<Checkbox*/}
+                  {/*//       value={column3[rowIndex].technologyName}*/}
+                  {/*//       checked={selectedTechnologies.includes(column3[rowIndex].id)}*/}
+                  {/*//       onChange={(e) => handleCheckboxChange(column3[rowIndex].id, e.target.checked)}*/}
+                  {/*//   >*/}
                     {column3[rowIndex].technologyName}
                   </Checkbox>
                 )}

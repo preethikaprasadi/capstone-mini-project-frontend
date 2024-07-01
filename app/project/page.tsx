@@ -59,7 +59,7 @@ export default function ProjectPage() {
     setRows((prevRows: Project[]) => prevRows.filter((item) => item.id !== id));
   };
   const routeCreateProject = () => {
-    route.push('/project/create-new-project-form-1');
+    route.push('/project/create-new-project-form');
   };
 
   return (
@@ -86,8 +86,8 @@ export default function ProjectPage() {
           </div>
 
         <div className={"flex flex-row gap-3 mt-8"}>
-          {/*<Button onPress={routeCreateProject} color={"secondary"} radius="full" className="  text-white shadow-lg text-lg font-semibold p-7" >Create New Project</Button>*/}
-         <ProjectAddPopup onSave={handleSave}/>
+          <Button onPress={routeCreateProject} color={"secondary"} radius="full" className="  text-white shadow-lg text-lg font-semibold p-7" >Create New Project</Button>
+         {/*<ProjectAddPopup onSave={handleSave}/>*/}
           <Button color={"secondary"} variant="bordered" radius="full" className="  text-white shadow-lg text-lg font-semibold p-7" >View Existing Projects</Button>
         </div>
 
