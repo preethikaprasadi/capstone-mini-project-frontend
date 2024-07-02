@@ -33,9 +33,10 @@ export default function NewStudentSignupPopup({ onSave }) {
     });
 
     onSave(res);
+    handleLoginClick();
     clearForm();
     onClose();
-    setIsSuccessOpen(true);
+    // setIsSuccessOpen(true);
     console.log("trying to save", res);
   };
 
@@ -79,8 +80,10 @@ export default function NewStudentSignupPopup({ onSave }) {
                             <div className={"basis-3/5"}>
                               <div className="w-full flex flex-row gap-2 justify-center pt-10 pb-5">
                                 <p>Do you already have an account?</p>
+
                                 <Link href="#" underline="always" onClick={handleLoginClick}>Login</Link>
                               </div>
+
                               <div className={"w-full flex items-center justify-center flex-col gap-4"}>
                                 <Input
                                     isRequired
@@ -181,9 +184,12 @@ export default function NewStudentSignupPopup({ onSave }) {
                             <div className={"basis-3/5"}>
                               <div className="w-full flex flex-row gap-2 justify-center pt-10 pb-20">
                                 <p>Do you not have an account?</p>
+
                                 <Link href="#" underline="always" onClick={handleSignUpClick}>Create New Account</Link>
                               </div>
+
                               <div className={"w-full flex items-center justify-center flex-col gap-4 pb-20"}>
+                                <div> Login your account here..</div>
                                 <LoginStudentForm />
                               </div>
                             </div>
