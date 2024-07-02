@@ -12,6 +12,13 @@ interface ContextProps {
     setFinalData: React.Dispatch<React.SetStateAction<any[]>>;
     selectedTechnologies: string[];
     setSelectedTechnologies: React.Dispatch<React.SetStateAction<string[]>>;
+    guideCurrentStep: number;
+    setGuideCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+    guideUserData: any;
+    setGuideUserData: React.Dispatch<React.SetStateAction<any>>;
+
+    guideFinalData: any[];
+    setGuideFinalData: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 
@@ -21,7 +28,10 @@ export default function StepContextProvider({ children }: { children: ReactNode 
     const [currentStep, setStep] = useState(1);
     const [userData, setUserData] = useState<any>({});
     const [finalData, setFinalData] = useState<any[]>([]);
+    const [guideCurrentStep,setGuideCurrentStep]=useState(1);
+    const [guideUserData, setGuideUserData] = useState<any>({});
     const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
+    const [guideFinalData, setGuideFinalData] = useState<any[]>([]);
 
     return (
         <MultiStepContext.Provider
@@ -33,7 +43,14 @@ export default function StepContextProvider({ children }: { children: ReactNode 
                 finalData,
                 setFinalData,
                 selectedTechnologies,
-                setSelectedTechnologies
+                setSelectedTechnologies,
+                guideUserData,
+                setGuideUserData,
+                guideCurrentStep,
+                setGuideCurrentStep,
+                guideFinalData,
+                setGuideFinalData
+
             }}>
             {children}
         </MultiStepContext.Provider>

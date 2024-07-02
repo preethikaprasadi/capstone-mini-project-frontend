@@ -12,6 +12,7 @@ import { Link } from "@nextui-org/link";
 import LoginStudentForm from "@/app/student/student-login-popup";
 import NewStudentSignupPopup from "@/app/student/new-student-signup-popup";
 import NewGuideFormPopup from "./new-guide-form-popup";
+import GuideLoginPopup from "@/app/guide/login-popup";
 
 
 export default function Home() {
@@ -43,7 +44,8 @@ export default function Home() {
 
           <div className="flex gap-3">
             <NewStudentSignupPopup onSave={handleSave}/>
-            <NewGuideFormPopup onSave={handleSave}/>
+            <GuideLoginPopup/>
+            {/*<NewGuideFormPopup onSave={handleSave}/>*/}
           </div>
         </section>
       </>
