@@ -30,6 +30,12 @@ export default function NewStudentSignupPopup({ onSave }) {
   };
 
   const onSubmit = async () => {
+
+    if (!email.trim() || !password.trim() || !firstName.trim() || !lastName.trim()) {
+      setError("Please fill out all fields.");
+      return;
+    }
+
     if (!validateEmail(email)) {
       setError("Invalide email address!");
       return;
@@ -169,7 +175,7 @@ export default function NewStudentSignupPopup({ onSave }) {
                                 />
                               </div>
 
-                              {error && <p className="flex text-white rounded-lg p-1 mt-1 mt-1 bg-red-600 text-xs max-w-xs relative left-14">{error}</p>}
+                              {error && <p className="flex text-white rounded-lg p-1 mt-1 mt-1 bg-red-600 text-xs max-w-40 relative left-16">{error}</p>}
                               <div className={"flex flex-row justify-end p-10 pb-5"}>
                                 <div>
                                   <Button color="danger" variant="light" onPress={onClose}>
