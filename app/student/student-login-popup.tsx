@@ -34,6 +34,10 @@ export default function LoginStudentForm( ) {
     setError("Invalide email address!");
     return;
   }
+  if (!email.trim() || !password.trim()) {
+    setError("Please fill out all fields.");
+    return;
+  }
 
   if (!validatePassword(password)) {
     setError("Password must be more than 6 characters!");
