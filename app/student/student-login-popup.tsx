@@ -34,7 +34,7 @@ export default function LoginStudentForm( ) {
     }
   } catch (err) {
     setError("Login failed. Please check your credentials and try again.");
-    console.error("Login failed:", err);
+    console.error("Login failed:", error);
   }
 };
 
