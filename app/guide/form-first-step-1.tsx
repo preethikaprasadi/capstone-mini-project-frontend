@@ -15,7 +15,7 @@ export default function GuideFormFirstStep() {
     };
 
     return (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center gap-4">
             <section className="w-6/12">
                 <div className="flex flex-col gap-4">
                     <div>

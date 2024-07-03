@@ -36,8 +36,8 @@ export default function Page() {
 
     return (
         <>
-            <div>
-                <div className="flex flex-col justify-center items-center p-0 m-0 gap-8">
+            <section className="flex flex-col justify-center items-center p-0 m-0 gap-8 ">
+
             <h1>Create your account here..</h1>
     <Box sx={{ width: '100%' }}>
     <Stepper activeStep={guideCurrentStep - 1} alternativeLabel>
@@ -48,11 +48,11 @@ export default function Page() {
         ))}
     </Stepper>
     </Box>
-    </div>
+    </section>
     <br />
     <br />
     {showStep(guideCurrentStep)}
-    </div>
+
     </>
 );
 }
