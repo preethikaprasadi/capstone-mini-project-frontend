@@ -6,28 +6,38 @@ import { useDisclosure } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
 import { loginStudent } from "@/service/student.service";
 import { useRouter } from "next/navigation";
+import router from "next/dist/client/router";
+ 
  
 
-export default function LoginStudentForm({onSave}) {
+export default function LoginStudentForm( ) {
   const { onClose } = useDisclosure();
   const [isVisible, setIsVisible] = React.useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
   const toggleVisibility = () => setIsVisible(!isVisible);
-   
+  const [error, setError] = useState<string | null>(null);
+
   const onSubmit = async () => {
+   
+  try {
     const res = await loginStudent({
       email: email,
       password: password,
     });
-     
-      // res
-     onSave(res);
-    clearForm();
-    onClose();
-    console.log("trying to save", res);
-  };
+    console.log("Login response:", res);
+    if (res) {
+      clearForm();
+      onClose();
+      // Navigate to the desired page after successful login
+      router.push("/");
+    }
+  } catch (err) {
+    setError("Login failed. Please check your credentials and try again.");
+    console.error("Login failed:", err);
+  }
+};
+
 
   const clearForm = () => {
     setEmail("");
