@@ -65,7 +65,7 @@ export default function GuideLoginPopup({ onSave }) {
                                                     {/* eslint-disable-next-line react/no-unescaped-entities */}
                                                     <p>Don't you have an account?</p>
 
-                                                    <Link href="#" underline="always" >Create Account</Link>
+                                                    <Link href="guide/create-new-guide-form" underline="always" >Create Account</Link>
                                                 </div>
 
                                                 <div className={"w-full flex items-center justify-center flex-col gap-4"}>
