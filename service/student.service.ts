@@ -42,6 +42,10 @@ export async function loginStudent(studentRequest: StudentLogin): Promise<Studen
         cache: "no-store",
     });
     const response: Response = await fetch(request);
+    if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message || "Login failed");
+    }
     const student: Student = await response.json();
 
     return student;

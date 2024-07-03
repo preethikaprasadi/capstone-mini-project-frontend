@@ -13,15 +13,32 @@ import {BsCheckLg} from "react-icons/bs";
 export default function NewStudentSignupPopup({ onSave }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const { isOpen: isLoginOpen, onOpen: onLoginOpen, onOpenChange: onLoginOpenChange, onClose: onLoginClose } = useDisclosure();
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const [error, setError] = useState<string | null>(null);
+
+  const validateEmail = (email: string) => {  
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const validatePassword = (password: string) => {
+    return password.length > 6;
+  };
 
   const onSubmit = async () => {
+    if (!validateEmail(email)) {
+      setError("Invalide email address!");
+      return;
+    }
+  
+    if (!validatePassword(password)) {
+      setError("Password must be more than 6 characters!");
+      return;
+    }
     const res = await saveStudent({
       id: "",
       firstName: firstName,
@@ -37,7 +54,6 @@ export default function NewStudentSignupPopup({ onSave }) {
     handleLoginClick();
     clearForm();
     onClose();
-    // setIsSuccessOpen(true);
     console.log("trying to save", res);
   };
 
@@ -153,7 +169,7 @@ export default function NewStudentSignupPopup({ onSave }) {
                                 />
                               </div>
 
-
+                              {error && <p className="flex text-white rounded-lg p-1 mt-1 mt-1 bg-red-600 text-xs max-w-xs relative left-14">{error}</p>}
                               <div className={"flex flex-row justify-end p-10 pb-5"}>
                                 <div>
                                   <Button color="danger" variant="light" onPress={onClose}>
@@ -219,7 +235,7 @@ export default function NewStudentSignupPopup({ onSave }) {
             </ModalContent>
           </Modal>
 
-          <NewStudAccCreatedPopup isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)} />
+           
         </div>
       </>
   );
