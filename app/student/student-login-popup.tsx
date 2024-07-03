@@ -4,41 +4,35 @@ import { EyeFilledIcon, EyeSlashFilledIcon } from "@nextui-org/shared-icons";
 import { Input } from "@nextui-org/input";
 import { useDisclosure } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
+import { loginStudent } from "@/service/student.service";
+import { useRouter } from "next/navigation";
+ 
 
-import { saveStudent } from "@/service/student";
-import {useRouter} from "next/navigation";
-
-export default function LoginStudentForm({ onSave }) {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+export default function LoginStudentForm({onSave}) {
+  const { onClose } = useDisclosure();
   const [isVisible, setIsVisible] = React.useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const router = useRouter();
   const toggleVisibility = () => setIsVisible(!isVisible);
-  const variants = ["bordered"];
-  const sizes = ["sm", "md", "lg"];
+   
   const onSubmit = async () => {
-  //   // const res = await saveStudent({
-  //   //   email: email,
-  //   //   password: password,
-  //   // });
-  //
-  //   onSave(res);
-  //   clearForm();
-  //   onClose();
-  //
-  //   console.log("trying to save",res);
-  //
+    const res = await loginStudent({
+      email: email,
+      password: password,
+    });
+     
+      // res
+     onSave(res);
+    clearForm();
+    onClose();
+    console.log("trying to save", res);
   };
 
-  // const clearForm = () => {
-  //   setFirstName("");
-  //   setLastName("");
-  //   setEmail("");
-  //   setPassword("");
-  // };
+  const clearForm = () => {
+    setEmail("");
+    setPassword("");
+  };
 
   return (
     <>

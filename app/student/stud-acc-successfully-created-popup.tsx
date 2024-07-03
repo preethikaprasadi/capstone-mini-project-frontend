@@ -20,7 +20,7 @@ return(
                 {(onClose) => (
                     <>
 
-                        {/*<ModalHeader className="flex flex-col gap-1">Create New Account</ModalHeader>*/}
+                      
                         <div className={" flex flex-col"}>
                             <div>
                                 <ModalBody className={"h-full p-0 m-0 "} >
@@ -52,12 +52,7 @@ return(
                                                     </Button>
                                                 </div>
                                                 <div>
-                                                    {/*<Button*/}
-
-                                                    {/*    color="primary"  type="submit" onPress={onSubmit}>*/}
-
-                                                    {/*    Create Account*/}
-                                                    {/*</Button>*/}
+                                                    
                                                 </div>
                                             </div>
                                         </div>

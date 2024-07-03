@@ -7,7 +7,7 @@ import { Navbar } from "@/app/components/navbar";
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/modal";
 import { Button } from "@nextui-org/react";
 import NewStudentForm from "@/app/student/new-student-signup-popup";
-import { Student } from "@/service/student";
+import { Student } from "@/service/student.service";
 import { Link } from "@nextui-org/link";
 import LoginStudentForm from "@/app/student/student-login-popup";
 import NewStudentSignupPopup from "@/app/student/new-student-signup-popup";

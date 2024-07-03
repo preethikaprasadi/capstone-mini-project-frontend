@@ -4,7 +4,7 @@ import { EyeFilledIcon, EyeSlashFilledIcon } from "@nextui-org/shared-icons";
 import { Input } from "@nextui-org/input";
 import { Modal, ModalBody, ModalContent, useDisclosure } from "@nextui-org/modal";
 import { Link, Button } from "@nextui-org/react";
-import { saveStudent } from "@/service/student";
+import { saveStudent } from "@/service/student.service";
 import LoginStudentForm from "@/app/student/student-login-popup";
 import { useRouter } from "next/navigation";
 import NewStudAccCreatedPopup from "@/app/student/stud-acc-successfully-created-popup";
@@ -15,12 +15,10 @@ export default function NewStudentSignupPopup({ onSave }) {
   const { isOpen: isLoginOpen, onOpen: onLoginOpen, onOpenChange: onLoginOpenChange, onClose: onLoginClose } = useDisclosure();
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const onSubmit = async () => {
@@ -30,7 +28,10 @@ export default function NewStudentSignupPopup({ onSave }) {
       lastName: lastName,
       email: email,
       password: password,
+      success: undefined
     });
+
+    
 
     onSave(res);
     clearForm();
@@ -58,30 +59,41 @@ export default function NewStudentSignupPopup({ onSave }) {
 
   return (
       <>
-        <div className="flex gap-3">
-          <Button radius="full" onPress={onOpen}>Student</Button>
-          <Modal className={"p-0 m-0 max-w-3xl h-max"} isOpen={isOpen} onOpenChange={onOpenChange}>
-            <ModalContent className={"fixed-size pt-0"}>
-              {(onClose) => (
+ <div className="flex gap-3">
+
+
+<Button radius="full" onPress={onOpen}>Student</Button>
+          
+          
+<Modal className={"p-0 m-0 max-w-3xl h-max"} isOpen={isOpen} onOpenChange={onOpenChange}>
+<ModalContent className={"fixed-size pt-0"}>{(onClose) => (
                   <>
                     <div className={"flex flex-col"}>
-                      <div>
+                          
+                          <div>
                         <ModalBody className={"h-full p-0 m-0"}>
                           <div className={"flex flex-row gap-3"}>
-                              <div className="container basis-2/5 border-r-1 pr-10 pt-10 pl-8 bg-zinc-800">
+                          <div className="container basis-2/5 border-r-1 pr-10 pt-10 pl-8 bg-zinc-800">
+
                                 <p>Your Projects Success Starts from here</p>
+
                                 <ul className="check-list">
                                   <li>Choose your guide according to your personal needs...</li>
                                   <li>available over 1000 guides..</li>
                                 </ul>
-                              </div>
 
-                            <div className={"basis-3/5"}>
-                              <div className="w-full flex flex-row gap-2 justify-center pt-10 pb-5">
+                          </div>
+
+                          <div className={"basis-3/5"}>
+                          <div className="w-full flex flex-row gap-2 justify-center pt-10 pb-5">
                                 <p>Do you already have an account?</p>
                                 <Link href="#" underline="always" onClick={handleLoginClick}>Login</Link>
-                              </div>
+                          </div>
+
+
                               <div className={"w-full flex items-center justify-center flex-col gap-4"}>
+
+
                                 <Input
                                     isRequired
                                     isClearable
@@ -140,6 +152,8 @@ export default function NewStudentSignupPopup({ onSave }) {
                                     variant="bordered"
                                 />
                               </div>
+
+
                               <div className={"flex flex-row justify-end p-10 pb-5"}>
                                 <div>
                                   <Button color="danger" variant="light" onPress={onClose}>
@@ -152,8 +166,10 @@ export default function NewStudentSignupPopup({ onSave }) {
                                   </Button>
                                 </div>
                               </div>
+
                             </div>
                           </div>
+
                         </ModalBody>
                       </div>
                     </div>
@@ -162,30 +178,38 @@ export default function NewStudentSignupPopup({ onSave }) {
             </ModalContent>
           </Modal>
 
-          <Modal className={"p-0 m-0 max-w-3xl"} isOpen={isLoginOpen} onOpenChange={onLoginOpenChange}>
-            <ModalContent className={"pt-0"}>
-              {(onClose) => (
+<Modal className={"p-0 m-0 max-w-3xl"} isOpen={isLoginOpen} onOpenChange={onLoginOpenChange}>
+<ModalContent className={"pt-0"}>{(onClose) => (
                   <>
                     <div className={"flex flex-col"}>
-                      <div>
+                    <div>
                         <ModalBody className={"h-full p-0 m-0"}>
+
                           <div className={"flex flex-row gap-3"}>
-                            <div className="container basis-2/5 border-r-1 pr-10 pt-10 pl-8 bg-zinc-800">
+                          <div className="container basis-2/5 border-r-1 pr-10 pt-10 pl-8 bg-zinc-800">
+
+
                               <p>Your Projects Success Starts from here</p>
                               <ul className="check-list">
                                 <li>Choose your guide according to your personal needs...</li>
                                 <li>available over 1000 guides..</li>
                               </ul>
-                            </div>
 
-                            <div className={"basis-3/5"}>
-                              <div className="w-full flex flex-row gap-2 justify-center pt-10 pb-20">
+                          </div>
+
+                          <div className={"basis-3/5"}>
+                          <div className="w-full flex flex-row gap-2 justify-center pt-10 pb-20">
+
+
                                 <p>Do you not have an account?</p>
                                 <Link href="#" underline="always" onClick={handleSignUpClick}>Create New Account</Link>
-                              </div>
+
+                          </div>
+
                               <div className={"w-full flex items-center justify-center flex-col gap-4 pb-20"}>
-                                <LoginStudentForm />
+                                <LoginStudentForm onSave={undefined} />
                               </div>
+
                             </div>
                           </div>
                         </ModalBody>
