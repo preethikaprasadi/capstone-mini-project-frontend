@@ -6,6 +6,7 @@ import { useMultiStepContext } from "@/app/step-context";
 
 export default function GuideFormSecondStep() {
     const { guideCurrentStep, setGuideCurrentStep, guideUserData, setGuideUserData } = useMultiStepContext();
+    
 
     const handleNext = () => {
         setGuideCurrentStep(prevStep => prevStep + 1);
@@ -63,6 +64,17 @@ export default function GuideFormSecondStep() {
                             className="w-full"
                             value={guideUserData['milestonesValue']}
                             onChange={(e) => setGuideUserData({...guideUserData, "milestonesValue": e.target.value})}
+                        />
+                    </div>
+                    <div>
+                        <Input
+                            label="Social Media Links"
+                            placeholder="Enter Social Media Links"
+                            type="text"
+                            variant="flat"
+                            className="w-full"
+                            value={guideUserData['socialMediaLinksValue']}
+                            onChange={(e) => setGuideUserData({...guideUserData, "socialMediaLinksValue": e.target.value})}
                         />
                     </div>
                  
