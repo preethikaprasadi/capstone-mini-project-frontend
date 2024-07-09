@@ -5,10 +5,11 @@ import { Input } from "@nextui-org/input";
 import { Modal, ModalBody, ModalContent, useDisclosure } from "@nextui-org/modal";
 import { Link, Button } from "@nextui-org/react";
 import { saveStudent } from "@/service/student.service";
-import LoginStudentForm from "@/app/student/student-login-popup";
+import LoginStudentForm from "../student/student-login-popup";
 import { useRouter } from "next/navigation";
 import NewStudAccCreatedPopup from "@/app/student/stud-acc-successfully-created-popup";
 import {BsCheckLg} from "react-icons/bs";
+import { signIn, useSession } from "next-auth/react";
 
 export default function NewStudentSignupPopup({ onSave }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -53,9 +54,6 @@ export default function NewStudentSignupPopup({ onSave }) {
       password: password,
       success: undefined
     });
-
-    
-
     onSave(res);
     handleLoginClick();
     clearForm();
@@ -79,14 +77,30 @@ export default function NewStudentSignupPopup({ onSave }) {
     onLoginClose();
     onOpen();
   };
+  
+ const {data: session}= useSession();
+  
+ 
+//  async function updateSession() {
+//   if (session && session.user) {
+//     session.user.accessToken = "updatedAccessToken"; // Example of updating session details
+//     // Perform additional updates or actions with session details
+//   }
+// }
 
   return (
       <>
  <div className="flex gap-3">
-
-
-<Button radius="full" onPress={onOpen}>Student</Button>
+        {/* {session?.user ? (
+          <Button radius="full" onPress={onLoginOpen} onClick={updateSession}>
+            Student
+          </Button>
+        ) : (
           
+        )} */}
+  <Button radius="full" onPress={onLoginOpen}>
+            Student
+          </Button>
           
 <Modal className={"p-0 m-0 max-w-3xl h-max"} isOpen={isOpen} onOpenChange={onOpenChange}>
 <ModalContent className={"fixed-size pt-0"}>{(onClose) => (
@@ -228,7 +242,7 @@ export default function NewStudentSignupPopup({ onSave }) {
                                 <Link href="#" underline="always" onClick={handleSignUpClick}>Create New Account</Link>
                               </div>
                               <div className={"w-full flex items-center justify-center flex-col gap-4 pb-20"}>
-                                <LoginStudentForm />
+                                <LoginStudentForm onSave={undefined} />
                               </div>
 
                             </div>

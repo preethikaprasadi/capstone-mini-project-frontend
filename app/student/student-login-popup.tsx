@@ -1,17 +1,23 @@
+
 "use client";
 import React, { useState } from "react";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "@nextui-org/shared-icons";
 import { Input } from "@nextui-org/input";
 import { useDisclosure } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
-import { loginStudent } from "@/service/student.service";
-import { useRouter } from "next/navigation";
-import router from "next/dist/client/router";
-import NewStudAccCreatedPopup from "./stud-acc-successfully-created-popup";
+import NewStudAccCreatedPopup from "../student/stud-acc-successfully-created-popup";
+import { signIn } from "next-auth/react";
+import axios from "axios";
+import router from "next/router";
+import { aixosAuth } from "@/lib/axios";
+import { sign } from "crypto";
+ 
+
  
  
 
-export default function LoginStudentForm( ) {
+export default function LoginStudentForm ({onSave} ) {
+  
   const { onClose } = useDisclosure();
   const [isVisible, setIsVisible] = React.useState(false);
   const [email, setEmail] = useState("");
@@ -19,7 +25,8 @@ export default function LoginStudentForm( ) {
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [error, setError] = useState<string | null>(null);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
-
+   
+  
   const validateEmail = (email: string) => {  
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
@@ -27,28 +34,35 @@ export default function LoginStudentForm( ) {
   const validatePassword = (password: string) => {
     return password.length > 6;
   };
-
+   
   const onSubmit = async () => {
   setError(null);
-  if (!validateEmail(email)) {
+  if (!validateEmail(email )) {
     setError("Invalide email address!");
     return;
   }
-  if (!email.trim() || !password.trim()) {
+  if (!email .trim() || !password .trim()) {
     setError("Please fill out all fields.");
     return;
   }
 
-  if (!validatePassword(password)) {
+  if (!validatePassword(password )) {
     setError("Password must be more than 6 characters!");
     return;
   }
   try {
-    const res = await loginStudent({
-      email: email,
-      password: password,
+
+    const res = await  signIn("credentials", {
+      redirect: false,
+      email,
+      password,
     });
-    if (res) {
+
+    if (res?.status===401) {
+       setError("Invalied Credentials")
+    }
+    else{
+
       clearForm();
       onClose();
       setIsSuccessOpen(true);
@@ -66,12 +80,12 @@ export default function LoginStudentForm( ) {
 };
 
 
+
+
   const clearForm = () => {
     setEmail("");
     setPassword("");
   };
-
-  
 
   return (
     <>
@@ -82,7 +96,7 @@ export default function LoginStudentForm( ) {
             placeholder="Enter your email"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail( e.target.value)}
             variant={"bordered"}
         />
 
@@ -110,7 +124,7 @@ export default function LoginStudentForm( ) {
         />
 
           {error && <p className="text-white rounded-lg p-1 mt-1 mt-1 bg-red-600 text-xs">{error}</p>}
-        <Button color="primary" type="submit" onPress={onSubmit}>
+        <Button color="primary" type="submit" onPress={onSubmit} >
           Submit
         </Button>
       </div>
