@@ -1,4 +1,3 @@
-
 import NextAuth, { AuthOptions, User } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -11,6 +10,9 @@ interface jwt {
   interface ExtendedUser extends User {
     id: string;
     accessToken: string;
+    email: string;
+    firstName: string;
+    profilePic: string;
   }
 
 export const authOptions: AuthOptions=({
@@ -36,8 +38,8 @@ export const authOptions: AuthOptions=({
    
         if (res.ok) {
              
-            const { id, accessToken } = await res.json();
-            return { id, accessToken } as ExtendedUser;
+            const { id, accessToken,email,firstName } = await res.json();
+            return { id, accessToken,email,firstName } as ExtendedUser;
           } else {
             return null;
           }
@@ -55,6 +57,9 @@ export const authOptions: AuthOptions=({
         const extendedUser = user as ExtendedUser;
         token.id = extendedUser.id;
         token.accessToken = extendedUser.accessToken;
+        token.email = extendedUser.email;
+        token.firstName = extendedUser.firstName;
+        token.profilePic = extendedUser.profilePic
       }
       return token;
     },
@@ -63,8 +68,14 @@ export const authOptions: AuthOptions=({
           ...session.user,
           id: token.id,
           accessToken: token.accessToken,
+          email: token.email,
+          firstName: token.firstName,
+          profilePic: token.profilePic,
+          
         };
         return session;}}
+
+        
 });
 
 

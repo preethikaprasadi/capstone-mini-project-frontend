@@ -80,24 +80,9 @@ export default function NewStudentSignupPopup({ onSave }) {
   
  const {data: session}= useSession();
   
- 
-//  async function updateSession() {
-//   if (session && session.user) {
-//     session.user.accessToken = "updatedAccessToken"; // Example of updating session details
-//     // Perform additional updates or actions with session details
-//   }
-// }
-
   return (
       <>
  <div className="flex gap-3">
-        {/* {session?.user ? (
-          <Button radius="full" onPress={onLoginOpen} onClick={updateSession}>
-            Student
-          </Button>
-        ) : (
-          
-        )} */}
   <Button radius="full" onPress={onLoginOpen}>
             Student
           </Button>

@@ -7,14 +7,6 @@ import { useDisclosure } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
 import NewStudAccCreatedPopup from "../student/stud-acc-successfully-created-popup";
 import { signIn } from "next-auth/react";
-import axios from "axios";
-import router from "next/router";
-import { aixosAuth } from "@/lib/axios";
-import { sign } from "crypto";
- 
-
- 
- 
 
 export default function LoginStudentForm ({onSave} ) {
   

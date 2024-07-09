@@ -8,7 +8,7 @@ export default axios.create({
     headers:{"Content-Type":"application/json"},
 })
 
-export const aixosAuth = axios.create({
+export const axiosAuth = axios.create({
     baseURL: BASE_URL,
     headers:{"Content-Type":"application/json"},
 })

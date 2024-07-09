@@ -5,7 +5,7 @@ import { Navbar } from "@/app/components/navbar";
 import { Student } from "@/service/student.service";
 import NewStudentSignupPopup from "@/app/student/new-student-signup-popup";
 import GuideLoginPopup from "@/app/guide/login-popup";
-import LoginStudentForm from "./student/student-login-popup";
+ 
  
 
 export default function Home() {
@@ -32,7 +32,7 @@ export default function Home() {
             </h2>
           </div>
 
-
+          
           <div className="flex gap-3">
             <NewStudentSignupPopup onSave={handleSave}/>
             <GuideLoginPopup onSave={undefined}/>

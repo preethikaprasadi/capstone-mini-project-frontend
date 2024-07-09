@@ -2,23 +2,26 @@
 import React, { useState, useEffect } from 'react';
 import { fetchFeedbacks, createFeedback, deleteFeedback } from '../../service/feedback.service';
 import { Feedback, FeedbackRequest } from './feedback';
-import FeedbackDecision from '../components/FeedbackDecision';
+import FeedbackDecision from '../components/feedbackDecision';
 import FeedbackFormPage from './FeedbackFormPage';
 import FeedbackDisplay from './FeedbackDisplay';
+import useAxiosAuth from '@/lib/hook/useAxiosAuth';
+import { useSession } from 'next-auth/react';
 
 const HomePage = () => {
     const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
     const [currentStep, setCurrentStep] = useState(1); 
     const [feedbackText, setFeedbackText] = useState('');
     const [rating, setRating] = useState(0);
-
+    const axiosAuth = useAxiosAuth();
+    const { data: session } = useSession();
     useEffect(() => {
         loadFeedbacks();
-    }, []);
+    }, [axiosAuth]);
 
     const loadFeedbacks = async () => {
         try {
-            const feedbackList = await fetchFeedbacks();
+            const feedbackList = await fetchFeedbacks(axiosAuth);
             setFeedbacks(feedbackList);
         } catch (error) {
             console.error('Error loading feedbacks:', error);
@@ -27,7 +30,7 @@ const HomePage = () => {
 
     const handleFeedbackSubmit = async (feedbackRequest: FeedbackRequest) => {
         try {
-            await createFeedback(feedbackRequest);
+            await createFeedback(axiosAuth,  feedbackRequest);
             setCurrentStep(3);  
             loadFeedbacks(); 
         } catch (error) {
@@ -36,9 +39,21 @@ const HomePage = () => {
     };
 
     const handleDeleteFeedback = async (id: string) => {
+        
         try {
-            await deleteFeedback(id);
-            loadFeedbacks();  
+            const feedbackToDelete = feedbacks.find((feedback) => feedback.id === id);
+            if (!feedbackToDelete) {
+                console.error(`Feedback with id ${id} not found.`);
+                return;
+            }
+
+            // Check ownership before deletion
+            if (session?.user?.id === feedbackToDelete.student.id) {
+                await deleteFeedback(axiosAuth,id);
+                loadFeedbacks();
+            } else {
+                console.error('You are not authorized to delete this feedback.');
+            }
         } catch (error) {
             console.error('Error deleting feedback:', error);
         }

@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import { aixosAuth } from "../axios";
+import { axiosAuth } from "../axios";
 import { useRefreshToken } from "./useRefreshToken";
  
 
@@ -12,7 +12,7 @@ const useAxoisAuth =()=>{
 
 useEffect(()=>{
 
-    const requestIntercept =aixosAuth.interceptors.request.use((config)=>{
+    const requestIntercept =axiosAuth.interceptors.request.use((config)=>{
 
         if(!config.headers["Authorization"]){
             config.headers["Authorization"] = `Bearer ${session?.user.accessToken}`
@@ -24,7 +24,7 @@ useEffect(()=>{
       (error)=> Promise.reject(error)
      );
 
-    const responseIntercept =aixosAuth.interceptors.response.use(
+    const responseIntercept =axiosAuth.interceptors.response.use(
         (response)=>response,
         async(error)=>{
             const prevRequest = error.config;
@@ -32,7 +32,7 @@ useEffect(()=>{
                 prevRequest.sent = true;
                 await refreshToken();
                 prevRequest.headers["Authorization"]=`Brearer ${session?.user.accessToken}`;
-                return aixosAuth(prevRequest);
+                return axiosAuth(prevRequest);
             }
 
             return Promise.reject(error);
@@ -40,12 +40,12 @@ useEffect(()=>{
     )
 
     return ()=>{
-        aixosAuth.interceptors.request.eject(requestIntercept);
-        aixosAuth.interceptors.request.eject(responseIntercept)
+        axiosAuth.interceptors.request.eject(requestIntercept);
+        axiosAuth.interceptors.request.eject(responseIntercept)
     };
 },[session]);
 
-return aixosAuth;
+return axiosAuth;
 
 };
 
