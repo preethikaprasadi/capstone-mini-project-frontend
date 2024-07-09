@@ -11,7 +11,7 @@ export default function NewStudAccCreatedPopup({isOpen, onClose}){
     const router = useRouter();
     const {data: session}= useSession();
     const routeProjectHomePage = () => {
-        router.push("/feedback");
+        router.push("/project");
     };
 return(
     <>
