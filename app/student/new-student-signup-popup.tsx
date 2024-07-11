@@ -79,7 +79,7 @@ export default function NewStudentSignupPopup({ onSave }) {
  <div className="flex gap-3">
 
 
-<Button radius="full" onPress={onOpen}>Student</Button>
+<Button radius="full" onPress={onLoginOpen}>Student</Button>
           
           
 <Modal className={"p-0 m-0 max-w-3xl h-max"} isOpen={isOpen} onOpenChange={onOpenChange}>
