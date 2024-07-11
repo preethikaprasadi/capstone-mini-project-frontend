@@ -1,32 +1,22 @@
 "use client";
-import { button as buttonStyles } from "@nextui-org/theme";
-import NextLink from "next/link";
 import React from "react";
 import { title, subtitle } from "@/app/components/primitives";
 import { Navbar } from "@/app/components/navbar";
-import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/modal";
-import { Button } from "@nextui-org/react";
-import NewStudentForm from "@/app/student/new-student-signup-popup";
 import { Student } from "@/service/student.service";
-import { Link } from "@nextui-org/link";
-import LoginStudentForm from "@/app/student/student-login-popup";
 import NewStudentSignupPopup from "@/app/student/new-student-signup-popup";
-import NewGuideFormPopup from "./new-guide-form-popup";
 import GuideLoginPopup from "@/app/guide/login-popup";
-
+ 
+ 
 
 export default function Home() {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-  const { isOpen: isLoginOpen, onOpen: onLoginOpen, onOpenChange: onLoginOpenChange, onClose: onLoginClose } = useDisclosure();
 
   const handleSave = (student: Student) => {
     console.log("Trying to save: ", student);
   };
-
+   
   return (
       <>
-        {/*<ThemeSwitch/>*/}
-        {/*<DiscordIcon/>*/}
+        
         <Navbar />
         <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
           <div className="inline-block max-w-lg text-center justify-center">
@@ -42,10 +32,10 @@ export default function Home() {
             </h2>
           </div>
 
+          
           <div className="flex gap-3">
             <NewStudentSignupPopup onSave={handleSave}/>
-            <GuideLoginPopup/>
-            {/*<NewGuideFormPopup onSave={handleSave}/>*/}
+            <GuideLoginPopup onSave={undefined}/>
           </div>
         </section>
       </>

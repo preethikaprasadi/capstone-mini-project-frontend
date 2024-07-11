@@ -11,7 +11,7 @@ export default function GuideFormFirstStep() {
      ;
         setGuideCurrentStep(prevStep => prevStep + 1);
         console.log("current step: ", guideCurrentStep);
-         // console.log("user data: ", guideUserData);
+          console.log("user data: ", guideUserData);
     };
 
     return (
@@ -20,26 +20,49 @@ export default function GuideFormFirstStep() {
                 <div className="flex flex-col gap-4">
                     <div>
                         <Input
-                            label="Title"
-                            placeholder="Enter title"
+                            label="First Name"
+                            placeholder="Enter first name"
                             type="text"
                             variant="flat"
                             className="w-full"
-                            value={guideUserData['titleValue']}
-                            onChange={(e) => setGuideUserData({...guideUserData,"titleValue":e.target.value})}
+                            value={guideUserData['firstNameValue']}
+                            onChange={(e) => setGuideUserData({...guideUserData,"firstNameValue":e.target.value})}
                         />
                     </div>
                     <div>
-                        <Textarea
-                            label="Summary"
-                            placeholder="Enter summary"
+                    <Input
+                            label="Last Name"
+                            placeholder="Enter last name"
                             type="text"
                             variant="flat"
                             className="w-full"
-                            value={guideUserData['summeryValue']}
-                            onChange={(e) => setGuideUserData({...guideUserData,"summeryValue":e.target.value})}
+                            value={guideUserData['lastNameValue']}
+                            onChange={(e) => setGuideUserData({...guideUserData,"lastNameValue":e.target.value})}
                         />
                     </div>
+                    <div>
+                    <Input
+                            label="Email"
+                            placeholder="Enter email"
+                            type="text"
+                            variant="flat"
+                            className="w-full"
+                            value={guideUserData['emailValue']}
+                            onChange={(e) => setGuideUserData({...guideUserData,"emailValue":e.target.value})}
+                        />
+                    </div>
+                    <div>
+                    <Input
+                            label="Password"
+                            placeholder="Enter Password"
+                            type="text"
+                            variant="flat"
+                            className="w-full"
+                            value={guideUserData['passwordPicValue']}
+                            onChange={(e) => setGuideUserData({...guideUserData,"passwordValue":e.target.value})}
+                        />
+                    </div>
+                   
                     <br />
                     <Button radius="full" variant="shadow" color="primary" onClick={handleNext}>
                         Next

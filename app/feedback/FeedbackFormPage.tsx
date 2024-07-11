@@ -1,6 +1,7 @@
 import React, { FormEvent,useEffect } from 'react';
 import { FeedbackRequest } from './feedback';
 import { FaStar } from 'react-icons/fa';
+import { useSession } from 'next-auth/react';
 
 interface FeedbackFormPageProps {
     setCurrentStep: (step: number) => void;
@@ -19,13 +20,14 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
     setRating,
     handleFeedbackSubmit,
 }) => {
+    const { data: session } = useSession();
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         if (feedbackText && rating) {
             const feedbackRequest: FeedbackRequest = {
                 content: feedbackText,
                 rating,
-                student: "6627d68922ab8ba8199a3f07",
+                student:  session?.user.id || '',
             };
             handleFeedbackSubmit(feedbackRequest);
             setCurrentStep(3);
@@ -40,6 +42,7 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
             document.body.style.overflow = '';
         };
     }, []);
+    
     return (
         <div className=" inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-hidden mb-10">
             <div className="w-full mx-auto bg-gray-900 shadow-lg rounded-lg p-9 text-white overflow-hidden">
@@ -57,6 +60,7 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
                         {[...Array(5)].map((_, index) => {
                             const starValue = index + 1;
                             return (
+                                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                                 <label key={index} className="cursor-pointer">
                                     <input
                                         type="radio"
@@ -67,7 +71,7 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
                                     />
                                     <FaStar
                                         className="text-4xl ml-5"
-                                        color={starValue <= rating ? "#CFFF04" : "#4b5563" } 
+                                        color={starValue <= rating ? "#CFFF04" : "#4b5563" }
                                     />
                                 </label>
                             );

@@ -1,50 +1,93 @@
 "use client";
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import { Button } from "@nextui-org/react";
-import { MultiStepContext, useMultiStepContext } from "@/app/step-context";
-import ParentTechnologySet from "@/app/project/parentTechnologySet";
-
+import { Input } from "@nextui-org/input";
+import { useMultiStepContext } from "@/app/step-context";
 
 export default function GuideFormSecondStep() {
-    const { setGuideCurrentStep, guideUserData, setGuideUserData, } = useMultiStepContext();
-     const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
+    const { guideCurrentStep, setGuideCurrentStep, guideUserData, setGuideUserData } = useMultiStepContext();
+    
 
     const handleNext = () => {
-        const newUserData = { ...guideUserData, selectedTechnologies };
-        console.log("newuser: ", { selectedTechnologies });
-        console.log("userData before update", guideUserData);
-
-        setGuideUserData(newUserData);
         setGuideCurrentStep(prevStep => prevStep + 1);
-
-        console.log("Current userData:", newUserData);
-
+        console.log("current step: ", guideCurrentStep);
+        console.log("user data: ", guideUserData);
     };
 
     const handlePrev = () => {
-        setGuideCurrentStep((prevStep) => prevStep - 1);
+        setGuideCurrentStep(prevStep => prevStep - 1);
     };
-    // useEffect(() => {
-    //     // Any side-effects based on the updated userData or step can be handled here
-    // }, [userData, setStep]);
+
     return (
-        <div className="flex justify-center items-center">
+        <div className="flex items-center justify-center gap-4">
             <section className="w-6/12">
-                <ParentTechnologySet
-                    selectedTechnologies={selectedTechnologies}
-                    setSelectedTechnologies={setSelectedTechnologies}
-                />
                 <div className="flex flex-col gap-4">
-                    <Button radius="full" variant="shadow" color="primary" onClick={handlePrev}>
-                        Prev
-                    </Button>
-                    <Button radius="full" variant="shadow" color="primary" onClick={handleNext}>
-                        Next
-                    </Button>
+                    <div>
+                        <Input
+                            label="Profile Picture"
+                            placeholder="Enter Profile Picture"
+                            type="text"
+                            variant="flat"
+                            className="w-full"
+                            value={guideUserData['profilePicValue']}
+                            onChange={(e) => setGuideUserData({...guideUserData, "profilePicValue": e.target.value})}
+                        />
+                    </div>
+                    <div>
+                        <Input
+                            label="Job"
+                            placeholder="Enter job"
+                            type="text"
+                            variant="flat"
+                            className="w-full"
+                            value={guideUserData['jobValue']}
+                            onChange={(e) => setGuideUserData({...guideUserData, "jobValue": e.target.value})}
+                        />
+                    </div>
+                    <div>
+                        <Input
+                            label="About"
+                            placeholder="Enter About "
+                            type="text"
+                            variant="flat"
+                            className="w-full"
+                            value={guideUserData['aboutValue']}
+                            onChange={(e) => setGuideUserData({...guideUserData, "aboutValue": e.target.value})}
+                        />
+                    </div>
+                    <div>
+                        <Input
+                            label="Milestones"
+                            placeholder="Enter Milestones"
+                            type="text"
+                            variant="flat"
+                            className="w-full"
+                            value={guideUserData['milestonesValue']}
+                            onChange={(e) => setGuideUserData({...guideUserData, "milestonesValue": e.target.value})}
+                        />
+                    </div>
+                    <div>
+                        <Input
+                            label="Social Media Links"
+                            placeholder="Enter Social Media Links"
+                            type="text"
+                            variant="flat"
+                            className="w-full"
+                            value={guideUserData['socialMediaLinksValue']}
+                            onChange={(e) => setGuideUserData({...guideUserData, "socialMediaLinksValue": e.target.value})}
+                        />
+                    </div>
+                 
+                    <div className="flex gap-4 mt-4">
+                        <Button radius="full" variant="shadow" color="primary" onClick={handlePrev}>
+                            Prev
+                        </Button>
+                        <Button radius="full" variant="shadow" color="primary" onClick={handleNext}>
+                            Next
+                        </Button>
+                    </div>
                 </div>
             </section>
         </div>
     );
 }
-
-
