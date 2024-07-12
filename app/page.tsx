@@ -13,6 +13,7 @@ import LoginStudentForm from "@/app/student/student-login-popup";
 import NewStudentSignupPopup from "@/app/student/new-student-signup-popup";
 import NewGuideFormPopup from "./new-guide-form-popup";
 import GuideLoginPopup from "@/app/guide/login-popup";
+import TypeWrite from "./Typewriteeffect";
 
 
 export default function Home() {
@@ -37,9 +38,8 @@ export default function Home() {
             <h1 className={title()}>with </h1>
             <h1 className={title({ color: "violet" })}>Guidly</h1>
             <br />
-            <h2 className={subtitle({ class: "mt-6" })}>
-              Connecting University Students and Guiders Together
-            </h2>
+           
+            <TypeWrite/>
           </div>
 
           <div className="flex gap-3">
