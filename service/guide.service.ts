@@ -1,14 +1,17 @@
 export interface Guide {
+    
     id: string;
     firstName: string;
     lastName: string;
     email: string;
     password: string;
-    profilePic: string;
+    profilePic: 'path/to/profilePic1.jpg'
     job: string;
     about: string;
     milestones: string;
     socialMediaLinks: string;
+    technologies: { technologyName: string }[];
+
   }
   
   export async function getAllGuide(): Promise<Guide[]> {
