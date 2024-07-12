@@ -4,6 +4,7 @@ export interface Project {
   summary: string;
   student: string;
   technology: string[];
+  category:string[];
 }
 
 export async function getAllProject(): Promise<Project[]> {
