@@ -5,10 +5,8 @@ import { Navbar } from "@/app/components/navbar";
 import { Student } from "@/service/student.service";
 import NewStudentSignupPopup from "@/app/student/new-student-signup-popup";
 import GuideLoginPopup from "@/app/guide/login-popup";
+import TypeWrite from "./Typewriteeffect";
  
- 
- 
->>>>>>> 535b110b94593b9a730ec36313522ec6e5de5882
 
 export default function Home() {
 
