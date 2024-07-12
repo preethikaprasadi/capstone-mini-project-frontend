@@ -10,6 +10,7 @@ export interface Feedback {
     content: string;
     student: Student;
     rating: number;
+    userId: string;
     createdAt: string;
 }
 

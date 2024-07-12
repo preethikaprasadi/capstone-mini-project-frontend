@@ -1,6 +1,7 @@
 import React from 'react';
 import { Feedback } from './feedback';
 import { FaStar, FaTrash } from 'react-icons/fa';
+import { useSession } from 'next-auth/react';
 
 interface DisplayFeedbackPageProps {
     feedbacks: Feedback[];
@@ -8,7 +9,11 @@ interface DisplayFeedbackPageProps {
     
 }
 const DisplayFeedbackPage: React.FC<DisplayFeedbackPageProps> = ({ feedbacks, handleDeleteFeedback  }) => {
-    
+    const { data: session } = useSession();
+
+    const canDelete = (feedback: Feedback): boolean => {
+        return session?.user?.id === feedback.student.id;  
+    };
 
     return (
         <div className="inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50 mb-20 ">
@@ -38,14 +43,17 @@ const DisplayFeedbackPage: React.FC<DisplayFeedbackPageProps> = ({ feedbacks, ha
                                             ))}
                                         </div>
                                         <p className="text-gray-300 mb-2 text-sm">{feedback.content}</p>
-                                        <div className="flex space-x-4 text-sm text-gray-400">
-                                            <button
-                                                onClick={() => handleDeleteFeedback(feedback.id)}
-                                                className="flex items-center space-x-1 hover:text-white"
-                                            >
-                                                <FaTrash /> <span>Delete</span>
-                                            </button>
-                                        </div>
+                                         
+                                        {canDelete(feedback) && (
+                                            <div className="flex space-x-4 text-sm text-gray-400">
+                                                <button
+                                                    onClick={() => handleDeleteFeedback(feedback.id)}
+                                                    className="flex items-center space-x-1 hover:text-white"
+                                                >
+                                                    <FaTrash /> <span>Delete</span>
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>

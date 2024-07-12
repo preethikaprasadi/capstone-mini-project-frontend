@@ -106,6 +106,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html suppressHydrationWarning lang="en">
         <head />
         <body className={clsx("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
+            
         <StepContextProvider>
             <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
                 <div className="relative flex flex-col h-screen">
