@@ -1,31 +1,33 @@
+
 "use client";
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from "@nextui-org/react";
-import { MultiStepContext, useMultiStepContext } from "@/app/step-context";
+import { useMultiStepContext } from "@/app/step-context";
 import ParentTechnologySet from "./parentTechnologySet";
 
 function FormSecondStep() {
-    const { setStep, userData, setUserData, } = useMultiStepContext();
-     const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
+    const { setStep, userData, setUserData, selectedTechnologies, setSelectedTechnologies } = useMultiStepContext();
 
+    useEffect(() => {
+        // Ensure selectedTechnologies is correctly updated when the component mounts
+        if (userData.selectedTechnologies && userData.selectedTechnologies.length > 0) {
+            setSelectedTechnologies(userData.selectedTechnologies);
+        }
+    }, [userData.selectedTechnologies, setSelectedTechnologies]);
     const handleNext = () => {
-        const newUserData = { ...userData, selectedTechnologies };
-        console.log("newuser: ", { selectedTechnologies });
-        console.log("userData before update", userData);
-
+        const newUserData = { ...userData, selectedTechnologies: Array.from(new Set(selectedTechnologies)) };
         setUserData(newUserData);
         setStep(prevStep => prevStep + 1);
-
         console.log("Current userData:", newUserData);
-
     };
 
     const handlePrev = () => {
+        const newUserData = { ...userData, selectedTechnologies: Array.from(new Set(selectedTechnologies)) };
+        setUserData(newUserData)
         setStep((prevStep) => prevStep - 1);
+        console.log("Current userData:", newUserData);
     };
-    // useEffect(() => {
-    //     // Any side-effects based on the updated userData or step can be handled here
-    // }, [userData, setStep]);
+
     return (
         <div className="flex justify-center items-center">
             <section className="w-6/12">

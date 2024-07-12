@@ -77,9 +77,9 @@ export default function NewStudentSignupPopup({ onSave }) {
     onLoginClose();
     onOpen();
   };
-  
+
  const {data: session}= useSession();
-  
+
   return (
       <>
  <div className="flex gap-3">

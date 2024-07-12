@@ -60,6 +60,7 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
                         {[...Array(5)].map((_, index) => {
                             const starValue = index + 1;
                             return (
+                                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                                 <label key={index} className="cursor-pointer">
                                     <input
                                         type="radio"
@@ -70,7 +71,7 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
                                     />
                                     <FaStar
                                         className="text-4xl ml-5"
-                                        color={starValue <= rating ? "#CFFF04" : "#4b5563" } 
+                                        color={starValue <= rating ? "#CFFF04" : "#4b5563" }
                                     />
                                 </label>
                             );

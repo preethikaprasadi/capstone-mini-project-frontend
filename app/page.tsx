@@ -5,10 +5,10 @@ import { Navbar } from "@/app/components/navbar";
 import { Student } from "@/service/student.service";
 import NewStudentSignupPopup from "@/app/student/new-student-signup-popup";
 import GuideLoginPopup from "@/app/guide/login-popup";
-// import GuideList from "./components/guideList";
-// import QuiltedImageList from "./components/imageLsit";
  
  
+ 
+>>>>>>> 535b110b94593b9a730ec36313522ec6e5de5882
 
 export default function Home() {
 
@@ -46,9 +46,8 @@ export default function Home() {
           with <span className={title({ color: "violet" })}>Guidly</span>
             </h1>
             <br />
-            <h2 className={subtitle({ class: "mt-6" })}>
-              Connecting University Students and Guiders Together
-            </h2>
+           
+            <TypeWrite/>
           </div>
           
           
