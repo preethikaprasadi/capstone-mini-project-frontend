@@ -12,6 +12,7 @@
 		"@emotion/react": "^11.11.4",
 		"@emotion/styled": "^11.11.5",
 		"@eslint/config-array": "^0.16.0",
+		"@heroicons/react": "^2.1.5",
 		"@mui/material": "^5.15.21",
 		"@nextui-org/accordion": "^2.0.32",
 		"@nextui-org/button": "^2.0.34",
