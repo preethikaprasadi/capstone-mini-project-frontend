@@ -42,7 +42,7 @@ export interface Category {
     const url: string = "http://localhost:3000/categories/" + categoryRequest.id;
     const dto = {
         categoryName: categoryRequest.categoryName,
-      student: categoryRequest.student["id"],
+      project: categoryRequest.project["id"],
       guide: categoryRequest.guide["id"],
     };
     const request = new Request(url, {
