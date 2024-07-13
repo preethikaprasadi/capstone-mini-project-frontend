@@ -1,7 +1,6 @@
-
-
 "use client";
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, {createContext, useState, useContext, ReactNode, useEffect} from 'react';
+import {Project} from "@/service/project.service";
 
 interface ContextProps {
     currentStep: number;
@@ -12,8 +11,16 @@ interface ContextProps {
     setFinalData: React.Dispatch<React.SetStateAction<any[]>>;
     selectedTechnologies: string[];
     setSelectedTechnologies: React.Dispatch<React.SetStateAction<string[]>>;
-}
+    guideCurrentStep: number;
+    setGuideCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+    guideUserData: any;
+    setGuideUserData: React.Dispatch<React.SetStateAction<any>>;
+    guideFinalData: any[];
+    setGuideFinalData: React.Dispatch<React.SetStateAction<any[]>>;
+    selectedCategories:string[];
+    setSelectedCategories:React.Dispatch<React.SetStateAction<string[]>>
 
+}
 
 export const MultiStepContext = createContext<ContextProps | undefined>(undefined);
 
@@ -21,7 +28,25 @@ export default function StepContextProvider({ children }: { children: ReactNode 
     const [currentStep, setStep] = useState(1);
     const [userData, setUserData] = useState<any>({});
     const [finalData, setFinalData] = useState<any[]>([]);
+    const [guideCurrentStep, setGuideCurrentStep] = useState(1);
+    const [guideUserData, setGuideUserData] = useState<any>({});
     const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
+    const [guideFinalData, setGuideFinalData] = useState<any[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+    const [createProject, setCreateProject]: [
+        Project[],
+        React.Dispatch<(prevRows: Project[]) => Project[]>,
+    ] = useState([]);
+
+    useEffect(() => {
+        console.log("useEffect: ", createProject);
+    }, [createProject]);
+
+    const handleSave = (project: Project) => {
+        console.log("Trying to save: ", project);
+        setCreateProject((prevRows: Project[]) => [...prevRows, project]);
+    };
 
     return (
         <MultiStepContext.Provider
@@ -33,8 +58,17 @@ export default function StepContextProvider({ children }: { children: ReactNode 
                 finalData,
                 setFinalData,
                 selectedTechnologies,
-                setSelectedTechnologies
-            }}>
+                setSelectedTechnologies,
+                guideUserData,
+                setGuideUserData,
+                guideCurrentStep,
+                setGuideCurrentStep,
+                guideFinalData,
+                setGuideFinalData,
+                selectedCategories,
+                setSelectedCategories
+            }}
+        >
             {children}
         </MultiStepContext.Provider>
     );

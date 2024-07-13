@@ -1,44 +1,83 @@
+
 "use client";
 import React, { useState } from "react";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "@nextui-org/shared-icons";
 import { Input } from "@nextui-org/input";
 import { useDisclosure } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
+import NewStudAccCreatedPopup from "../student/stud-acc-successfully-created-popup";
+import { signIn } from "next-auth/react";
 
-import { saveStudent } from "@/service/student";
-import {useRouter} from "next/navigation";
-
-export default function LoginStudentForm({ onSave }) {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+export default function LoginStudentForm ({onSave} ) {
+  
+  const { onClose } = useDisclosure();
   const [isVisible, setIsVisible] = React.useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const toggleVisibility = () => setIsVisible(!isVisible);
-  const variants = ["bordered"];
-  const sizes = ["sm", "md", "lg"];
-  const onSubmit = async () => {
-  //   // const res = await saveStudent({
-  //   //   email: email,
-  //   //   password: password,
-  //   // });
-  //
-  //   onSave(res);
-  //   clearForm();
-  //   onClose();
-  //
-  //   console.log("trying to save",res);
-  //
+  const [error, setError] = useState<string | null>(null);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+   
+  
+  const validateEmail = (email: string) => {  
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  // const clearForm = () => {
-  //   setFirstName("");
-  //   setLastName("");
-  //   setEmail("");
-  //   setPassword("");
-  // };
+  const validatePassword = (password: string) => {
+    return password.length > 6;
+  };
+   
+  const onSubmit = async () => {
+  setError(null);
+  if (!validateEmail(email )) {
+    setError("Invalide email address!");
+    return;
+  }
+  if (!email .trim() || !password .trim()) {
+    setError("Please fill out all fields.");
+    return;
+  }
+
+  if (!validatePassword(password )) {
+    setError("Password must be more than 6 characters!");
+    return;
+  }
+  try {
+
+    const res = await  signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
+
+    if (res?.status===401) {
+       setError("Invalied Credentials")
+    }
+    else{
+
+      clearForm();
+      onClose();
+      setIsSuccessOpen(true);
+    }
+  } catch (err: any) {
+    if (err.message === "Invalid email or password") {
+      setError("Invalid email or password. Please try again.");
+    } else if (err.message === "Unauthorized") {
+      setError("Unauthorized access. Please check your credentials.");
+    } else {
+      setError("Invalied Email or Password!");
+    }
+    console.error("Login failed:", err);
+  }
+};
+
+
+
+
+  const clearForm = () => {
+    setEmail("");
+    setPassword("");
+  };
 
   return (
     <>
@@ -49,7 +88,7 @@ export default function LoginStudentForm({ onSave }) {
             placeholder="Enter your email"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail( e.target.value)}
             variant={"bordered"}
         />
 
@@ -76,12 +115,13 @@ export default function LoginStudentForm({ onSave }) {
           variant="bordered"
         />
 
-
-        <Button color="primary" type="submit" onPress={onSubmit}>
+          {error && <p className="text-white rounded-lg p-1 mt-1 mt-1 bg-red-600 text-xs">{error}</p>}
+        <Button color="primary" type="submit" onPress={onSubmit} >
           Submit
         </Button>
       </div>
-
+      <NewStudAccCreatedPopup isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)} />
     </>
+    
   );
 }

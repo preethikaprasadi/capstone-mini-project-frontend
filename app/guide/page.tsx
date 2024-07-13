@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import GuideTable from "@/app/guide/guide-table";
 import { getAllGuide, Guide } from "@/service/guide.service";
 import { GuideAddPopup } from "@/app/guide/guide-add-popup";
+import GuideLoginPopup from "@/app/guide/login-popup";
 
 export default function GuidePage() {
   const columns: Column[] = [
@@ -82,12 +83,16 @@ export default function GuidePage() {
 
   return (
     <>
-      <GuideAddPopup onSave={handleSave} />
-      <GuideTable
-        columns={columns}
-        rows={rows}
-        onDelete={handleDelete}
-      />
+      <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+
+      </section>
+      {/*<GuideAddPopup onSave={handleSave} />*/}
+      {/*<GuideTable*/}
+      {/*  columns={columns}*/}
+      {/*  rows={rows}*/}
+      {/*  onDelete={handleDelete}*/}
+      {/*/>*/}
+
     </>
   );
 }

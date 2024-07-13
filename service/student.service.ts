@@ -1,7 +1,6 @@
-import {Project} from "@/service/project.service";
-
 
 export interface Student {
+    success: any;
     id: string;
     firstName: string;
     lastName: string;
@@ -10,7 +9,7 @@ export interface Student {
 }
 
 export async function saveStudent(studentRequest: Student): Promise<Student> {
-    const url: string = "http://localhost:3000/students";
+    const url: string = "http://localhost:3000/auth/signup/student";
     const request = new Request(url, {
         body: JSON.stringify(studentRequest),
         headers: {
@@ -25,3 +24,10 @@ export async function saveStudent(studentRequest: Student): Promise<Student> {
 
     return student;
 }
+
+ 
+
+ 
+
+
+ 

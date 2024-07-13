@@ -8,7 +8,18 @@ interface SelectCategoryProps {
     columns: Column[];
 }
 
-const SelectCategory: React.FC<SelectCategoryProps> = ({ rows, columns }) => {
+
+
+const SelectCategory: React.FC<SelectCategoryProps> = ({ rows, columns ,selectedCategories, setSelectedCategories}) => {
+    const handleCheckboxChange = (id, checked) => {
+        setSelectedCategories((prevSelected) => {
+            if (checked) {
+                return [...new Set([...prevSelected, id])];
+            } else {
+                return prevSelected.filter((techId) => techId !== id);
+            }
+        });
+    };
     const getKeyValue = (item: Category, columnKey: string) => {
         return item[columnKey];
     };
@@ -28,7 +39,11 @@ const SelectCategory: React.FC<SelectCategoryProps> = ({ rows, columns }) => {
                             {(columnKey: string) => (
                                 <TableCell>
                                     {columnKey === "categoryName" ? (
-                                        <Checkbox defaultChecked>{getKeyValue(item, columnKey)}</Checkbox>
+                                        <Checkbox isChecked={selectedCategories.includes(item.id)}
+                                                  value={getKeyValue(item, columnKey)}
+                                                  onChange={(e) => handleCheckboxChange(item.id, e.target.checked)}>
+                                            {getKeyValue(item, columnKey)}
+                                        </Checkbox>
                                     ) : (
                                         getKeyValue(item, columnKey)
                                     )}

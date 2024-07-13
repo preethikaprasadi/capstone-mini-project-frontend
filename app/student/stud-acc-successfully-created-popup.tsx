@@ -1,16 +1,18 @@
-import {Modal, ModalBody, ModalContent, useDisclosure} from "@nextui-org/modal";
+import {Modal, ModalBody, ModalContent} from "@nextui-org/modal";
 import { CgAdd } from "react-icons/cg";
 import {Button, Link} from "@nextui-org/react";
 import React from "react";
 import {useRouter} from "next/navigation";
+import { useSession } from "next-auth/react";
+ 
+ 
 
 export default function NewStudAccCreatedPopup({isOpen, onClose}){
     const router = useRouter();
+    const {data: session}= useSession();
     const routeProjectHomePage = () => {
         router.push("/project");
     };
-
-
 return(
     <>
         <Modal className={"p-0 m-0 max-w-3xl h-max"}  isOpen={isOpen} onClose={onClose}>
@@ -20,7 +22,7 @@ return(
                 {(onClose) => (
                     <>
 
-                        {/*<ModalHeader className="flex flex-col gap-1">Create New Account</ModalHeader>*/}
+                      
                         <div className={" flex flex-col"}>
                             <div>
                                 <ModalBody className={"h-full p-0 m-0 "} >
@@ -35,7 +37,7 @@ return(
 
                                         <div className={"basis-3/5 "}>
                                             <div className="w-full flex flex-col  gap-2 justify-center pt-10 pb-5 pl-10 pr-10  ">
-                                                <p className={"pb-10"}> Congratulations!! You are successfully created your account.. </p>
+                                                <p className={"pb-10"}> Congratulations {session?.user.firstName},!! You are successfully login your account!</p>
                                                 <Button onPress={routeProjectHomePage} radius="full" className="bg-gradient-to-t from-blue-500 via-blue-700 to-blue-800 text-white shadow-lg text-xl font-semibold p-8" endContent={<CgAdd className={"font-bold text-2xl "}/>}>
                                                     Create New Project
                                                 </Button>
@@ -52,12 +54,7 @@ return(
                                                     </Button>
                                                 </div>
                                                 <div>
-                                                    {/*<Button*/}
-
-                                                    {/*    color="primary"  type="submit" onPress={onSubmit}>*/}
-
-                                                    {/*    Create Account*/}
-                                                    {/*</Button>*/}
+                                                    
                                                 </div>
                                             </div>
                                         </div>

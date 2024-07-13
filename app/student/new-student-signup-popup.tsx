@@ -4,39 +4,60 @@ import { EyeFilledIcon, EyeSlashFilledIcon } from "@nextui-org/shared-icons";
 import { Input } from "@nextui-org/input";
 import { Modal, ModalBody, ModalContent, useDisclosure } from "@nextui-org/modal";
 import { Link, Button } from "@nextui-org/react";
-import { saveStudent } from "@/service/student";
-import LoginStudentForm from "@/app/student/student-login-popup";
+import { saveStudent } from "@/service/student.service";
+import LoginStudentForm from "../student/student-login-popup";
 import { useRouter } from "next/navigation";
 import NewStudAccCreatedPopup from "@/app/student/stud-acc-successfully-created-popup";
 import {BsCheckLg} from "react-icons/bs";
+import { signIn, useSession } from "next-auth/react";
 
 export default function NewStudentSignupPopup({ onSave }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const { isOpen: isLoginOpen, onOpen: onLoginOpen, onOpenChange: onLoginOpenChange, onClose: onLoginClose } = useDisclosure();
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const [error, setError] = useState<string | null>(null);
+
+  const validateEmail = (email: string) => {  
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const validatePassword = (password: string) => {
+    return password.length > 6;
+  };
 
   const onSubmit = async () => {
+
+    if (!email.trim() || !password.trim() || !firstName.trim() || !lastName.trim()) {
+      setError("Please fill out all fields.");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("Invalide email address!");
+      return;
+    }
+  
+    if (!validatePassword(password)) {
+      setError("Password must be more than 6 characters!");
+      return;
+    }
     const res = await saveStudent({
       id: "",
       firstName: firstName,
       lastName: lastName,
       email: email,
       password: password,
+      success: undefined
     });
-
     onSave(res);
     handleLoginClick();
     clearForm();
     onClose();
-    // setIsSuccessOpen(true);
     console.log("trying to save", res);
   };
 
@@ -57,34 +78,43 @@ export default function NewStudentSignupPopup({ onSave }) {
     onOpen();
   };
 
+ const {data: session}= useSession();
+
   return (
       <>
-        <div className="flex gap-3">
-          <Button radius="full" onPress={onOpen}>Student</Button>
-          <Modal className={"p-0 m-0 max-w-3xl h-max"} isOpen={isOpen} onOpenChange={onOpenChange}>
-            <ModalContent className={"fixed-size pt-0"}>
-              {(onClose) => (
+ <div className="flex gap-3">
+  <Button radius="full" onPress={onLoginOpen}>
+            Student
+          </Button>
+          
+<Modal className={"p-0 m-0 max-w-3xl h-max"} isOpen={isOpen} onOpenChange={onOpenChange}>
+<ModalContent className={"fixed-size pt-0"}>{(onClose) => (
                   <>
                     <div className={"flex flex-col"}>
-                      <div>
+                          
+                          <div>
                         <ModalBody className={"h-full p-0 m-0"}>
                           <div className={"flex flex-row gap-3"}>
-                              <div className="container basis-2/5 border-r-1 pr-10 pt-10 pl-8 bg-zinc-800">
+                          <div className="container basis-2/5 border-r-1 pr-10 pt-10 pl-8 bg-zinc-800">
+
                                 <p>Your Projects Success Starts from here</p>
+
                                 <ul className="check-list">
                                   <li>Choose your guide according to your personal needs...</li>
                                   <li>available over 1000 guides..</li>
                                 </ul>
-                              </div>
 
-                            <div className={"basis-3/5"}>
-                              <div className="w-full flex flex-row gap-2 justify-center pt-10 pb-5">
+                          </div>
+
+                          <div className={"basis-3/5"}>
+                          <div className="w-full flex flex-row gap-2 justify-center pt-10 pb-5">
                                 <p>Do you already have an account?</p>
 
                                 <Link href="#" underline="always" onClick={handleLoginClick}>Login</Link>
                               </div>
-
                               <div className={"w-full flex items-center justify-center flex-col gap-4"}>
+
+
                                 <Input
                                     isRequired
                                     isClearable
@@ -143,6 +173,8 @@ export default function NewStudentSignupPopup({ onSave }) {
                                     variant="bordered"
                                 />
                               </div>
+
+                              {error && <p className="flex text-white rounded-lg p-1 mt-1 mt-1 bg-red-600 text-xs max-w-40 relative left-16">{error}</p>}
                               <div className={"flex flex-row justify-end p-10 pb-5"}>
                                 <div>
                                   <Button color="danger" variant="light" onPress={onClose}>
@@ -155,8 +187,10 @@ export default function NewStudentSignupPopup({ onSave }) {
                                   </Button>
                                 </div>
                               </div>
+
                             </div>
                           </div>
+
                         </ModalBody>
                       </div>
                     </div>
@@ -165,33 +199,37 @@ export default function NewStudentSignupPopup({ onSave }) {
             </ModalContent>
           </Modal>
 
-          <Modal className={"p-0 m-0 max-w-3xl"} isOpen={isLoginOpen} onOpenChange={onLoginOpenChange}>
-            <ModalContent className={"pt-0"}>
-              {(onClose) => (
+<Modal className={"p-0 m-0 max-w-3xl"} isOpen={isLoginOpen} onOpenChange={onLoginOpenChange}>
+<ModalContent className={"pt-0"}>{(onClose) => (
                   <>
                     <div className={"flex flex-col"}>
-                      <div>
+                    <div>
                         <ModalBody className={"h-full p-0 m-0"}>
+
                           <div className={"flex flex-row gap-3"}>
-                            <div className="container basis-2/5 border-r-1 pr-10 pt-10 pl-8 bg-zinc-800">
+                          <div className="container basis-2/5 border-r-1 pr-10 pt-10 pl-8 bg-zinc-800">
+
+
                               <p>Your Projects Success Starts from here</p>
                               <ul className="check-list">
                                 <li>Choose your guide according to your personal needs...</li>
                                 <li>available over 1000 guides..</li>
                               </ul>
-                            </div>
 
-                            <div className={"basis-3/5"}>
-                              <div className="w-full flex flex-row gap-2 justify-center pt-10 pb-20">
+                          </div>
+
+                          <div className={"basis-3/5"}>
+                          <div className="w-full flex flex-row gap-2 justify-center pt-10 pb-20">
+
+
                                 <p>Do you not have an account?</p>
 
                                 <Link href="#" underline="always" onClick={handleSignUpClick}>Create New Account</Link>
                               </div>
-
                               <div className={"w-full flex items-center justify-center flex-col gap-4 pb-20"}>
-                                <div> Login your account here..</div>
-                                <LoginStudentForm />
+                                <LoginStudentForm onSave={undefined} />
                               </div>
+
                             </div>
                           </div>
                         </ModalBody>
@@ -202,7 +240,7 @@ export default function NewStudentSignupPopup({ onSave }) {
             </ModalContent>
           </Modal>
 
-          <NewStudAccCreatedPopup isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)} />
+           
         </div>
       </>
   );
