@@ -83,9 +83,15 @@ export default function NewStudentSignupPopup({ onSave }) {
   return (
       <>
  <div className="flex gap-3">
-  <Button radius="full" onPress={onLoginOpen}>
-            Student
-          </Button>
+ <Button
+    className="px-6 py-3 text-lg font-semibold rounded-full bg-gradient-to-br from-black via-violet-900 to-blue-400 hover:bg-gradient-to-br hover:from-black hover:via-violet-900 hover:to-blue-400 relative overflow-hidden"
+    onPress={onLoginOpen}
+  >
+    <span className="relative z-10">Student</span>
+    <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-white opacity-20 mix-blend-screen pointer-events-none"></span>
+    <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-white opacity-20 mix-blend-screen pointer-events-none"></span>
+    <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-white opacity-20 mix-blend-screen pointer-events-none"></span>
+  </Button>
           
 <Modal className={"p-0 m-0 max-w-3xl h-max"} isOpen={isOpen} onOpenChange={onOpenChange}>
 <ModalContent className={"fixed-size pt-0"}>{(onClose) => (

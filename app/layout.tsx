@@ -115,7 +115,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             {children}
                         </main>
                     </ThemeProvider>
-                    <footer className="w-full flex items-center justify-center py-3">
+                    {/* <footer className="w-full flex items-center justify-center py-3 relative">
                         <Link
                             isExternal
                             className="flex items-center gap-1 text-current"
@@ -125,7 +125,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             <span className="text-default-600">Powered by</span>
                             <p className="text-primary">Sabra</p>
                         </Link>
-                    </footer>
+                    </footer> */}
                 </div>
             </Providers>
         </StepContextProvider>
