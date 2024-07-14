@@ -13,16 +13,17 @@
 		"@emotion/styled": "^11.11.5",
 		"@eslint/config-array": "^0.16.0",
 		"@heroicons/react": "^2.1.5",
-		"@mui/material": "^5.15.21",
+		"@mui/material": "^5.16.1",
+		"@mui/styled-engine-sc": "^6.0.0-alpha.18",
 		"@nextui-org/accordion": "^2.0.32",
-		"@nextui-org/button": "^2.0.31",
+		"@nextui-org/button": "^2.0.34",
 		"@nextui-org/code": "^2.0.27",
 		"@nextui-org/input": "^2.1.21",
 		"@nextui-org/kbd": "^2.0.28",
 		"@nextui-org/link": "^2.0.29",
 		"@nextui-org/modal": "^2.0.34",
 		"@nextui-org/navbar": "^2.0.30",
-		"@nextui-org/react": "^2.3.6",
+		"@nextui-org/react": "^2.4.2",
 		"@nextui-org/snippet": "^2.0.35",
 		"@nextui-org/switch": "^2.0.28",
 		"@nextui-org/system": "2.1.0",
@@ -57,16 +58,10 @@
 		"next-auth": "^4.24.7",
 		"next-themes": "^0.2.1",
 		"postcss": "8.4.38",
-<<<<<<< HEAD
 		"prop-types": "^15.8.1",
-		"react": "18.3.1",
-		"react-axios": "^2.0.6",
-		"react-dom": "18.3.1",
-		"react-icon": "^1.0.0",
-=======
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
->>>>>>> 6bf35c673f00bc1937bc88af4a45aa55eb491f08
+		"react-icon": "^1.0.0",
 		"react-icons": "^5.2.1",
 		"react-router-dom": "^6.24.0",
 		"react-slick": "^0.30.2",
@@ -83,4 +78,3 @@
 		"@next/swc-win32-x64-msvc": "^15.0.0-rc.0"
 	}
 }
-
