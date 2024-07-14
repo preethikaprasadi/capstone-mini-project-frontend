@@ -67,6 +67,11 @@ const TechnologySet = ({
 
   const maxRows = Math.max(column1.length, column2.length, column3.length);
 
+  function checkSelected(id):boolean {
+
+    return selectedTechnologies.includes(id);
+  }
+
   return (
     <>
       <Table aria-label="Example static collection table">
@@ -81,7 +86,7 @@ const TechnologySet = ({
               <TableCell css={cellStyles}>
                 {column1[rowIndex] && (
                   <Checkbox
-                    value={column1[rowIndex].technologyName}
+                      isSelected={checkSelected( column1[rowIndex].id)}
                     onChange={(e) =>
                       handleCheckboxChange(
                         column1[rowIndex].id,
@@ -101,7 +106,7 @@ const TechnologySet = ({
               <TableCell css={cellStyles}>
                 {column2[rowIndex] && (
                   <Checkbox
-                    value={column2[rowIndex].technologyName}
+                      isSelected={checkSelected( column2[rowIndex].id)}
                     onChange={(e) =>
                       handleCheckboxChange(
                         column2[rowIndex].id,
@@ -121,7 +126,7 @@ const TechnologySet = ({
               <TableCell css={cellStyles}>
                 {column3[rowIndex] && (
                   <Checkbox
-                    value={column3[rowIndex].technologyName}
+                      isSelected={checkSelected( column3[rowIndex].id)}
                     onChange={(e) =>
                       handleCheckboxChange(
                         column3[rowIndex].id,
