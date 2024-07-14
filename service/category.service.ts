@@ -41,8 +41,8 @@ export interface Category {
   export async function updateCategory(categoryRequest: Category): Promise<Category> {
     const url: string = "http://localhost:3000/categories/" + categoryRequest.id;
     const dto = {
-        categoryName: categoryRequest.categoryName,
-      student: categoryRequest.student["id"],
+      categoryName: categoryRequest.categoryName,
+      project: categoryRequest.project["id"],
       guide: categoryRequest.guide["id"],
     };
     const request = new Request(url, {
