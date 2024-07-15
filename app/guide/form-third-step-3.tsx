@@ -3,12 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "@nextui-org/react";
 import { useMultiStepContext } from "@/app/step-context";
 import ParentTechnologySet from "@/app/project/parentTechnologySet";
-import SelectCategory from "@/app/category/select-category";
 import { Category, getAllCategory } from "@/service/category.service";
+import GuideSelectCategory from "@/app/guide/guide-select-category";;
+import {saveGuide} from "@/service/guide.service";
 
 export default function GuideFormThirdStep() {
-    const { setGuideCurrentStep, guideUserData, setGuideUserData, guideFinalData, setGuideFinalData } = useMultiStepContext();
-    const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
+    const { setGuideCurrentStep, guideUserData, setGuideUserData, guideFinalData, setGuideFinalData, guideSelectedTechnologies,guideSelectedCategories
+    ,setGuideSelectedTechnologies,setGuideSelectedCategories} = useMultiStepContext();
     const [rows, setRows] = useState<Category[]>([]);
 
     const columns = [
@@ -26,20 +27,50 @@ export default function GuideFormThirdStep() {
         console.log("useEffect: ", rows);
     }, [rows]);
 
-    const handleNext = () => {
-        const newUserData = { ...guideUserData, selectedTechnologies };
-        setGuideUserData(newUserData);
-        setGuideCurrentStep(prevStep => prevStep + 1);
+    const submitData = async () => {
+        const newUserData = { ...guideUserData, selectedTechnologies: Array.from(new Set(guideSelectedTechnologies)), selectedCategories: Array.from(new Set(guideSelectedCategories)) };
+
+        try {
+            // Save project data
+            console.log("Guide data being sent to server:", newUserData);
+            const res = await saveGuide({
+                id: "",
+                firstName: newUserData.firstNameValue,
+                lastName: newUserData.lastNameValue,
+                email: newUserData.emailValue,
+                password:newUserData.passwordValue,
+                profilePic:newUserData.profilePicValue,
+                job: newUserData.jobValue,
+                about: newUserData.aboutValue,
+                milestones: newUserData.milestonesValue,
+                socialMediaLinks: newUserData.socialMediaLinksValue,
+                technologies: newUserData.guideSelectedTechnologies,
+                categories:newUserData.guideSelectedCategories
+            });
+            console.log("Response from saveGuide:", res);
+
+            // Update finalData with the newUserData
+            setGuideFinalData(prevFinalData => [...prevFinalData, newUserData]);
+            console.log("finalData:", [...guideFinalData, newUserData]);
+
+            // Move to the next step
+            setGuideCurrentStep(1);
+
+            console.log("You have successfully submitted data");
+        } catch (error) {
+            console.error("Error in onSubmit:", error);
+        }
+        setGuideUserData("");
     };
 
     const handlePrev = () => {
-        setGuideCurrentStep(prevStep => prevStep - 1);
+
+        const newUserData = { ...guideUserData, selectedTechnologies: Array.from(new Set(guideSelectedTechnologies)),selectedCategories: Array.from(new Set(guideSelectedCategories)) };
+        setGuideUserData(newUserData)
+        setGuideCurrentStep((prevStep) => prevStep - 1);
+        console.log("Current userData:", newUserData);
     };
 
-    const handleSubmit = () => {
-        setGuideFinalData([...guideFinalData, { selectedTechnologies }]);
-        // handle actual form submission logic here
-    };
 
     return (
         <div className="flex justify-center items-center">
@@ -47,18 +78,21 @@ export default function GuideFormThirdStep() {
                 <div className="flex flex-col gap-4">
                     <h2>Select Technologies</h2>
                     <ParentTechnologySet
-                        selectedTechnologies={selectedTechnologies}
-                        setSelectedTechnologies={setSelectedTechnologies}
+                        selectedTechnologies={guideSelectedTechnologies}
+                        setSelectedTechnologies={setGuideSelectedTechnologies}
                     />
                 </div>
                 <div className="flex flex-col gap-4 mt-4">
-                    <SelectCategory rows={rows} columns={columns} />
+                    <GuideSelectCategory   guideSelectedCategories={guideSelectedCategories}
+                                      setGuideSelectedCategories={setGuideSelectedCategories}
+                                      rows={rows}
+                                      columns={columns} />
                 </div>
                 <div className="flex gap-4 mt-4">
                     <Button className="bg-blue-500 text-white rounded-full px-4 py-2 shadow-md hover:bg-blue-600 transition duration-300" onClick={handlePrev}>
                         Prev
                     </Button>
-                    <Button className="bg-red-500 text-white rounded-full px-4 py-2 shadow-md hover:bg-red-600 transition duration-300" onClick={handleSubmit}>
+                    <Button onClick={submitData} className="bg-red-500 text-white rounded-full px-4 py-2 shadow-md hover:bg-red-600 transition duration-300" >
                         Create my Account
                     </Button>
                 </div>

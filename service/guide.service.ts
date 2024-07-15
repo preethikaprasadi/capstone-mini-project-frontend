@@ -5,12 +5,13 @@ export interface Guide {
     lastName: string;
     email: string;
     password: string;
-    profilePic: 'path/to/profilePic1.jpg'
+    profilePic: string;
     job: string;
     about: string;
     milestones: string;
     socialMediaLinks: string;
-    technologies: { technologyName: string }[];
+    technologies: string[];
+    categories:string[];
 
   }
   

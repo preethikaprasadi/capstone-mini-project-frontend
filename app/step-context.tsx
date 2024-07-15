@@ -19,6 +19,11 @@ interface ContextProps {
     setGuideFinalData: React.Dispatch<React.SetStateAction<any[]>>;
     selectedCategories:string[];
     setSelectedCategories:React.Dispatch<React.SetStateAction<string[]>>
+    guideSelectedCategories:string[];
+    setGuideSelectedCategories:React.Dispatch<React.SetStateAction<string[]>>
+    guideSelectedTechnologies:string[];
+    setGuideSelectedTechnologies: React.Dispatch<React.SetStateAction<string[]>>;
+
 
 }
 
@@ -33,20 +38,22 @@ export default function StepContextProvider({ children }: { children: ReactNode 
     const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
     const [guideFinalData, setGuideFinalData] = useState<any[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [guideSelectedCategories, setGuideSelectedCategories ] =useState<string[]>([]);
+    const [ guideSelectedTechnologies,setGuideSelectedTechnologies] = useState<string[]>([]);
 
-    const [createProject, setCreateProject]: [
-        Project[],
-        React.Dispatch<(prevRows: Project[]) => Project[]>,
-    ] = useState([]);
-
-    useEffect(() => {
-        console.log("useEffect: ", createProject);
-    }, [createProject]);
-
-    const handleSave = (project: Project) => {
-        console.log("Trying to save: ", project);
-        setCreateProject((prevRows: Project[]) => [...prevRows, project]);
-    };
+    // const [createProject, setCreateProject]: [
+    //     Project[],
+    //     React.Dispatch<(prevRows: Project[]) => Project[]>,
+    // ] = useState([]);
+    //
+    // useEffect(() => {
+    //     console.log("useEffect: ", createProject);
+    // }, [createProject]);
+    //
+    // const handleSave = (project: Project) => {
+    //     console.log("Trying to save: ", project);
+    //     setCreateProject((prevRows: Project[]) => [...prevRows, project]);
+    // };
 
     return (
         <MultiStepContext.Provider
@@ -66,8 +73,12 @@ export default function StepContextProvider({ children }: { children: ReactNode 
                 guideFinalData,
                 setGuideFinalData,
                 selectedCategories,
-                setSelectedCategories
-            }}
+                setSelectedCategories,
+                guideSelectedTechnologies,
+                setGuideSelectedTechnologies,
+                guideSelectedCategories,
+                setGuideSelectedCategories
+        }}
         >
             {children}
         </MultiStepContext.Provider>
