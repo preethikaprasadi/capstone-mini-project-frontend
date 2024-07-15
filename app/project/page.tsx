@@ -1,11 +1,7 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
-
-import ProjectTable from "@/app/project/project-table";
 import { getAllProject, Project } from "@/service/project.service";
-import { ProjectAddPopup } from "@/app/project/project-add-popup";
-import {subtitle, title} from "@/app/components/primitives";
+import { title} from "@/app/components/primitives";
 import {Button} from "@nextui-org/react";
 import {useRouter} from "next/navigation";
 
@@ -33,21 +29,17 @@ export default function ProjectPage() {
     },
   ];
 
-  const [rows, setRows]: [
-    Project[],
-    React.Dispatch<(prevRows: Project[]) => Project[]>,
-  ] = useState([]);
+ 
+  const [rows, setRows] = useState<Project[]>([]);
 
   useEffect(() => {
     getAllProject().then((res) => {
       console.log("fetch response: ", res);
-      setRows((prevRows: Project[]) => res);
+      setRows(res);
+    }).catch((error) => {
+      console.error("Error fetching projects: ", error);
     });
   }, []);
-
-  useEffect(() => {
-    console.log("useEffect: ", rows);
-  }, [rows]);
 
   const handleSave = (project: Project) => {
     console.log("Trying to save: ", project);

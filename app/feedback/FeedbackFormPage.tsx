@@ -60,7 +60,7 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
                         {[...Array(5)].map((_, index) => {
                             const starValue = index + 1;
                             return (
-                                // eslint-disable-next-line jsx-a11y/label-has-associated-control
+                                
                                 <label key={index} className="cursor-pointer">
                                     <input
                                         type="radio"

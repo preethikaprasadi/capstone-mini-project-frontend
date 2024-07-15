@@ -7,8 +7,9 @@ import { useDisclosure } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
 import NewStudAccCreatedPopup from "../student/stud-acc-successfully-created-popup";
 import { signIn } from "next-auth/react";
+import { FaTimes } from 'react-icons/fa'; 
 
-export default function LoginStudentForm ({onSave} ) {
+export default function LoginStudentForm ({ onCloseModal }) {
   
   const { onClose } = useDisclosure();
   const [isVisible, setIsVisible] = React.useState(false);
@@ -26,15 +27,18 @@ export default function LoginStudentForm ({onSave} ) {
   const validatePassword = (password: string) => {
     return password.length > 6;
   };
-   
+
+  
+
   const onSubmit = async () => {
+  
+  if (!email .trim() || !password .trim()) {
+    setError("Please fill out all fields.");
+    return;
+  }
   setError(null);
   if (!validateEmail(email )) {
     setError("Invalide email address!");
-    return;
-  }
-  if (!email .trim() || !password .trim()) {
-    setError("Please fill out all fields.");
     return;
   }
 
@@ -80,11 +84,14 @@ export default function LoginStudentForm ({onSave} ) {
   };
 
   return (
+
     <>
+    
       <div className={"w-full flex items-center justify-center flex-col gap-4"}>
         <Input
-            className="max-w-xs"
+             
             label="Email"
+            className="max-w-sm w-full"
             placeholder="Enter your email"
             type="email"
             value={email}
@@ -93,7 +100,7 @@ export default function LoginStudentForm ({onSave} ) {
         />
 
         <Input
-          className="max-w-xs"
+          className="max-w-sm w-full"
           endContent={
             <button
               className="focus:outline-none"
@@ -115,13 +122,22 @@ export default function LoginStudentForm ({onSave} ) {
           variant="bordered"
         />
 
-          {error && <p className="text-white rounded-lg p-1 mt-1 mt-1 bg-red-600 text-xs">{error}</p>}
-        <Button color="primary" type="submit" onPress={onSubmit} >
+         <div className="  h-10 flex items-center justify-center">
+           {error && (
+               <p className="text-red-400 rounded-lg p-1  text-xs max-w-80 h-8 flex items-center justify-center">
+           {error}
+               </p>
+           )}
+        </div> 
+        <div className={"flex flex-row justify-end p- pb-5"}>
+         <div>
+          <Button color="primary" type="submit" onPress={onSubmit} className="mt-">
           Submit
-        </Button>
-      </div>
-      <NewStudAccCreatedPopup isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)} />
+        </Button></div>
+        </div>
+         </div>
+         <NewStudAccCreatedPopup isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)} />
     </>
     
   );
-}
+  }

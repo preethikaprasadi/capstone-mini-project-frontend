@@ -15,6 +15,13 @@ module.exports = {
       },
     },
   },
+  theme: {
+    extend: {
+      boxShadow: {
+        'white': '0px 10px 10px rgba(205, 255, 255, 0.0)',
+      }
+    }
+  },
   darkMode: "class",
   plugins: [nextui()],
 }
