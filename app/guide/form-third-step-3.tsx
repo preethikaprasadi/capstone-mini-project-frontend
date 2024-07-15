@@ -28,7 +28,7 @@ export default function GuideFormThirdStep() {
     }, [rows]);
 
     const submitData = async () => {
-        const newUserData = { ...guideUserData, selectedTechnologies: Array.from(new Set(guideSelectedTechnologies)), selectedCategories: Array.from(new Set(guideSelectedCategories)) };
+        const newUserData = { ...guideUserData, guideSelectedTechnologies: Array.from(new Set(guideSelectedTechnologies)), guideSelectedCategories: Array.from(new Set(guideSelectedCategories)) };
 
         try {
             // Save project data
