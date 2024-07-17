@@ -49,19 +49,21 @@ export interface Guide {
   }
   
   export async function updateGuide(guideRequest: Guide): Promise<Guide> {
+ 
+
     const url: string = "http://localhost:3000/guides/" + guideRequest.id;
     const dto = {
       firstName: guideRequest.firstName,
       lastName: guideRequest.lastName,
-      email: guideRequest.email,
-      password: guideRequest.password,
-      profilePic: guideRequest.profilePic,
       job: guideRequest.job,
       about: guideRequest.about,
       milestones: guideRequest.milestones,
-      socialMediaLinks: guideRequest.socialMediaLinks,
-      
+      technologies: guideRequest.technologies || [], 
+      categories: guideRequest.categories || [],
+      socialMediaLinks: guideRequest.socialMediaLinks || []   
     };
+    console.log('Sending payload:', dto);
+
     const request = new Request(url, {
       body: JSON.stringify(dto),
       headers: {
@@ -72,7 +74,12 @@ export interface Guide {
       cache: "no-store",
     });
     const response: Response = await fetch(request);
+    if (!response.ok) {
+      console.error('Update failed:', await response.json());  
+      throw new Error('Failed to update guide');
+    }
     const guide: Guide = await response.json();
+    console.log('Received response:', guide);
   
     return guide;
   }

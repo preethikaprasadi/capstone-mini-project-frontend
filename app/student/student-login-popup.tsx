@@ -132,7 +132,7 @@ export default function LoginStudentForm ({ onCloseModal }) {
         <div className={"flex flex-row justify-end p- pb-5"}>
          <div>
           <Button color="primary" type="submit" onPress={onSubmit} className="mt-">
-          Submit
+          Login
         </Button></div>
         </div>
          </div>

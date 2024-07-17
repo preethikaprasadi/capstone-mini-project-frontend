@@ -18,7 +18,7 @@ export default function NewStudentSignupPopup({ onSave }) {
   const [password, setPassword] = useState("");
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [error, setError] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+   
 
   const validateEmail = (email: string) => {  
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -76,11 +76,8 @@ export default function NewStudentSignupPopup({ onSave }) {
     onOpen();
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-
+ 
+  
   const handleClose = () => {
     
     onLoginClose();  

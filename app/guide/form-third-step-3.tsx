@@ -1,18 +1,19 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Button } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import { useMultiStepContext } from "@/app/step-context";
 import ParentTechnologySet from "@/app/project/parentTechnologySet";
 import { Category, getAllCategory } from "@/service/category.service";
 import GuideSelectCategory from "@/app/guide/guide-select-category";;
 import {saveGuide} from "@/service/guide.service";
+ 
 
 export default function GuideFormThirdStep() {
     const { setGuideCurrentStep, guideUserData, setGuideUserData, guideFinalData, setGuideFinalData, guideSelectedTechnologies,guideSelectedCategories
     ,setGuideSelectedTechnologies,setGuideSelectedCategories} = useMultiStepContext();
+    const { onOpen } = useDisclosure();
     const [rows, setRows] = useState<Category[]>([]);
-
-    const columns = [
+        const columns = [
         { key: "categoryName", label: "CATEGORY NAME" }
     ];
 
@@ -52,17 +53,24 @@ export default function GuideFormThirdStep() {
             // Update finalData with the newUserData
             setGuideFinalData(prevFinalData => [...prevFinalData, newUserData]);
             console.log("finalData:", [...guideFinalData, newUserData]);
-
             // Move to the next step
-            setGuideCurrentStep(1);
-
+            // setGuideCurrentStep(1);
             console.log("You have successfully submitted data");
+             
         } catch (error) {
             console.error("Error in onSubmit:", error);
         }
         setGuideUserData("");
+         
+        handleLoginClick();
     };
 
+    const handleLoginClick = () => {
+         
+      };
+    
+    
+    
     const handlePrev = () => {
 
         const newUserData = { ...guideUserData, selectedTechnologies: Array.from(new Set(guideSelectedTechnologies)),selectedCategories: Array.from(new Set(guideSelectedCategories)) };
@@ -92,11 +100,12 @@ export default function GuideFormThirdStep() {
                     <Button className="bg-blue-500 text-white rounded-full px-4 py-2 shadow-md hover:bg-blue-600 transition duration-300" onClick={handlePrev}>
                         Prev
                     </Button>
-                    <Button onClick={submitData} className="bg-red-500 text-white rounded-full px-4 py-2 shadow-md hover:bg-red-600 transition duration-300" >
+                    <Button onClick={submitData}   className="bg-red-500 text-white rounded-full px-4 py-2 shadow-md hover:bg-red-600 transition duration-300" >
                         Create my Account
                     </Button>
                 </div>
             </section>
+             
         </div>
     );
 }

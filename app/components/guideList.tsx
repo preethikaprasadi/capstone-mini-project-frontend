@@ -28,8 +28,8 @@ const GuideList: React.FC = () => {
   const placeholderImage = '/images/22.jpg';
 
   
-  const limitedGuides = guides.slice(0, 12);
-
+  const limitedGuides = Array.isArray(guides) ? guides.slice(0, 12) : [];
+  console.log('Limited guides:', limitedGuides);
   return (
     <div className="min-h-screen">
       <div className="container mx-auto p-4 bg-gradient-to-br from-pink-700 via-black to-violet-800 w-4/5">

@@ -6,38 +6,58 @@ import {Modal, ModalBody, ModalContent, useDisclosure} from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
 import {Link} from "@nextui-org/react";
 import { FaTimes } from "react-icons/fa";
+import { signIn } from "next-auth/react";
+ 
+import { useRouter } from "next/navigation";
 
 export default function GuideLoginPopup({ onSave }) {
-    const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-    const [isVisible, setIsVisible] = React.useState(false);
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const [isVisible, setIsVisible] = React.useState(false);;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const router = useRouter();
 
     const toggleVisibility = () => setIsVisible(!isVisible);
-    const variants = ["bordered"];
-    const sizes = ["sm", "md", "lg"];
-    const onSubmit = async () => {
-        //   // const res = await saveStudent({
-        //   //   email: email,
-        //   //   password: password,
-        //   // });
-        //
-        //   onSave(res);
-        //   clearForm();
-        //   onClose();
-        //
-        //   console.log("trying to save",res);
-        //
-    };
 
-    // const clearForm = () => {
-    //   setFirstName("");
-    //   setLastName("");
-    //   setEmail("");
-    //   setPassword("");
-    // };
+    const onSubmit = async () => {
+     
+    try {
+
+        const res = await  signIn("credentials", {
+            redirect: false,
+            email,
+            password,
+            userType: "guide",
+          });
+      
+          if (res?.status===401) {
+            //  setError("Invalied Credentials")
+            console.log('Invalied Credentials bn!')
+          }
+          else{
+      
+            // clearForm();
+            // onClose();
+            // setIsSuccessOpen(true);
+            router.push("/profile")
+          }
+        
+        } catch (err: any) {
+          if (err.message === "Invalid email or password") {
+            // setError("Invalid email or password. Please try again.");
+            console.error("Invalied Credentials")
+          } else if (err.message === "Unauthorized") {
+            // setError("Unauthorized access. Please check your credentials.");
+            console.error("Unauthorized acess!")
+          } else {
+            // setError("Invalied Email or Password!");
+            console.error('Invalied Email or Password!')
+          }
+          console.error("Login failed:", err);
+        }
+    
+    }
+      
 
     return (
         <>
@@ -53,8 +73,8 @@ export default function GuideLoginPopup({ onSave }) {
             </Button>
             
 
-<Modal className={"p-0 m-0 max-w-6xl h-4/5"} isOpen={isOpen} onOpenChange={onOpenChange}>
-<ModalContent className={"pt-0"}>{(onClose) => (
+ <Modal className={"p-0 m-0 max-w-6xl h-4/5"} isOpen={isOpen} onOpenChange={onOpenChange}>
+ <ModalContent className={"pt-0"}>{(onClose) => (
                   <>
                     <div className={"flex flex-col h-full"}>
                     <div className="h-full">
