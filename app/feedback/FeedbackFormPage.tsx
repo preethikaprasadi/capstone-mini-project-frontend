@@ -28,6 +28,7 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
                 content: feedbackText,
                 rating,
                 student:  session?.user.id || '',
+                guide: '66976b0b8594dacfe1740427'
             };
             handleFeedbackSubmit(feedbackRequest);
             setCurrentStep(3);

@@ -13,6 +13,10 @@ export const fetchFeedbacks = async (axiosInstance: any): Promise<Feedback[]> =>
             lastName: feedback.student.lastName,
             email: feedback.student.email,
         },
+        guide: {
+            id: feedback.guide.id,
+            firstName: feedback.guide.firstName,
+        }
     }));
 };
 

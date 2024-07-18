@@ -5,6 +5,10 @@ import { getOneGuide, updateGuide, Guide } from '../../service/guide.service'; /
 import { getAllTechnology, Technology } from '@/service/technology.service';
 import { Category, getAllCategory } from '@/service/category.service';
 import { Chip } from '@nextui-org/react';
+import { Feedback } from '../feedback/feedback';
+import GuideDisplayFeedbackPage from '../feedback/FeedbackDisplayGuide';
+import { deleteFeedback, fetchFeedbacks } from '@/service/feedback.service';
+import axios from 'axios';
  
 
 export default function Page() {
@@ -14,6 +18,7 @@ export default function Page() {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const id = session?.user.id;
 
   useEffect(() => {
@@ -43,6 +48,19 @@ export default function Page() {
     }
   }, [id]);
 
+  useEffect(() => {
+    const loadFeedbacks = async () => {
+      try {
+        const data = await fetchFeedbacks(axios);
+        setFeedbacks(data);
+      } catch (error) {
+        console.error('Error fetching feedbacks:', error);
+      }
+    };
+
+    loadFeedbacks();
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -64,6 +82,15 @@ export default function Page() {
       return { ...prev, technologies: updatedTechnologies };
     });
   
+  };
+
+  const handleDeleteFeedback = async (id: string) => {
+    try {
+      await deleteFeedback(axios, id);
+      setFeedbacks((prevFeedbacks) => prevFeedbacks.filter((feedback) => feedback.id !== id));
+    } catch (error) {
+      console.error('Error deleting feedback:', error);
+    }
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,20 +139,18 @@ export default function Page() {
   const databases = technologies.filter(tech =>Number(tech.technologyType) === 3);
  
   return (
-    <div className="container mx-auto p-4  "style={{ borderRadius: '1.5rem' }}>
+    
+    <div className="container mx-auto p-4 absolute inset-x-0 "style={{ borderRadius: '1.5rem' }}>
       
  
- {/* 'images/22.jpg' */}
+ 
       {!isEditing ? (
         
   <div className="container mx-auto p-8 bg-white rounded-lg shadow-lg bg-gradient-to-br from-gray-800 via-black to-gray-900 backdrop-blur-lg bg-opacity-50">
-    <div className="absolute top-0 left-0 w-full h-1/3 bg-cover bg-center bg-gradient-to-br from-gray-900 via-gray-700 to-gray-900 " style={{ borderRadius: '1.5rem' }}><hr className="my-64 border-t-5 border-gray-400"/></div>
+    <div className="absolute top-0 left-0 w-full h-1/6 bg-cover bg-center bg-gradient-to-br from-gray-900 via-gray-700 to-gray-900 " style={{ borderRadius: '1.5rem' }}><hr className="my-64 border-t-5 border-gray-400"/></div>
   <div className="flex flex-col md:flex-row items-start md:space-x-8">
     {/* Profile Section */}
-    <div className="flex flex-col items-center m-12 relative">
-      {/* White background */}
-      
-      
+    <div className="flex flex-col items-center m-12 top-10 relative">
       <div className="relative w-60 h-60 flex items-center justify-center mb-6">
         <div className="absolute w-64 h-64 rounded-full bg-gradient-to-r from-yellow-400 via-purple-400 to-pink-400"></div>
         <div className="absolute w-64 h-64 rounded-full border-4 border-white"></div>
@@ -138,11 +163,11 @@ export default function Page() {
         </div>
       </div>
       <div className="text-center">
-        <h1 className="text-3xl font-bold mb-2">{guide.firstName} {guide.lastName}</h1>
-        <p className="text-lg mb-2">{guide.job}</p>
+        <h1 className="text-4xl font-bold mb-2">{guide.firstName} {guide.lastName}</h1>
+        <p className="text-xl mb-2">{guide.job}</p>
         <p className="text-sm mb-4">{guide.email}</p>
       </div>
-      <div className="flex items-center mt-12">
+      <div className="flex items-center mt-4">
     <button
       onClick={() => setIsEditing(true)}
       className="flex items-center px-2  text-gray-400 rounded-md shadow-sm hover:bg-gray-200"
@@ -169,7 +194,7 @@ export default function Page() {
   </div>
     </div>
 
-    {/* Skills and Excellence In Section */}
+     
     <div className="w-full flex flex-col md:flex-row md:space-x-12 mt-6  " style={{ marginTop: '350px' }}>
       <div className="md:w-1/2">
         <h2 className="text-xl font-semibold mb-4">Skills</h2>
@@ -203,35 +228,50 @@ export default function Page() {
   
 
   <hr className="my-20 border-t-2 border-gray-700" />
+ 
+  <div className="flex space-x-4 text-gray-200 mt-20">
+  
+  <div className="flex flex-col space-y-10 w-1/3">
+    <div className="space-y-6">
+      <h2 className="text-2xl font-semibold ">Milestones</h2>
+      <div className="bg-gray-300 p-6 rounded-lg shadow-lg">
+        <ul className="list-disc list-inside space-y-4 text-lg text-gray-700 leading-relaxed">
+          {guide.milestones}
+        </ul>
+      </div>
+    </div>
 
-  {/* Additional Info Section */}
-  <div className="space-y-4 text-gray-300">
-    <div>
-      <h2 className="text-xl font-semibold">About</h2>
-      <p className="text-lg">{guide.about}</p>
-    </div>
-    <div>
-      <h2 className="text-xl font-semibold">Milestones</h2>
-      <p className="text-lg">{guide.milestones}</p>
-    </div>
-    <div>
-      <h2 className="text-xl font-semibold">Social Media Links</h2>
-      <p className="text-lg">{guide.socialMediaLinks}</p>
+    <div className="space-y-6 mt-10">
+      <h2 className="text-2xl font-semibold ">Social Media Links</h2>
+      <div className="bg-gray-300 p-6 rounded-lg shadow-lg">
+        <ul className="list-disc list-inside space-y-4 text-lg text-gray-700 leading-relaxed">
+          {guide.socialMediaLinks}
+        </ul>
+      </div>
     </div>
   </div>
 
   
+  <div className="flex-1 space-y-10">
+    <h2 className="text-2xl font-semibold ml-40 pb-6">About me</h2>
+    <div className="w-4/5 h-96 bg-gray-400 p-2 border border-black overflow-y-scroll ml-40 relative bottom-10" style={{ borderRadius: '1rem' }}>
+      <p className="text-lg text-gray-900 leading-relaxed ">
+        {guide.about}
+      </p>
+    </div>
+  </div>
 </div>
 
- 
+
+
+  <hr className="my-18 border-t-2 border-gray-700" />
+  <div className="mt-8 relative" style={{ marginRight: '50px' }}>
+    <GuideDisplayFeedbackPage feedbacks={feedbacks} handleDeleteFeedback={handleDeleteFeedback} />
+</div>
+
+</div>  
  
     
-    
-     
-     
-      
-      
-      
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -375,5 +415,6 @@ export default function Page() {
         </form>
       )}
     </div>
+     
   );
 }
