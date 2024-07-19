@@ -1,17 +1,35 @@
-import React, {useState} from 'react';
-import { Input, Textarea } from "@nextui-org/input";
+import React, { useState } from 'react';
+import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/react";
 import { useMultiStepContext } from "@/app/step-context";
 
 export default function GuideFormFirstStep() {
+    const { guideCurrentStep, setGuideCurrentStep, guideUserData, setGuideUserData } = useMultiStepContext();
+    const [error, setError] = useState<string | null>(null);
 
-    const { guideCurrentStep,setGuideCurrentStep,guideUserData,setGuideUserData} = useMultiStepContext();
+    const validateEmail = (email: string) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
 
     const handleNext = () => {
-     ;
+        // Validation logic
+        if (!guideUserData['firstNameValue'] || !guideUserData['lastNameValue'] || !guideUserData['emailValue'] || !guideUserData['passwordValue']) {
+            setError("Please fill out all fields.");
+            return;
+        }
+        if (!validateEmail(guideUserData['emailValue'])) {
+            setError("Please enter a valid email address.");
+            return;
+        }
+        if (guideUserData['passwordValue'].length < 6) {
+            setError("Password must be at least 6 characters long.");
+            return;
+        }
+        
+        setError(null); // Clear error if validation passes
         setGuideCurrentStep(prevStep => prevStep + 1);
         console.log("current step: ", guideCurrentStep);
-          console.log("user data: ", guideUserData);
+        console.log("user data: ", guideUserData);
     };
 
     return (
@@ -26,43 +44,47 @@ export default function GuideFormFirstStep() {
                             variant="flat"
                             className="w-full"
                             value={guideUserData['firstNameValue']}
-                            onChange={(e) => setGuideUserData({...guideUserData,"firstNameValue":e.target.value})}
+                            onChange={(e) => setGuideUserData({ ...guideUserData, "firstNameValue": e.target.value })}
                         />
                     </div>
                     <div>
-                    <Input
+                        <Input
                             label="Last Name"
                             placeholder="Enter last name"
                             type="text"
                             variant="flat"
                             className="w-full"
                             value={guideUserData['lastNameValue']}
-                            onChange={(e) => setGuideUserData({...guideUserData,"lastNameValue":e.target.value})}
+                            onChange={(e) => setGuideUserData({ ...guideUserData, "lastNameValue": e.target.value })}
                         />
                     </div>
                     <div>
-                    <Input
+                        <Input
                             label="Email"
                             placeholder="Enter email"
                             type="text"
                             variant="flat"
                             className="w-full"
                             value={guideUserData['emailValue']}
-                            onChange={(e) => setGuideUserData({...guideUserData,"emailValue":e.target.value})}
+                            onChange={(e) => setGuideUserData({ ...guideUserData, "emailValue": e.target.value })}
                         />
                     </div>
                     <div>
-                    <Input
+                        <Input
                             label="Password"
                             placeholder="Enter Password"
                             type="text"
                             variant="flat"
                             className="w-full"
-                            value={guideUserData['passwordPicValue']}
-                            onChange={(e) => setGuideUserData({...guideUserData,"passwordValue":e.target.value})}
+                            value={guideUserData['passwordValue']}
+                            onChange={(e) => setGuideUserData({ ...guideUserData, "passwordValue": e.target.value })}
                         />
                     </div>
-                   
+                    {error && (
+                        <div className="text-red-500 text-sm">
+                            {error}
+                        </div>
+                    )}
                     <br />
                     <Button radius="full" variant="shadow" color="primary" onClick={handleNext}>
                         Next
@@ -72,5 +94,3 @@ export default function GuideFormFirstStep() {
         </div>
     );
 }
-
-
