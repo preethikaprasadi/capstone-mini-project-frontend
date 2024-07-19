@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { title} from "@/app/components/primitives";
 import { Navbar } from "@/app/components/navbar";
 import { Student } from "@/service/student.service";
@@ -10,10 +10,14 @@ import GuideList from "./components/guideList";
 import StandardImageList from "./components/imageLsit";
 import FeaturesSection from "./components/featuresection";
 import Footer from "./components/footer";
+import { useDisclosure } from "@nextui-org/modal";
+import { FaPencilAlt } from "react-icons/fa";
+import ImageUploadModal from "./components/ImageUploadmodel";
+ 
  
 
 export default function Home() {
-
+  
   const handleSave = (student: Student) => {
     console.log("Trying to save: ", student);
   };
@@ -37,8 +41,6 @@ export default function Home() {
                 height: '100%',
                    }}
             ></div>
-      
-             
              <div className="relative z-10 flex flex-col items-center justify-center text-center text-white">
                <h1 className={title()}>Empower Your</h1>
                <br />
@@ -48,6 +50,7 @@ export default function Home() {
               </h1>
               <br />
             <TypeWrite/>
+            
           </div>
     
           <div className="flex gap-3">

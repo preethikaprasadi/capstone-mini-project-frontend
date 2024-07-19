@@ -57,6 +57,7 @@ export interface Guide {
       lastName: guideRequest.lastName,
       job: guideRequest.job,
       about: guideRequest.about,
+      profilePic:guideRequest.profilePic,
       milestones: guideRequest.milestones,
       technologies: guideRequest.technologies || [], 
       categories: guideRequest.categories || [],
@@ -83,6 +84,47 @@ export interface Guide {
   
     return guide;
   }
+
+  export async function updateGuidePic(guideRequest: Guide): Promise<Guide> {
+ 
+  const technologies = guideRequest.technologies.map(tech => tech.id);
+  const categories = guideRequest.categories.map(cat => cat.id);
+
+
+    const url: string = "http://localhost:3000/guides/" + guideRequest.id;
+    const dto = {
+      firstName: guideRequest.firstName,
+      lastName: guideRequest.lastName,
+      job: guideRequest.job,
+      about: guideRequest.about,
+      profilePic:guideRequest.profilePic,
+      milestones: guideRequest.milestones,
+      technologies: technologies|| [], 
+      categories: categories || [],
+      socialMediaLinks: guideRequest.socialMediaLinks || []   
+    };
+    console.log('Sending payload:', dto);
+
+    const request = new Request(url, {
+      body: JSON.stringify(dto),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      method: "PUT",
+      cache: "no-store",
+    });
+    const response: Response = await fetch(request);
+    if (!response.ok) {
+      console.error('Update failed:', await response.json());  
+      throw new Error('Failed to update guide');
+    }
+    const guide: Guide = await response.json();
+    console.log('Received response:', guide);
+  
+    return guide;
+  }
+  
   
   export async function deleteGuide(id: string): Promise<Guide> {
     const url: string = "http://localhost:3000/guides/" + id;

@@ -4,11 +4,13 @@ import React, { useEffect, useState } from 'react';
 import { getOneGuide, updateGuide, Guide } from '../../service/guide.service'; // Adjust the import path as needed
 import { getAllTechnology, Technology } from '@/service/technology.service';
 import { Category, getAllCategory } from '@/service/category.service';
-import { Chip } from '@nextui-org/react';
+import { Chip, useDisclosure } from '@nextui-org/react';
 import { Feedback } from '../feedback/feedback';
 import GuideDisplayFeedbackPage from '../feedback/FeedbackDisplayGuide';
 import { deleteFeedback, fetchFeedbacks } from '@/service/feedback.service';
 import axios from 'axios';
+import { FaPencilAlt } from 'react-icons/fa';
+import ImageUploadModal from '../components/ImageUploadmodel';
  
 
 export default function Page() {
@@ -19,6 +21,9 @@ export default function Page() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
+  const [showUpload, setShowUpload] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const id = session?.user.id;
 
   useEffect(() => {
@@ -30,6 +35,7 @@ export default function Page() {
           lastName: guide.lastName,
           job: guide.job,
           about: guide.about,
+          profilePic:guide.profilePic,
           milestones: guide.milestones,
           socialMediaLinks:guide.socialMediaLinks,
           technologies: guide.technologies?.map(tech => tech.id) || [],  
@@ -48,6 +54,7 @@ export default function Page() {
     }
   }, [id]);
 
+
   useEffect(() => {
     const loadFeedbacks = async () => {
       try {
@@ -60,6 +67,8 @@ export default function Page() {
 
     loadFeedbacks();
   }, []);
+  
+  // update profile funcions.
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -94,8 +103,8 @@ export default function Page() {
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const catId = e.target.value;
-    const isChecked = e.target.checked;
+  const catId = e.target.value;
+  const isChecked = e.target.checked;
 
     setFormData(prev => {
       let updatedCategories = prev.categories || [];
@@ -134,142 +143,149 @@ export default function Page() {
     return <div>No guide found</div>;
   }
 
+   
+ 
+
   const programmingLanguages = technologies.filter(tech => Number(tech.technologyType) === 0);
   const frameworks = technologies.filter(tech => Number(tech.technologyType) === 1);
   const databases = technologies.filter(tech =>Number(tech.technologyType) === 3);
  
   return (
     
-    <div className="container mx-auto p-4 absolute inset-x-0 "style={{ borderRadius: '1.5rem' }}>
-      
- 
- 
-      {!isEditing ? (
-        
-  <div className="container mx-auto p-8 bg-white rounded-lg shadow-lg bg-gradient-to-br from-gray-800 via-black to-gray-900 backdrop-blur-lg bg-opacity-50">
-    <div className="absolute top-0 left-0 w-full h-1/6 bg-cover bg-center bg-gradient-to-br from-gray-900 via-gray-700 to-gray-900 " style={{ borderRadius: '1.5rem' }}><hr className="my-64 border-t-5 border-gray-400"/></div>
-  <div className="flex flex-col md:flex-row items-start md:space-x-8">
-    {/* Profile Section */}
-    <div className="flex flex-col items-center m-12 top-10 relative">
-      <div className="relative w-60 h-60 flex items-center justify-center mb-6">
-        <div className="absolute w-64 h-64 rounded-full bg-gradient-to-r from-yellow-400 via-purple-400 to-pink-400"></div>
-        <div className="absolute w-64 h-64 rounded-full border-4 border-white"></div>
-        <div className="relative w-60 h-60 rounded-full overflow-hidden shadow-md">
-          <img
-            src={guide.profilePic || 'images/22.jpg'}
-            alt="Profile"
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </div>
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-2">{guide.firstName} {guide.lastName}</h1>
-        <p className="text-xl mb-2">{guide.job}</p>
-        <p className="text-sm mb-4">{guide.email}</p>
-      </div>
-      <div className="flex items-center mt-4">
-    <button
-      onClick={() => setIsEditing(true)}
-      className="flex items-center px-2  text-gray-400 rounded-md shadow-sm hover:bg-gray-200"
-    >
-      <svg
-        className="w-5 h-5 mr-2"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fillRule="evenodd"
-          d="M14.293 3.293a1 1 0 0 1 1.414 1.414l-10 10a1 1 0 0 1-.32.208l-3 1a1 1 0 0 1-1.269-1.27l1-3a1 1 0 0 1 .208-.32l10-10z"
-          clipRule="evenodd"
-        />
-        <path
-          fillRule="evenodd"
-          d="M15 5a1 1 0 0 1 1 1v10a1 1 0 1 1-2 0V6a1 1 0 0 1 1-1z"
-          clipRule="evenodd"
-        />
-      </svg>
-      Edit Profile
-    </button>
-  </div>
-    </div>
-
-     
-    <div className="w-full flex flex-col md:flex-row md:space-x-12 mt-6  " style={{ marginTop: '350px' }}>
-      <div className="md:w-1/2">
-        <h2 className="text-xl font-semibold mb-4">Skills</h2>
-        <div className="flex flex-wrap">
-          {guide.technologies?.map((tech, index) => (
-            <Chip
-              key={index}
-              className="bg-gradient-to-r from-pink-500 via-pink-800 to-pink-900 text-white text-sm font-semibold mr-2 mb-2 px-2.5 py-0.5 rounded-full border border-transparent hover:border-gray-400"
-            >
-              {tech.technologyName}
-            </Chip>
-          ))}
-        </div>
-      </div>
-      <div className="md:w-1/2">
-        <h2 className="text-xl font-semibold mb-4">Excellence In</h2>
-        <div className="flex flex-wrap">
-          {guide.categories?.map((cat, index) => (
-            <Chip
-              key={index}
-              className="bg-gradient-to-r from-yellow-500 via-yellow-800 to-yellow-900 text-white text-sm font-semibold mr-2 mb-2 px-2.5 py-0.5 rounded-full border border-transparent hover:border-gray-400"
-            >
-              {cat.categoryName}
-            </Chip>
-          ))}
-        </div>
-      </div>
-    </div>
-  </div>
-
+    <div className="container mx-auto p-4 absolute inset-x-0" style={{ borderRadius: '1.5rem' }}>
+    {!isEditing ? (
+      <div className="container mx-auto p-8 bg-white rounded-lg shadow-lg bg-gradient-to-br from-gray-800 via-black to-gray-900 backdrop-blur-lg bg-opacity-50">
+        <div className="absolute top-0 left-0 w-full h-80 bg-cover bg-center bg-gradient-to-br from-gray-900 via-gray-700 to-gray-900" style={{ borderRadius: '1.5rem' }}>
+          <button 
+          
+          onClick={onOpen} 
+          className="pencil-button relative left-80 top-80 h-20 w-20"
+          style={{ zIndex: 10 }}
+          >
+              <FaPencilAlt />
+          </button>
   
-
+          {/* {showUpload && <ImageUpload setImageUrl={setImageUrl}   guide={guide} />} */}
+          <hr className="my-44 border-t-5 border-gray-400" />
+        </div>
+  
+        <div className="flex flex-col md:flex-row items-start md:space-x-8">
+          {/* Profile Section */}
+          <div className="flex flex-col items-center m-12 top-10 relative">
+            <div className="relative w-60 h-60 flex items-center justify-center mb-6">
+              <div className="absolute w-64 h-64 rounded-full bg-gradient-to-r from-yellow-400 via-purple-400 to-pink-400"></div>
+              <div className="absolute w-64 h-64 rounded-full border-4 border-white"></div>
+              <div className="relative w-60 h-60 rounded-full overflow-hidden shadow-md">
+                 
+                  <img src={guide.profilePic} className="w-full h-full object-cover" alt="Profile" />
+ 
+                  <div className="default-picture">No Profile Picture</div>
+               
+                <ImageUploadModal visible={isOpen} closeHandler={onClose} setImageUrl={setImageUrl} guide={guide} />
+              </div>
+            </div>
+            <div className="text-center">
+              <h1 className="text-4xl font-bold mb-2">{guide.firstName} {guide.lastName}</h1>
+              <p className="text-xl mb-2">{guide.job}</p>
+              <p className="text-sm mb-4">{guide.email}</p>
+            </div>
+  
+            <div className="flex items-center mt-4">
+              <button
+                onClick={() => setIsEditing(true)}
+                className="flex items-center px-2 text-gray-400 rounded-md shadow-sm hover:bg-gray-200"
+              >
+                <svg className="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path
+                    fillRule="evenodd"
+                    d="M14.293 3.293a1 1 0 0 1 1.414 1.414l-10 10a1 1 0 0 1-.32.208l-3 1a1 1 0 0 1-1.269-1.27l1-3a1 1 0 0 1 .208-.32l10-10z"
+                    clipRule="evenodd"
+                  />
+                  <path
+                    fillRule="evenodd"
+                    d="M15 5a1 1 0 0 1 1 1v10a1 1 0 1 1-2 0V6a1 1 0 0 1 1-1z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                Edit Profile
+              </button>
+            </div>
+          </div>
+  
+          {/* Skills and Excellence In Section */}
+          <div className="flex flex-col md:flex-row w-full md:w-2/3 space-y-6 md:space-y-0 md:space-x-20 items-start mt-5  px-40 absolute left-80 top-80">
+            <div className="w-1/2  inset-x-0">
+              <h2 className="text-2xl font-semibold mb-4">Skills</h2>
+              <div className="flex flex-wrap">
+                {guide.technologies?.map((tech, index) => (
+                  <Chip
+                    key={index}
+                    className="bg-gradient-to-r from-pink-500 via-pink-800 to-pink-900 text-white text-sm font-semibold mr-2 mb-2 px-2.5 py-0.5 rounded-full border border-transparent hover:border-gray-400"
+                  >
+                    {tech.technologyName}
+                  </Chip>
+                ))}
+              </div>
+            </div>
+            
+            <div className="w-1/2 absolute inset-x-80 px-40">
+              <h2 className="text-2xl font-semibold mb-4">Excellence In</h2>
+              <div className="flex flex-wrap">
+                {guide.categories?.map((cat, index) => (
+                  <Chip
+                    key={index}
+                    className="bg-gradient-to-r from-yellow-500 via-yellow-800 to-yellow-900 text-white text-sm font-semibold mr-2 mb-2 px-2.5 py-0.5 rounded-full border border-transparent hover:border-gray-400"
+                  >
+                    {cat.categoryName}
+                  </Chip>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+  
   <hr className="my-20 border-t-2 border-gray-700" />
  
-  <div className="flex space-x-4 text-gray-200 mt-20">
+      <div className="flex space-x-4 text-gray-200 mt-20">
+         <div className="flex flex-col space-y-10 w-1/3">
+          <div className="space-y-6">
+             <h2 className="text-2xl font-semibold ">Milestones</h2>
+               <div className="bg-gray-300 p-6 rounded-lg shadow-lg">
+                  <ul className="list-disc list-inside space-y-4 text-lg text-gray-700 leading-relaxed">
+                   {guide.milestones}
+                  </ul>
+               </div>
+              </div>
+
+               <div className="space-y-6 mt-10">
+                 <h2 className="text-2xl font-semibold ">Social Media Links</h2>
+                    <div className="bg-gray-300 p-6 rounded-lg shadow-lg">
+                          <ul className="list-disc list-inside space-y-4 text-lg text-gray-700 leading-relaxed">
+                              {guide.socialMediaLinks}
+                          </ul>
+                       </div>
+                   </div>
+                 </div>
+
   
-  <div className="flex flex-col space-y-10 w-1/3">
-    <div className="space-y-6">
-      <h2 className="text-2xl font-semibold ">Milestones</h2>
-      <div className="bg-gray-300 p-6 rounded-lg shadow-lg">
-        <ul className="list-disc list-inside space-y-4 text-lg text-gray-700 leading-relaxed">
-          {guide.milestones}
-        </ul>
-      </div>
-    </div>
-
-    <div className="space-y-6 mt-10">
-      <h2 className="text-2xl font-semibold ">Social Media Links</h2>
-      <div className="bg-gray-300 p-6 rounded-lg shadow-lg">
-        <ul className="list-disc list-inside space-y-4 text-lg text-gray-700 leading-relaxed">
-          {guide.socialMediaLinks}
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  
-  <div className="flex-1 space-y-10">
-    <h2 className="text-2xl font-semibold ml-40 pb-6">About me</h2>
-    <div className="w-4/5 h-96 bg-gray-400 p-2 border border-black overflow-y-scroll ml-40 relative bottom-10" style={{ borderRadius: '1rem' }}>
-      <p className="text-lg text-gray-900 leading-relaxed ">
-        {guide.about}
-      </p>
-    </div>
-  </div>
-</div>
+                  <div className="flex-1 space-y-10">
+                      <h2 className="text-2xl font-semibold ml-40 pb-6">About me</h2>
+                    <div className="w-4/5 h-96 bg-gray-400 p-2 border border-black overflow-y-scroll ml-40 relative bottom-10" style={{ borderRadius: '1rem' }}>
+                        <p className="text-lg text-gray-900 leading-relaxed ">
+                            {guide.about}
+                        </p>
+                    </div>
+                 </div>
+            </div>
 
 
 
-  <hr className="my-18 border-t-2 border-gray-700" />
-  <div className="mt-8 relative" style={{ marginRight: '50px' }}>
-    <GuideDisplayFeedbackPage feedbacks={feedbacks} handleDeleteFeedback={handleDeleteFeedback} />
-</div>
-
-</div>  
+                  <hr className="my-18 border-t-2 border-gray-700" />
+                  <div className="mt-8 relative" style={{ marginRight: '50px' }}>
+                 <GuideDisplayFeedbackPage feedbacks={feedbacks} handleDeleteFeedback={handleDeleteFeedback} />
+            
+            </div>
+        </div>  
  
     
       ) : (

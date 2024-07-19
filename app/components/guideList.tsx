@@ -25,46 +25,53 @@ const GuideList: React.FC = () => {
     return <p>Loading...</p>;
   }
 
-  const placeholderImage = '/images/22.jpg';
+  
 
   
   const limitedGuides = Array.isArray(guides) ? guides.slice(0, 12) : [];
   console.log('Limited guides:', limitedGuides);
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto p-4 bg-gradient-to-br from-pink-700 via-black to-violet-800 w-4/5">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {limitedGuides.map((guide) => (
-            <div
-              key={guide.id}
-              className="35374B text-white rounded-lg shadow-lg hover:shadow-white transition-shadow duration-300 overflow-hidden h-100"
-            >
-              <div className="relative w-full h-2/3">
-                <img
-                  src={placeholderImage}
-                  alt={`${guide.firstName} ${guide.lastName}`}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="text-center p-4">
-                <h2 className="text-xl font-bold text-gray-200">{`${guide.firstName} ${guide.lastName}`}</h2>
-                <p className="text-sm mb-2 text-gray-400">{guide.job}</p>
-                <div className="flex flex-wrap gap-2 justify-center mt-2">
-                  {guide.technologies.map((tech, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 border-2 border-gray-300 rounded-full text-xs font-semibold text-gray-400 bg-black-600"
-                    >
-                      {tech.technologyName}
-                    </span>
-                  ))}
-                </div>
-              </div>
+    <div className="container mx-auto p-4  bg-gradient-to-br from-pink-700 via-black to-violet-800 w-4/5 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 m-4 ">
+        {limitedGuides.map((guide) => (
+          <div
+            key={guide.id}
+            className="text-white rounded-lg shadow-lg hover:shadow-white transition-shadow duration-300 overflow-hidden h-[450px]"
+          >
+            <div className="relative w-full h-[300px]">
+              <img
+                src={guide.profilePic}
+                alt={`${guide.firstName} ${guide.lastName}`}
+                className="w-full h-full object-cover"
+              />
             </div>
-          ))}
-        </div>
+            <div className="text-center p-4">
+        <h2 className="text-xl font-bold text-gray-200">{`${guide.firstName} ${guide.lastName}`}</h2>
+       <p className="text-sm mb-2 text-gray-400">{guide.job}</p>
+         <div className="flex flex-wrap gap-2 justify-center relative top-2">
+              {guide.technologies.slice(0, 3).map((tech, index) => (
+             <span
+             key={index}
+             className="px-3 py-1 border-2 border-gray-300 rounded-full text-xs font-semibold text-gray-400 bg-black-600"
+            >
+                {tech.technologyName}
+             </span>
+             ))}
+            {guide.technologies.length > 3 && (
+              <span className="px-3 py-1 border-2 border-gray-300 rounded-full text-xs font-semibold text-gray-400 bg-black-600">
+             +{guide.technologies.length - 3} more
+             </span>
+            )}
+          </div>
+      </div>
+
+          </div>
+        ))}
       </div>
     </div>
+  </div>
+  
   );
 };
 

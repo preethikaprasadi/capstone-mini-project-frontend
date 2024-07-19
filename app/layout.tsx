@@ -75,6 +75,7 @@
 //   );
 // }
 import "@/styles/globals.css";
+import "@uploadthing/react/styles.css";
 import { Metadata, Viewport } from "next";
 import { Link } from "@nextui-org/link";
 import clsx from "clsx";
