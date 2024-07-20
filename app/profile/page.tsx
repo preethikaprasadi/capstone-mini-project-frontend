@@ -11,6 +11,7 @@ import { deleteFeedback, fetchFeedbacks } from '@/service/feedback.service';
 import axios from 'axios';
 import { FaPencilAlt } from 'react-icons/fa';
 import ImageUploadModal from '../components/ImageUploadmodel';
+import RatingGraph from '../components/feedbackGraph';
  
 
 export default function Page() {
@@ -154,7 +155,7 @@ export default function Page() {
     
     <div className="container mx-auto p-4 absolute inset-x-0" style={{ borderRadius: '1.5rem' }}>
     {!isEditing ? (
-      <div className="container mx-auto p-8 bg-white rounded-lg shadow-lg bg-gradient-to-br from-gray-800 via-black to-gray-900 backdrop-blur-lg bg-opacity-50">
+      <div className="container mx-auto p-8 bg-white rounded-lg shadow-lg bg-gradient-to-br from-gray-800 via-black to-black backdrop-blur-lg bg-opacity-50">
         <div className="absolute top-0 left-0 w-full h-80 bg-cover bg-center bg-gradient-to-br from-gray-900 via-gray-700 to-gray-900" style={{ borderRadius: '1.5rem' }}>
           <button 
           
@@ -281,7 +282,11 @@ export default function Page() {
 
 
                   <hr className="my-18 border-t-2 border-gray-700" />
-                  <div className="mt-8 relative" style={{ marginRight: '50px' }}>
+                  <div className='py-20'>
+            {/* Other profile details */}
+            <RatingGraph guideId={guide.id} />
+        </div>
+                  <div className="mt-4 relative left-12" style={{ marginRight: '50px' }}>
                  <GuideDisplayFeedbackPage feedbacks={feedbacks} handleDeleteFeedback={handleDeleteFeedback} />
             
             </div>
