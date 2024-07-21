@@ -1,3 +1,7 @@
+
+interface SocialMediaLink {
+  url: string;
+}
 export interface Guide {
     
     id: string;
@@ -9,7 +13,7 @@ export interface Guide {
     job: string;
     about: string;
     milestones: string;
-    socialMediaLinks: string;
+    socialMediaLinks: SocialMediaLink[];
     technologies: string[];
     categories:string[];
 

@@ -10,9 +10,7 @@ import GuideList from "./components/guideList";
 import StandardImageList from "./components/imageLsit";
 import FeaturesSection from "./components/featuresection";
 import Footer from "./components/footer";
-import { useDisclosure } from "@nextui-org/modal";
-import { FaPencilAlt } from "react-icons/fa";
-import ImageUploadModal from "./components/ImageUploadmodel";
+import Resume from "./components/pr1";
  
  
 
@@ -135,8 +133,9 @@ export default function Home() {
      <div className="mb-40">
         <StandardImageList/>
      </div> 
-       <Footer/>
-     </section>  
+       <Footer/> 
+     </section> 
+     
       </>
   );
 }

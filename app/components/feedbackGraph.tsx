@@ -66,11 +66,11 @@ const CustomGraph = ({ guideId }: { guideId: string }) => {
                 label: 'Ratings',
                 data: [ratings[1], ratings[2], ratings[3], ratings[4], ratings[5]],
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(255, 99, 132, 1)',
                     'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(255, 206, 86, 1)',
                     'rgba(75, 192, 192,1)',
-                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(153, 102, 255, 1)',
                 ],
                 borderColor: [
                     'rgba(255, 99, 132, 1)',
@@ -136,15 +136,14 @@ const CustomGraph = ({ guideId }: { guideId: string }) => {
         },
           
     };
+
     return (
-        <div className="p-6 max-w-2xl mx-auto  rounded-xl shadow-md space-y-4 bg-black ">
-            <h2 className="text-2xl font-bold text-left mb-8">Ratings </h2>
+        <div className="p-6 max-w-4xl mx-auto rounded-xl shadow-md space-y-4 bg-black">
             <div className="relative bg-black p-4 rounded-lg shadow">
-            <div className="relative bg-black  p-4 rounded-lg shadow">
-                <Bar data={data} options={options} plugins={[ChartDataLabels]} />
-                 
+                <div className="relative bg-black p-4 rounded-lg shadow" style={{ width: '100%', height: '400px' }}>
+                    <Bar data={data} options={options} plugins={[ChartDataLabels]} />
+                </div>
             </div>
-        </div>
         </div>
     );
 };

@@ -81,6 +81,7 @@
 	},
 	"devDependencies": {
 		"@next/swc-win32-x64-msvc": "^15.0.0-rc.0",
-		"@types/react-chartjs-2": "^2.5.7"
+		"@types/react-chartjs-2": "^2.5.7",
+		"@types/react-slick": "^0.23.13"
 	}
 }
