@@ -37,7 +37,7 @@ const GuideList: React.FC = () => {
         {limitedGuides.map((guide) => (
           <div
             key={guide.id}
-            className="text-white rounded-lg shadow-lg hover:shadow-white transition-shadow duration-300 overflow-hidden h-[450px]"
+            className="text-white rounded-lg shadow-lg hover:shadow-white transition-shadow duration-300 overflow-hidden h-[450px] bg-gradient-to-br from-pink-500 via-black to-violet-600"
           >
             <div className="relative w-full h-[300px]">
               <img

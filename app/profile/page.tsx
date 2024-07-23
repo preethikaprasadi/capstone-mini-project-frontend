@@ -42,7 +42,7 @@ useEffect(() => {
           about: guide.about,
           profilePic:guide.profilePic,
           milestones: guide.milestones,
-          socialMediaLinks:guide.socialMediaLinks,
+          socialMediaLinks: Array.isArray(guide.socialMediaLinks) ? guide.socialMediaLinks : [],
           technologies: guide.technologies?.map(tech => tech.id) || [],  
           categories: guide.categories?.map(cat => cat.id) || [],
           
@@ -77,6 +77,11 @@ useEffect(() => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleSMChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
+  const links = value.split(',').map(link => link.trim());  
+  setFormData(prev => ({ ...prev, socialMediaLinks: links }));
+  };
   const handleTechnologyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const techId = e.target.value;
     const isChecked = e.target.checked;
@@ -164,7 +169,7 @@ useEffect(() => {
         setIsExpanded(!isExpanded);
       };
 
-           
+      console.log(guide.socialMediaLinks);     
   
   return (
           
@@ -249,21 +254,21 @@ useEffect(() => {
                       <h3 className="text-3xl font-semibold flex items-center">
                      <img src="/images/29.png" alt="Info Icon" className="mr-2 w-16 h-16" />Social medias
                      </h3>
-                     <ul className="list-disc list-inside mt-4 text-gray-300">
-                     {Array.isArray(guide.socialMediaLinks) && guide.socialMediaLinks.map((link, index) => (
-                              <li key={index} className="mb-2">
-                             <a
-                                 href={link.url}
-                                 target="_blank"
-                                 rel="noopener noreferrer"
-                                 className="text-blue-400 hover:underline"
-                             >
-       
-                            </a>
-                   </li>
-                 ))}
-             </ul>
-                    </div>
+                     </div> 
+                     
+                     {guide.socialMediaLinks && guide.socialMediaLinks.length > 0 ? (
+                          <ul className="mt-4 list-disc list-inside text-left">
+                             {guide.socialMediaLinks.map((link, index) => (
+                             <li key={index} className="text-blue-500 hover:underline text-lg">
+                                <a href={link} target="_blank" rel="noopener noreferrer">{link}</a>
+                             </li>
+                              ))}
+                            </ul>
+                      ) : (
+                      <p className="mt-4 text-gray-500">No social media links available.</p>
+                             )}
+              
+                   
 
                <hr className="mt-24 border-t-3 w-3/4 mx-auto  opacity-50" style={{ borderColor: '#BB86FC' }}/>  
 
@@ -389,12 +394,12 @@ useEffect(() => {
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Socia Media Links:</label>
                   <textarea
-                    name="socialMediaLinks"
-                    value={formData.socialMediaLinks || ''}
-                    onChange={handleChange}
-                    required
-                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                  />
+                      name="socialMediaLinks"
+                      value={formData.socialMediaLinks?.join(', ') || ''}
+                      onChange={handleSMChange}
+                      required
+                      className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Technologies:</label>

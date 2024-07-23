@@ -1,7 +1,5 @@
 
-interface SocialMediaLink {
-  url: string;
-}
+ 
 export interface Guide {
     
     id: string;
@@ -13,7 +11,7 @@ export interface Guide {
     job: string;
     about: string;
     milestones: string;
-    socialMediaLinks: SocialMediaLink[];
+    socialMediaLinks?: string[];
     technologies: string[];
     categories:string[];
 
@@ -65,7 +63,7 @@ export interface Guide {
       milestones: guideRequest.milestones,
       technologies: guideRequest.technologies || [], 
       categories: guideRequest.categories || [],
-      socialMediaLinks: guideRequest.socialMediaLinks || []   
+      socialMediaLinks: guideRequest.socialMediaLinks || [], 
     };
     console.log('Sending payload:', dto);
 
