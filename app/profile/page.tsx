@@ -322,7 +322,7 @@ useEffect(() => {
                  <img src="/images/26.png" alt="Info Icon" className="mr-4 w-14 h-14" />Ratings
                 </h3>
                 <div className="w-full max-w-4xl">  
-                    <CustomGraph guideId='669a86f9733c7f5c9b47aa45'/>
+                    <CustomGraph guideId={guide.id} />
                 </div>
            </div>
 

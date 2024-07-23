@@ -1,10 +1,12 @@
  "use client"
 import React, { useEffect, useState } from 'react';
 import { Guide, getAllGuide } from '../../service/guide.service';
+import { useRouter } from 'next/navigation';
 
 const GuideList: React.FC = () => {
   const [guides, setGuides] = useState<Guide[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchGuides = async () => {
@@ -24,9 +26,6 @@ const GuideList: React.FC = () => {
   if (loading) {
     return <p>Loading...</p>;
   }
-
-  
-
   
   const limitedGuides = Array.isArray(guides) ? guides.slice(0, 12) : [];
   console.log('Limited guides:', limitedGuides);
@@ -37,6 +36,7 @@ const GuideList: React.FC = () => {
         {limitedGuides.map((guide) => (
           <div
             key={guide.id}
+            onClick={() => router.push(`/profile1?id=${guide.id}`)}
             className="text-white rounded-lg shadow-lg hover:shadow-white transition-shadow duration-300 overflow-hidden h-[450px] bg-gradient-to-br from-pink-500 via-black to-violet-600"
           >
             <div className="relative w-full h-[300px]">

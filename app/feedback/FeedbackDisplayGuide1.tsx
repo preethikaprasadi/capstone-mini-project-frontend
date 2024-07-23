@@ -5,16 +5,17 @@ import Slider from 'react-slick';
 import { Feedback } from './feedback';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { string } from 'prop-types';
 
 interface DisplayFeedbackPageProps {
     feedbacks: Feedback[];
-    handleDeleteFeedback: (id: string) => void;
+    guideID: string;
 }
 
-const GuideDisplayFeedbackPage: React.FC<DisplayFeedbackPageProps> = ({ feedbacks, handleDeleteFeedback }) => {
+const GuideUserDisplayFeedbackPage: React.FC<DisplayFeedbackPageProps> = ({ feedbacks,guideID}) => {
     const { data: session } = useSession();
 
-    const currentUserFeedbacks = feedbacks.filter(feedback => feedback.guide.id === session?.user?.id);
+    const currentUserFeedbacks = feedbacks.filter(feedback => feedback.guide.id === guideID);
 
     const sliderSettings = {
         dots: true,
@@ -82,12 +83,6 @@ const GuideDisplayFeedbackPage: React.FC<DisplayFeedbackPageProps> = ({ feedback
                                     </div>
                                 </div>
                                 <div className="flex justify-between items-center mt-auto">
-                                    <button
-                                        onClick={() => handleDeleteFeedback(feedback.id)}
-                                        className="flex items-center space-x-1 hover:text-white transition-colors duration-300"
-                                    >
-                                        <FaTrash className="text-red-500" size={12} /> <span className="text-sm text-red-500">Delete</span>
-                                    </button>
                                     <div className="text-gray-300 text-xs flex flex-col items-end">
                                         <p>{new Date(feedback.createdAt).toLocaleDateString()}</p>
                                         <p>{new Date(feedback.createdAt).toLocaleTimeString()}</p>
@@ -102,4 +97,4 @@ const GuideDisplayFeedbackPage: React.FC<DisplayFeedbackPageProps> = ({ feedback
     );
 };
 
-export default GuideDisplayFeedbackPage;
+export default GuideUserDisplayFeedbackPage;
