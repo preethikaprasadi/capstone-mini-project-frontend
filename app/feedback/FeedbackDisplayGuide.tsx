@@ -56,9 +56,9 @@ const GuideDisplayFeedbackPage: React.FC<DisplayFeedbackPageProps> = ({ feedback
                 <Slider {...sliderSettings}>
                     {currentUserFeedbacks.map((feedback) => (
                         <div key={feedback.id} className="flex justify-center">
-                            <div className="bg-gray-800 p-6 rounded-lg shadow-md mb-6 m-6 relative flex flex-col h-80">
+                            <div className="bg-gray-800 p-6 rounded-lg shadow-md mb-6 m-6 relative flex flex-col h-80 ">
                                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-500 opacity-30 pointer-events-none"></div>
-                                <div className="flex items-start space-x-6 relative z-10 flex-grow">
+                                <div className="flex items-start space-x-2 relative z-10 flex-grow">
                                     <img
                                         src="images/28.png"
                                         alt="Avatar"
@@ -76,8 +76,9 @@ const GuideDisplayFeedbackPage: React.FC<DisplayFeedbackPageProps> = ({ feedback
                                                 <FaStar key={i + feedback.rating} className="text-gray-500" size={15} />
                                             ))}
                                         </div>
-                                        <div className="text-gray-100 text-sm overflow-y-auto max-h-40 ">
-                                            <p className="whitespace-pre-wrap">{feedback.content}</p>
+                                         
+                                          <div className="text-gray-100 text-md overflow-y-auto max-h-36 mt-4 relative right-8"  >
+                                            <p className="whitespace-pre-wrap m-0">{feedback.content}</p>
                                         </div>
                                     </div>
                                 </div>

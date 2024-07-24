@@ -10,15 +10,24 @@ import GuideList from "./components/guideList";
 import StandardImageList from "./components/imageLsit";
 import FeaturesSection from "./components/featuresection";
 import Footer from "./components/footer";
-import Resume from "./components/pr1";
+import { useRouter } from "next/navigation";
+ 
  
  
 
 export default function Home() {
+
+   
+  const router = useRouter();
   
   const handleSave = (student: Student) => {
     console.log("Trying to save: ", student);
   };
+
+  const handleExploreMoreClick = () => {
+    
+    router.push('searchGuide')
+  };  
   
    
   return (
@@ -104,7 +113,15 @@ export default function Home() {
 
         </div>
         </div>
-        <div className="mb-60"><GuideList /></div>
+        <div className="mb-20"><GuideList /></div>
+        <div className="flex justify-center mb-40">
+        <button 
+        onClick={handleExploreMoreClick}
+        className="bg-gradient-to-br from-blue-900 via-blue-800 to-black text-xl text-white p-3 rounded-xl hover:from-yellow-400 hover:via-yellow-700 hover:to-red-900 hover:shadow-lg transition duration-300">
+             Explore more
+        </button>
+
+        </div>
         </div>
        <div className="text-3xl font-bold my-8  text-center ">  
        <div className='text-4xl font-bold text-center mb-10'>

@@ -304,7 +304,7 @@ useEffect(() => {
                 {guide.categories?.map((cat, index) => (
                   <Chip
                     key={index}
-                    className="bg-gradient-to-r from-yellow-500 via-yellow-800 to-yellow-900 text-white text-xl font-semibold mr-2 mb-2 px-6 py-5 rounded-lg border border-transparent hover:border-gray-400"
+                    className="bg-gradient-to-r from-yellow-500 via-yellow-800 to-yellow-900 hover:shadow-white transition-shadow duration-300 overflow-hidden text-white text-xl font-semibold mr-2 mb-2 px-6 py-5 rounded-lg border border-transparent hover:border-gray-400"
                   >
                     {cat.categoryName}
                   </Chip>
