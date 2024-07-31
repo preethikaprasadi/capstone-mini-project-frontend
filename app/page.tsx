@@ -70,7 +70,7 @@ export default function Home() {
        <section className="absolute inset-x-0 mt-10 bg-gradient-to-br from-gray-800 via-black to-violet-900">
 
         
-        <div className="text-3xl font-bold my-8 text-left  text-center mb-10">
+       <div className="text-3xl font-bold my-8 text-left  text-center mb-10">
         <div className="m-16">
            
           <h1 className="mt-20">
