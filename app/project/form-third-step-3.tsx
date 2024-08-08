@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from 'react';
 import { Button } from "@nextui-org/react";
 import { useMultiStepContext } from "@/app/step-context";
@@ -6,12 +7,14 @@ import SelectCategory from "@/app/category/select-category";
 import { getAllCategory } from "@/service/category.service";
 import { useSession } from 'next-auth/react';
 import useAxiosAuth from '@/lib/hook/useAxiosAuth';
+import { useRouter } from 'next/navigation'
 
 const FormThirdStep = () => {
   const { setStep, userData, setUserData, finalData, setFinalData, selectedCategories, setSelectedCategories } = useMultiStepContext();
   const [rows, setRows] = useState([]);
   const { data: session } = useSession();
-  const axiosAuth = useAxiosAuth();
+  const axiosAuth = useAxiosAuth(); 
+  const router = useRouter()
 
   const columns = [
     {
@@ -34,7 +37,15 @@ const FormThirdStep = () => {
     console.log("Current userData (Prev):", newUserData);
   };
 
+ 
+
   const submitData = async () => {
+       
+    if (!session) {
+      console.error("No active session found");
+      return;
+    }
+
     const newUserData = { ...userData, selectedCategories: Array.from(new Set(selectedCategories)) };
 
     try {
@@ -55,6 +66,8 @@ const FormThirdStep = () => {
 
       // Move to the next step
       setStep(1);
+      router.push('/project/guideList')
+      
 
       console.log("You have successfully submitted data");
     } catch (error) {

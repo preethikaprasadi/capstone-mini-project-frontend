@@ -1,5 +1,3 @@
-
- 
 export interface Guide {
     
     id: string;
@@ -34,7 +32,7 @@ export interface Guide {
   }
   
   export async function saveGuide(guideRequest: Guide): Promise<Guide> {
-    const url: string = "http://localhost:3000/guides";
+    const url: string = "http://localhost:3000/auth/signup/guide";
     const request = new Request(url, {
       body: JSON.stringify(guideRequest),
       headers: {

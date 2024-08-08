@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
               <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
               <ul className="space-y-2">
                 <li><Link href="#" color="primary">Home</Link></li>
-                <li><Link href="#" color="primary">About</Link></li>
+                <li><Link href="/about" color="primary">About</Link></li>
                 <li><Link href="#" color="primary">Services</Link></li>
                 <li><Link href="#" color="primary">Contact</Link></li>
               </ul>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { getAllTechnology, Technology } from "../../service/technology.service";
 
-import TechnologySet from "@/app/project/technologySet";
+ import TechnologySet from "@/app/project/technologySet";
 
 export default function ParentTechnologySet({
   selectedTechnologies,
