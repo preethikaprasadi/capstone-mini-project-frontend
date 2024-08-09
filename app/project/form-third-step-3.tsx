@@ -60,9 +60,21 @@ const FormThirdStep = () => {
       });
       console.log("Response from saveProject:", res.data);
 
+      const technologyNames = res.data.technologies.map((tech: any) => tech.technologyName);
+      console.log("Extracted Technology Names:", technologyNames);
+
+      const categoryNames = res.data.category.map((cat: any) => cat.categoryName);
+      console.log("Extracted Technology Names:", categoryNames);
+
+      const updatedUserData = {
+        ...newUserData,
+        selectedTechnologies: technologyNames,
+        selectedCategories: categoryNames,
+      };
+
       // Update finalData with the newUserData
-      setFinalData(prevFinalData => [...prevFinalData, newUserData]);
-      console.log("finalData:", [...finalData, newUserData]);
+      setFinalData(prevFinalData => [...prevFinalData, { ...newUserData, selectedTechnologies: technologyNames, selectedCategories: categoryNames }]);
+      console.log("finalData:", [...finalData, updatedUserData]);
 
       // Move to the next step
       setStep(1);
