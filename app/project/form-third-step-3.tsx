@@ -1,5 +1,5 @@
 "use client";
-
+import { RiCheckboxCircleFill } from "react-icons/ri";
 import React, { useEffect, useState } from 'react';
 import { Button } from "@nextui-org/react";
 import { useMultiStepContext } from "@/app/step-context";
@@ -8,8 +8,10 @@ import { getAllCategory } from "@/service/category.service";
 import { useSession } from 'next-auth/react';
 import useAxiosAuth from '@/lib/hook/useAxiosAuth';
 import { useRouter } from 'next/navigation'
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure} from "@nextui-org/modal";
 
 const FormThirdStep = () => {
+  const {isOpen, onOpen, onOpenChange,onClose} = useDisclosure();
   const { setStep, userData, setUserData, finalData, setFinalData, selectedCategories, setSelectedCategories } = useMultiStepContext();
   const [rows, setRows] = useState([]);
   const { data: session } = useSession();
@@ -36,8 +38,15 @@ const FormThirdStep = () => {
     setStep(prevStep => prevStep - 1);
     console.log("Current userData (Prev):", newUserData);
   };
+  const closeModal=()=>{
+    onClose();
+    setUserData("");
+    console.log("userData:",userData);
+    router.push('/project')
 
- 
+
+  }
+
 
   const submitData = async () => {
        
@@ -77,39 +86,90 @@ const FormThirdStep = () => {
       console.log("finalData:", [...finalData, updatedUserData]);
 
       // Move to the next step
-      setStep(1);
-      router.push('/project/guideList')
-      
+      // setStep(1);
+       // router.push('/project/guideList')
 
-      console.log("You have successfully submitted data");
+console.log("You have successfully submitted data");
     } catch (error) {
       console.error("Error in onSubmit:", error);
     }
     setUserData("");
-  };
+    onOpen();
 
+  };
+// const successfullyCreatedModel =()=>{
+//
+// }
   return (
-    <div className="flex justify-center items-center">
-      <section className="w-6/12">
-        <div className="flex flex-col gap-2">
-          <SelectCategory
+<>
+  <div className="flex justify-center items-center">
+    <section className="w-6/12">
+      <div className="flex flex-col gap-2">
+        <SelectCategory
             selectedCategories={selectedCategories}
             setSelectedCategories={setSelectedCategories}
             rows={rows}
             columns={columns}
-          />
-        </div>
-        <div className="flex flex-col gap-4">
-          <br />
-          <Button radius="full" variant="shadow" color="primary" onClick={handlePrev}>
-            Prev
-          </Button>
-          <Button radius="full" variant="shadow" color="danger" onClick={submitData}>
-            Submit
-          </Button>
-        </div>
-      </section>
-    </div>
+        />
+      </div>
+      <div className="flex flex-col gap-4">
+        <br />
+        <Button radius="full" variant="shadow" color="primary" onClick={handlePrev}>
+          Prev
+        </Button>
+        <Button radius="full" variant="shadow" color="danger" onClick={submitData}>
+          Submit
+        </Button>
+      </div>
+    </section>
+  </div>
+
+
+  {/*<Button onPress={onOpen}>Open Modal</Button>*/}
+  <Modal isOpen={isOpen} onOpenChange={onOpenChange}
+         classNames={{
+           base: "border-[#52525B] bg-[#18181B] dark:bg-[#18181B] ",
+           backdrop: "bg-[black]/90 backdrop-opacity-40"
+         }} >
+    <ModalContent className={"p-5"}>
+      {(onClose) => (
+          <>
+          <div className={"flex flex-col justify-center gap-1"}>
+
+
+            {/*<ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>*/}
+
+            <ModalBody>
+              <div>
+              <div className={"flex justify-center gap-1  "}><RiCheckboxCircleFill className={" text-green-500 text-6xl -mt-5"}/></div>
+              <br/>
+          <h1 className={"text-center text-xl font-bold"}>Congratulations! You have successfully created the project!</h1>
+              <p className={"text-center font-light text-xs text-gray-400 mt-3 "}>Choose the best guide for your project. Click the button below. </p>
+
+
+
+
+              <div className={"flex flex-col justify-center p-5 gap-2 mt-2 "}>
+                <Button className={"font-semibold"} color="primary" onPress={onClose}  variant="ghost">
+                  Find a Guide
+                </Button>
+              <Button  className={"font-semibold"} color="danger" variant="light" onPress={closeModal}>
+                Close
+              </Button>
+
+              </div>
+              </div>
+
+            </ModalBody>
+          </div>
+          </>
+      )}
+    </ModalContent>
+  </Modal>
+
+</>
+
+
   );
 };
 
