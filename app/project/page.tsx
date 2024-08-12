@@ -4,12 +4,13 @@ import { getAllProject, Project } from "@/service/project.service";
 import { title} from "@/app/components/primitives";
 import {Button} from "@nextui-org/react";
 import {useRouter} from "next/navigation";
+import {useMultiStepContext} from "@/app/step-context";
 
 
 export default function ProjectPage() {
 
   const route=useRouter();
-
+  const { setStep,  setUserData} = useMultiStepContext();
   const columns: Column[] = [
     {
       key: "id",
@@ -52,6 +53,8 @@ export default function ProjectPage() {
   };
   const routeCreateProject = () => {
     route.push('/project/create-new-project-form');
+    setUserData("");
+    setStep(1);
   };
 
   return (
