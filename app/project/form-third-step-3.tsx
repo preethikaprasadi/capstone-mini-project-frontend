@@ -12,7 +12,7 @@ import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure}
 
 const FormThirdStep = () => {
   const {isOpen, onOpen, onOpenChange,onClose} = useDisclosure();
-  const { setStep, userData, setUserData, finalData, setFinalData, selectedCategories, setSelectedCategories } = useMultiStepContext();
+  const { setStep, userData, setUserData, finalData, setFinalData, selectedCategories, setSelectedCategories,projectResponse,setProjectResponse} = useMultiStepContext();
   const [rows, setRows] = useState([]);
   const { data: session } = useSession();
   const axiosAuth = useAxiosAuth(); 
@@ -38,6 +38,11 @@ const FormThirdStep = () => {
     setStep(prevStep => prevStep - 1);
     console.log("Current userData (Prev):", newUserData);
   };
+  const onOpenFiltering = () => {
+
+    router.push('/project/filtering-system');
+  };
+
   const closeModal=()=>{
     onClose();
     setUserData("");
@@ -49,6 +54,7 @@ const FormThirdStep = () => {
 
 
   const submitData = async () => {
+
        
     if (!session) {
       console.error("No active session found");
@@ -67,7 +73,11 @@ const FormThirdStep = () => {
         technology: newUserData.selectedTechnologies,
         category: newUserData.selectedCategories,
       });
+      setProjectResponse(res.data);
+      console.log("projectResponseID",projectResponse);
+
       console.log("Response from saveProject:", res.data);
+
 
       const technologyNames = res.data.technologies.map((tech: any) => tech.technologyName);
       console.log("Extracted Technology Names:", technologyNames);
@@ -97,6 +107,15 @@ console.log("You have successfully submitted data");
     onOpen();
 
   };
+
+
+// Inside your component
+  useEffect(() => {
+    if (projectResponse) {
+      console.log("projectResponseID", projectResponse);
+      // any other actions that need to happen when projectResponse changes
+    }
+  }, [projectResponse]); // This useEffect will run whenever projectResponse changes
 // const successfullyCreatedModel =()=>{
 //
 // }
@@ -125,7 +144,7 @@ console.log("You have successfully submitted data");
   </div>
 
 
-  {/*<Button onPress={onOpen}>Open Modal</Button>*/}
+
   <Modal isOpen={isOpen} onOpenChange={onOpenChange}
          classNames={{
            base: "border-[#52525B] bg-[#18181B] dark:bg-[#18181B] ",
@@ -150,7 +169,7 @@ console.log("You have successfully submitted data");
 
 
               <div className={"flex flex-col justify-center p-5 gap-2 mt-2 "}>
-                <Button className={"font-semibold"} color="primary" onPress={onClose}  variant="ghost">
+                <Button className={"font-semibold"} color="primary" onPress={onOpenFiltering}  variant="ghost">
                   Find a Guide
                 </Button>
               <Button  className={"font-semibold"} color="danger" variant="light" onPress={closeModal}>

@@ -14,6 +14,16 @@ export interface Guide {
     categories:string[];
 
   }
+
+  export interface MatchingGuide{
+    id: string;
+    fullName: string;
+    email: string;
+    rating: number;
+    reviewCount: number;
+    job: string;
+
+  }
   
   export async function getAllGuide(): Promise<Guide[]> {
     const url: string = "http://localhost:3000/guides";
@@ -22,6 +32,16 @@ export interface Guide {
   
     return guides;
   }
+
+export async function getAllMatchingGuide(pid:string): Promise<MatchingGuide[]> {
+  const url: string = "http://localhost:3000/projects/"+pid+"/matchingGuides/";
+  const response: Response = await fetch(url, { cache: "no-store" });
+  console.log("matchingGuide response",response);
+
+  const guides: MatchingGuide[] = await response.json();
+
+  return guides;
+}
   
   export async function getOneGuide(id: string): Promise<Guide> {
     const url: string = "http://localhost:3000/guides/" + id;

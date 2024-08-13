@@ -3,6 +3,8 @@ import React, {createContext, useState, useContext, ReactNode, useEffect} from '
 import {Project} from "@/service/project.service";
 
 interface ContextProps {
+    projectResponse:any;
+    setProjectResponse:React.Dispatch<React.SetStateAction<any>>;
     currentStep: number;
     setStep: React.Dispatch<React.SetStateAction<number>>;
     userData: any;
@@ -30,6 +32,8 @@ interface ContextProps {
 export const MultiStepContext = createContext<ContextProps | undefined>(undefined);
 
 export default function StepContextProvider({ children }: { children: ReactNode }) {
+
+    const[projectResponse,setProjectResponse] = useState("");
     const [currentStep, setStep] = useState(1);
     const [userData, setUserData] = useState<any>({});
     const [finalData, setFinalData] = useState<any[]>([]);
@@ -77,7 +81,9 @@ export default function StepContextProvider({ children }: { children: ReactNode 
                 guideSelectedTechnologies,
                 setGuideSelectedTechnologies,
                 guideSelectedCategories,
-                setGuideSelectedCategories
+                setGuideSelectedCategories,
+                projectResponse,
+                setProjectResponse
         }}
         >
             {children}
