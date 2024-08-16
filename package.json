@@ -16,6 +16,7 @@
 		"@heroicons/react": "^2.1.5",
 		"@mui/material": "^5.16.1",
 		"@mui/styled-engine-sc": "^6.0.0-alpha.18",
+		"@mui/x-data-grid": "^7.12.1",
 		"@nextui-org/accordion": "^2.0.32",
 		"@nextui-org/button": "^2.0.34",
 		"@nextui-org/code": "^2.0.27",
