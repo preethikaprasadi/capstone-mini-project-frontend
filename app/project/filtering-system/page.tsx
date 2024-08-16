@@ -104,18 +104,6 @@ export default function Filtering() {
         }
     }, [projectResponse]);
 
-    const handleViewGuide = (params) => {
-        const guideId = params.row.id;
-        console.log("Viewing guide profile for:", guideId);
-        // Implement the logic to navigate to the guide's profile page or open a modal
-    };
-
-    const handleRequestGuide = (params) => {
-        const guideId = params.row.id;
-        console.log("Requesting guide for:", guideId);
-        // Implement the logic to send a request to the guide
-    };
-
     return (
         <Box sx={{ height: '100%', width: '100%' }}>
             <DataGrid
@@ -129,6 +117,6 @@ export default function Filtering() {
                     toolbar: GridToolbar,
                 }}
             />
-        </Box>
-    );
+       </Box>
+);
 }
