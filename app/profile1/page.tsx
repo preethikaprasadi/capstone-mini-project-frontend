@@ -23,9 +23,6 @@ const [categories, setCategories] = useState<Category[]>([]);
 const [isExpanded, setIsExpanded] = useState(false); 
 const searchParams = useSearchParams();
 const id = searchParams?.get('id');
-
- 
-
 useEffect(() => {
     if (id) {
       getOneGuide(id).then(guide => {
@@ -154,7 +151,8 @@ useEffect(() => {
                          {guide.technologies?.map((tech, index) => (
                            <Chip
                              key={index}
-                             className="bg-gradient-to-r from-pink-500 via-pink-800 to-pink-900 text-white text-xl font-semibold rounded-lg px-6 py-5 border border-transparent hover:border-gray-400"
+                             className="bg-gradient-to-r from-pink-500 via-pink-800 to-pink-900 text-white 
+                             text-xl font-semibold rounded-lg px-6 py-5 border border-transparent hover:border-gray-400"
                            >
                            {tech.technologyName}
                           </Chip>
@@ -173,7 +171,8 @@ useEffect(() => {
                 {guide.categories?.map((cat, index) => (
                   <Chip
                     key={index}
-                    className="bg-gradient-to-r from-yellow-500 via-yellow-800 to-yellow-900 text-white text-xl font-semibold mr-2 mb-2 px-6 py-5 rounded-lg border border-transparent hover:border-gray-400"
+                    className="bg-gradient-to-r from-yellow-500 via-yellow-800 to-yellow-900 text-white text-xl font-semibold 
+                    mr-2 mb-2 px-6 py-5 rounded-lg border border-transparent hover:border-gray-400"
                   >
                     {cat.categoryName}
                   </Chip>

@@ -16,7 +16,7 @@ export async function getAllProject(): Promise<Project[]> {
   return projects;
 }
 
-export async function getOneProject(studentId: string): Promise<Project> {
+export async function getAllSpecificProject(studentId: string): Promise<Project> {
   console.log(studentId)
   const url: string = `http://localhost:3000/projects/${studentId}` ;
   const response = await fetch(url,{ cache: "no-store" });
