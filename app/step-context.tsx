@@ -3,6 +3,9 @@ import React, {createContext, useState, useContext, ReactNode, useEffect} from '
 import {Project} from "@/service/project.service";
 
 interface ContextProps {
+
+    filteringPageCurrentStep: number;
+    setFilteringPageCurrentStep: React.Dispatch<React.SetStateAction<number>>;
     projectResponse:any;
     setProjectResponse:React.Dispatch<React.SetStateAction<any>>;
     currentStep: number;
@@ -44,6 +47,7 @@ export default function StepContextProvider({ children }: { children: ReactNode 
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [guideSelectedCategories, setGuideSelectedCategories ] =useState<string[]>([]);
     const [ guideSelectedTechnologies,setGuideSelectedTechnologies] = useState<string[]>([]);
+    const [ filteringPageCurrentStep, setFilteringPageCurrentStep] = useState(1);
 
     // const [createProject, setCreateProject]: [
     //     Project[],
@@ -83,7 +87,9 @@ export default function StepContextProvider({ children }: { children: ReactNode 
                 guideSelectedCategories,
                 setGuideSelectedCategories,
                 projectResponse,
-                setProjectResponse
+                setProjectResponse,
+                filteringPageCurrentStep,
+                setFilteringPageCurrentStep
         }}
         >
             {children}

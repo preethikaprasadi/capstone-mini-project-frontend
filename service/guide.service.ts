@@ -33,6 +33,14 @@ export interface Guide {
     return guides;
   }
 
+export async function getAllGuideUpdated(): Promise<MatchingGuide[]> {
+  const url: string = "http://localhost:3000/guides/get-all";
+  const response: Response = await fetch(url, { cache: "no-store" });
+  const guides: MatchingGuide[] = await response.json();
+
+  return guides;
+}
+
 export async function getAllMatchingGuide(pid:string): Promise<MatchingGuide[]> {
   const url: string = "http://localhost:3000/projects/"+pid+"/matchingGuides/";
   const response: Response = await fetch(url, { cache: "no-store" });
