@@ -20,7 +20,7 @@ const DisplayFeedbackPage: React.FC<DisplayFeedbackPageProps> = ({ feedbacks, ha
         return session?.user?.id === feedback.student.id;
     };
 
-    const visibleFeedbacks = showAll ? feedbacks : feedbacks.slice(0, 3); // Show only 3 feedbacks initially
+    const visibleFeedbacks = showAll ? feedbacks : feedbacks.slice(0, 3);  
 
     return (
         <div className="inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50 mb-20 ">
@@ -36,20 +36,7 @@ const DisplayFeedbackPage: React.FC<DisplayFeedbackPageProps> = ({ feedbacks, ha
                                         alt="Avatar"
                                         className="w-10 h-10 rounded-full"
                                     />
-                                    <div className="flex-1">
-                                        <div className="flex justify-between">
-                                            <p className="text-md font-semibold">{feedback.student.firstName} {feedback.student.lastName}</p>
-                                            <p className="text-gray-400 text-sm">{new Date(feedback.createdAt).toLocaleString()}</p>
-                                        </div>
-                                        <div className="flex items-center mb-2">
-                                            {Array(feedback.rating).fill(0).map((_, i) => (
-                                                <FaStar key={i} color='#CFFF04' size={16} />
-                                            ))}
-                                            {Array(5 - feedback.rating).fill(0).map((_, i) => (
-                                                <FaStar key={i + feedback.rating} className="text-gray-500" size={16} />
-                                            ))}
-                                        </div>
-                                        <p className="text-gray-300 mb-2 text-sm">{feedback.content}</p>
+                                    
                                         
                                         {canDelete(feedback) && (
                                             <div className="flex space-x-4 text-sm text-gray-400">
@@ -63,7 +50,7 @@ const DisplayFeedbackPage: React.FC<DisplayFeedbackPageProps> = ({ feedbacks, ha
                                         )}
                                     </div>
                                 </div>
-                            </div>
+                            
                         ))}
                     </div>
                     {!showAll && feedbacks.length > 3 && (

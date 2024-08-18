@@ -1,7 +1,10 @@
-import React, { FormEvent,useEffect } from 'react';
+'use client'
+import React, { FormEvent, useEffect } from 'react';
 import { FeedbackRequest } from './feedback';
 import { FaStar } from 'react-icons/fa';
 import { useSession } from 'next-auth/react';
+import { createFeedback } from '@/service/feedback.service';
+
 
 interface FeedbackFormPageProps {
     setCurrentStep: (step: number) => void;
@@ -10,6 +13,8 @@ interface FeedbackFormPageProps {
     rating: number;
     setRating: (rating: number) => void;
     handleFeedbackSubmit: (feedbackRequest: FeedbackRequest) => void;
+    isOpen: boolean;
+    onClose: () => void; // Added onClose prop
 }
 
 const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
@@ -19,49 +24,66 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
     rating,
     setRating,
     handleFeedbackSubmit,
+    isOpen,
+    onClose, // Destructure onClose prop
 }) => {
     const { data: session } = useSession();
-    const handleSubmit = (e: FormEvent) => {
+
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         if (feedbackText && rating) {
             const feedbackRequest: FeedbackRequest = {
                 content: feedbackText,
                 rating,
-                student:  session?.user.id || '',
-                guide: '66976b0b8594dacfe1740427'
+                student: session?.user.id || '',
+                guide: '66976b0b8594dacfe1740427',
             };
-            handleFeedbackSubmit(feedbackRequest);
-            setCurrentStep(3);
+
+            try {
+                await createFeedback(axiosInstance, feedbackRequest);
+                setCurrentStep(3);
+                onClose();
+            } catch (error) {
+                console.error('Failed to submit feedback:', error);
+                alert('There was an error submitting your feedback. Please try again.');
+            }
         } else {
             alert('Please provide feedback and a rating.');
         }
     };
-      useEffect(() => {
-        document.body.style.overflow = 'hidden'; 
 
+    useEffect(() => {
+        document.body.style.overflow = 'hidden';
         return () => {
             document.body.style.overflow = '';
         };
     }, []);
-    
+
+    if (!isOpen) return null;
+
     return (
-        <div className=" inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-hidden mb-10">
-            <div className="w-full mx-auto bg-gray-900 shadow-lg rounded-lg p-9 text-white overflow-hidden">
-                <h2 className="text-xl font-bold text-center mb-4">What was it like working with this guide?</h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 overflow-hidden">
+            <div className="w-full max-w-xl mx-auto bg-gray-900 shadow-lg rounded-lg p-6 text-white relative">
+                <button
+                    onClick={onClose}
+                    className="absolute top-3 right-3 text-gray-400 hover:text-gray-200 transition"
+                >
+                    X
+                </button>
+                <h2 className="text-lg font-bold text-center mb-4">What was it like working with this guide?</h2>
+                <form onSubmit={handleSubmit} className="space-y-4">
                     <textarea
                         placeholder="Type your comment here..."
                         value={feedbackText}
                         onChange={(e) => setFeedbackText(e.target.value)}
                         required
-                        className="w-full p-4 bg-gray-800 border border-gray-700 rounded-md text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-3 bg-gray-800 border border-gray-700 rounded-md text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <h4 className="text-lg font-semibold mb-2 text-gray-400">Rate to the guide</h4>
+                    <h4 className="text-md font-semibold mb-2 text-gray-400">Rate to the guide</h4>
                     <div className="flex space-x-2 mb-4">
                         {[...Array(5)].map((_, index) => {
                             const starValue = index + 1;
                             return (
-                                
                                 <label key={index} className="cursor-pointer">
                                     <input
                                         type="radio"
@@ -71,8 +93,8 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
                                         onClick={() => setRating(starValue)}
                                     />
                                     <FaStar
-                                        className="text-4xl ml-5"
-                                        color={starValue <= rating ? "#CFFF04" : "#4b5563" }
+                                        className="text-3xl"
+                                        color={starValue <= rating ? "#CFFF04" : "#4b5563"}
                                     />
                                 </label>
                             );
@@ -81,6 +103,7 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
                     <button 
                         type="submit" 
                         className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-500 transition-colors duration-200"
+                        onClick={handleSubmit}
                     >
                         Send Feedback
                     </button>
@@ -88,7 +111,8 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
             </div>
         </div>
     );
-
+    
+    
 };
 
 export default FeedbackFormPage;

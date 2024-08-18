@@ -2,18 +2,20 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
-import {getAllGuide, getAllGuideUpdated, getAllMatchingGuide, Guide, MatchingGuide} from "@/service/guide.service";
-import { useMultiStepContext } from "@/app/step-context";
+import { getAllGuideUpdated, MatchingGuide } from "@/service/guide.service";
 import { Button } from "@nextui-org/react";
 import { createRequest } from "@/service/project.request.service";
+import Rating from '@mui/material/Rating'; // Import the Rating component
+import { useRouter } from 'next/navigation';
 
 export default function ViewALLGuides() {
-    const { projectResponse } = useMultiStepContext();
     const [rows, setRows] = useState([]);
     const [requestedGuides, setRequestedGuides] = useState(new Set());
+    const router = useRouter()
 
     const handleViewGuide = (params) => {
         const guideId = params.row.id;
+        router.push(`/profile2?id=${guideId}`);
         console.log("Viewing guide profile for:", guideId);
         // Implement the logic to navigate to the guide's profile page or open a modal
     };
@@ -25,7 +27,7 @@ export default function ViewALLGuides() {
         try {
             const res = await createRequest({
                 guideId: guideId,
-                projectId: projectResponse.id,
+                projectId: params.row.projectId, // Adjust if necessary based on your context
                 status: "pending",
             });
             console.log("Response from createRequest:", res);
@@ -46,10 +48,12 @@ export default function ViewALLGuides() {
         {
             field: 'rating',
             headerName: 'Rating',
-            type: 'number',
             width: 150,
             editable: false,
             resizable: false,
+            renderCell: (params) => (
+                <Rating value={params.value} readOnly precision={0.5} />
+            ),
         },
         {
             field: 'reviewCount',
@@ -95,32 +99,18 @@ export default function ViewALLGuides() {
     ];
 
     useEffect(() => {
-        getAllGuideUpdated().then(
-            res => {
-                console.log("fetch response: ", res);
-                setRows((prevRows: MatchingGuide[]) => res);
-            }
-        )
+        getAllGuideUpdated().then((res) => {
+            console.log("fetch response: ", res);
+            setRows(res);
+        });
     }, []);
 
     useEffect(() => {
         console.log("useEffect: ", rows);
     }, [rows]);
 
-    //
-    // useEffect(() => {
-    //     if (projectResponse?.id) {
-    //         console.log("projectResponseID-------", projectResponse.id.toString());
-    //         getAllMatchingGuide(projectResponse.id.toString()).then((res) => {
-    //             console.log("fetch response: ", res);
-    //             setRows(res);
-    //         });
-    //     }
-    // }, [projectResponse]);
-
     return (
         <Box sx={{ height: '100%', width: '100%' }}>
-
             <DataGrid
                 rowHeight={60}
                 rows={rows}

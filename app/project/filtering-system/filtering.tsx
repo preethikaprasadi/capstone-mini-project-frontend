@@ -6,14 +6,21 @@ import { getAllMatchingGuide } from "@/service/guide.service";
 import { useMultiStepContext } from "@/app/step-context";
 import { Button } from "@nextui-org/react";
 import { createRequest } from "@/service/project.request.service";
+import Rating from '@mui/material/Rating';  
+import { useRouter } from 'next/navigation';
 
 export default function Filtering() {
     const { projectResponse } = useMultiStepContext();
     const [rows, setRows] = useState([]);
     const [requestedGuides, setRequestedGuides] = useState(new Set());
+    const router = useRouter();
+
+
+     
 
     const handleViewGuide = (params) => {
         const guideId = params.row.id;
+        router.push(`/profile2?id=${guideId}`);
         console.log("Viewing guide profile for:", guideId);
         // Implement the logic to navigate to the guide's profile page or open a modal
     };
@@ -30,7 +37,7 @@ export default function Filtering() {
             });
             console.log("Response from createRequest:", res);
 
-            setRequestedGuides((prev) => new Set(prev).add(guideId)); // Update state
+            setRequestedGuides((prev) => new Set(prev).add(guideId));
         } catch (error) {
             console.error("Error in handleRequestGuide:", error);
         }
@@ -46,10 +53,12 @@ export default function Filtering() {
         {
             field: 'rating',
             headerName: 'Rating',
-            type: 'number',
             width: 150,
             editable: false,
             resizable: false,
+            renderCell: (params) => (
+                <Rating value={params.value} readOnly precision={0.5} />
+            ),
         },
         {
             field: 'reviewCount',
@@ -77,6 +86,7 @@ export default function Filtering() {
                             color="primary"
                             style={{ marginRight: 8 }}
                             onClick={() => handleViewGuide(params)}
+                           
                         >
                             View Guide Profile
                         </Button>
@@ -106,7 +116,6 @@ export default function Filtering() {
 
     return (
         <Box sx={{ height: '100%', width: '100%' }}>
-
             <DataGrid
                 rowHeight={60}
                 rows={rows}
