@@ -5,12 +5,12 @@ import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import { getAllMatchingGuide } from "@/service/guide.service";
 import { useMultiStepContext } from "@/app/step-context";
 import { Button } from "@nextui-org/react";
-import { createRequest } from "@/service/project.request.service";
+import { createRequest, deleteRequest } from "@/service/project.request.service"; // Assume deleteRequest is the API for deleting a request
 
 export default function Filtering() {
     const { projectResponse } = useMultiStepContext();
     const [rows, setRows] = useState([]);
-    const [requestedGuides, setRequestedGuides] = useState(new Set());
+    const [requestedGuides, setRequestedGuides] = useState(new Map());
 
     const handleViewGuide = (params) => {
         const guideId = params.row.id;
@@ -20,19 +20,46 @@ export default function Filtering() {
 
     const handleRequestGuide = async (params) => {
         const guideId = params.row.id;
-        console.log("Requesting guide for:", guideId);
+        const requestId = requestedGuides.get(guideId); // Get the request ID if it exists
 
-        try {
-            const res = await createRequest({
-                guideId: guideId,
-                projectId: projectResponse.id,
-                status: "pending",
-            });
-            console.log("Response from createRequest:", res);
+        if (requestId) {
+            // If the guide is already requested, delete the request
+            console.log("Deleting request for guide:", guideId);
 
-            setRequestedGuides((prev) => new Set(prev).add(guideId)); // Update state
-        } catch (error) {
-            console.error("Error in handleRequestGuide:", error);
+            try {
+                const res = await deleteRequest(requestId);
+                console.log("Response from deleteRequest:", res);
+
+                // Remove the guideId from the requestedGuides state
+                setRequestedGuides((prev) => {
+                    const newMap = new Map(prev);
+                    newMap.delete(guideId);
+                    return newMap;
+                });
+            } catch (error) {
+                console.error("Error in handleRequestGuide (delete):", error);
+            }
+        } else {
+            // If the guide is not requested, create the request
+            console.log("Requesting guide for:", guideId);
+
+            try {
+                const res = await createRequest({
+                    guideId: guideId,
+                    projectId: projectResponse.id,
+                    status: "pending",
+                });
+                console.log("Response from createRequest:", res);
+
+                // Add the guideId and requestId to the requestedGuides state
+                setRequestedGuides((prev) => {
+                    const newMap = new Map(prev);
+                    newMap.set(guideId, res.id);
+                    return newMap;
+                });
+            } catch (error) {
+                console.error("Error in handleRequestGuide (create):", error);
+            }
         }
     };
 
@@ -82,11 +109,11 @@ export default function Filtering() {
                         </Button>
                         <Button
                             className={"w-1/2"}
-                            variant="solid"
+                            variant={isRequested ? 'faded' : 'solid'}
                             color={isRequested ? 'default' : 'success'}
-                            onClick={() => !isRequested && handleRequestGuide(params)}
+                            onClick={() => handleRequestGuide(params)}
                         >
-                            {isRequested ? 'Requested' : 'Request Guide'}
+                            {isRequested ? 'Cancel Request' : 'Request Guide'}
                         </Button>
                     </div>
                 );
@@ -106,7 +133,6 @@ export default function Filtering() {
 
     return (
         <Box sx={{ height: '100%', width: '100%' }}>
-
             <DataGrid
                 rowHeight={60}
                 rows={rows}

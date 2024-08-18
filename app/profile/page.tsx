@@ -278,16 +278,16 @@ useEffect(() => {
                     <img src="/images/25.png" alt="Info Icon" className="mr-2 w-20 h-20" />Skills
                  </h3>
                </div>
-              <div className='mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-                         {guide.technologies?.map((tech, index) => (
-                           <Chip
-                             key={index}
-                             className="bg-gradient-to-r from-pink-500 via-pink-800 to-pink-900 text-white text-xl font-semibold rounded-lg px-6 py-5 border border-transparent hover:border-gray-400"
-                           >
-                           {tech.technologyName}
-                          </Chip>
-                         ))}
-                </div>
+              <div className='mt-10 grid grid-cols-4 gap-4'>
+                {guide.technologies?.map((tech, index) => (
+                    <Chip
+                        key={index}
+                        className="flex justify-center items-center bg-gradient-to-r from-pink-700 via-pink-800 to-pink-900 text-white text-xl font-semibold rounded-lg px-6 py-5 border border-transparent hover:border-gray-400 min-w-[150px] h-[40px]"
+                    >
+                      {tech.technologyName}
+                    </Chip>
+                ))}
+              </div>
 
            
            
@@ -300,11 +300,11 @@ useEffect(() => {
                  <img src="/images/23.png" alt="Info Icon" className="mr-4 w-16 h-16" />Expertise
                 </h3>
                 </div>
-                <div className='mt-10  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3'>
+                <div className='mt-10  grid grid-cols-4 gap-4'>
                 {guide.categories?.map((cat, index) => (
                   <Chip
                     key={index}
-                    className="bg-gradient-to-r from-yellow-500 via-yellow-800 to-yellow-900 hover:shadow-white transition-shadow duration-300 overflow-hidden text-white text-xl font-semibold mr-2 mb-2 px-6 py-5 rounded-lg border border-transparent hover:border-gray-400"
+                    className="flex justify-center items-center bg-gradient-to-r from-yellow-700 via-yellow-800 to-yellow-900 hover:shadow-white transition-shadow duration-300 overflow-hidden text-white text-xl font-semibold mr-2 mb-2 px-6 py-5 rounded-lg border border-transparent hover:border-gray-400 min-w-[300px] h-[40px] "
                   >
                     {cat.categoryName}
                   </Chip>
