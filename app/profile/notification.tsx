@@ -4,45 +4,62 @@ import { getRequestsByGuide } from "@/service/project.request.service";
 import Box from '@mui/material/Box';
 import { useSession } from 'next-auth/react';
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
-import Button from '@mui/material/Button';
+import {Button} from "@nextui-org/react";
+import Typography from '@mui/material/Typography';
+
 export default function Notification() {
     const [rows, setRows] = useState([]);
     const { data: session } = useSession();
     const id = session?.user?.id;
 
-    const column: GridColDef[] = [
+    const columns: GridColDef[] = [
         {
             field: 'order',
             headerName: '',
-            width: 10,
+            width: 50,
             editable: false,
+            renderCell: (params) => (
+
+                    <Typography variant="body2" sx={{ marginTop: '19px ',paddingBottom: '10px' }}>
+                        {params.value}
+                    </Typography>
+
+            ),
         },
         {
             field: 'projectTitle',
             headerName: '', // Empty header name
-            width: 300,
+            width:200,
             editable: false,
-             hideable: false, // Prevent hiding from the toolbar
+            hideable: false, // Prevent hiding from the toolbar
             renderCell: (params) => (
                 <Box
                     display="flex"
-                    flexDirection="column"
-                    justifyContent="space-between"
-                    height="100%"
+                    flexDirection="column" // Stack content vertically
+                    justifyContent="center" // Center content vertically within the cell
+                    sx={{ marginTop: '18px' ,border: 0 ,borderColor:'transparent'}}
                 >
-                    <div>{params.value}</div>
+                    <Typography variant="body2" sx={{ paddingBottom: '10px' ,borderColor:'transparent'}}>
+                        {params.row.projectTitle} {/* First row content: Project Title */}
+                    </Typography>
                     <Button
-                        variant="contained"
+                        variant="flat"
                         color="primary"
                         size="small"
-                        onClick={() => handleViewMoreDetails(params.row)}
+                        sx={{ paddingBottom: '10px',border: 0,borderColor:'transparent' }}
+                        onClick={() => handleViewMoreDetails(params.row)} // Handle button click
                     >
-                        View More Details
+                        More Info
                     </Button>
                 </Box>
             ),
         }
     ];
+
+    const handleViewMoreDetails = (row) => {
+        // Add your logic to handle the "More Info" button click here
+        console.log("More Info clicked for row: ", row);
+    };
 
     useEffect(() => {
         if (id) {
@@ -64,14 +81,40 @@ export default function Notification() {
     return (
         <Box sx={{ height: '100%', width: '100%' }}>
             <DataGrid
-                rowHeight={70}
+                sx={{
+
+                    '& .MuiDataGrid-root': {
+                        borderColor:'transparent'// Outer border of the DataGrid
+                    },
+
+                    '& .MuiDataGrid-columnHeaders': {
+                        borderColor: 'transparent',
+                        border:0,
+                    },
+                    '& .MuiDataGrid-columnsContainer': {
+                        borderColor: 'transparent', // Columns container border color
+                    },
+                    '& .MuiDataGrid-columnSeparator': {
+                        color: 'transparent', // Separator line color between columns
+                    },
+                    '& .MuiDataGrid-row:hover': {
+                        backgroundColor: 'transparent', // Disables background color on hover
+                    },
+
+                    '& .MuiDataGrid-columnHeaders': {
+                    display: 'none', // Ensures that the column header row is not displayed
+                },
+
+
+                }}
+
+                rowHeight={100}
                 rows={rows}
-                columns={column}
+                columns={columns}
                 disableRowSelectionOnClick
                 disableColumnSelector
                 hideFooter  // Hides the footer if present
-                hideHeader
-
+                hideHeader ={true} // Hides the header if present
             />
         </Box>
     );
