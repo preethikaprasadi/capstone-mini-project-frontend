@@ -12,12 +12,11 @@ import { createRequest, deleteRequest } from "@/service/project.request.service"
 export default function Filtering() {
     const { projectResponse } = useMultiStepContext();
     const [rows, setRows] = useState([]);
-    const [requestedGuides, setRequestedGuides] = useState(new Set());
     const router = useRouter();
 
 
      
-    // const [requestedGuides, setRequestedGuides] = useState(new Map());
+    const [requestedGuides, setRequestedGuides] = useState(new Map());
 
     const handleViewGuide = (params) => {
         const guideId = params.row.id;

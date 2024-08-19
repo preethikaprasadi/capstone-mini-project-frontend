@@ -3,11 +3,10 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import { getAllGuideUpdated, MatchingGuide } from "@/service/guide.service";
+import { Button } from "@nextui-org/react";
+import { createRequest } from "@/service/project.request.service";
 import Rating from '@mui/material/Rating'; // Import the Rating component
 import { useRouter } from 'next/navigation';
-import { useMultiStepContext } from "@/app/step-context";
-import { Button } from "@nextui-org/react";
-import { createRequest, deleteRequest } from "@/service/project.request.service";
 
 export default function ViewALLGuides() {
     const [rows, setRows] = useState([]);
@@ -23,7 +22,7 @@ export default function ViewALLGuides() {
 
     const handleRequestGuide = async (params) => {
         const guideId = params.row.id;
-        const requestId = requestedGuides.get(guideId);
+        console.log("Requesting guide for:", guideId);
 
         try {
             const res = await createRequest({
@@ -32,40 +31,10 @@ export default function ViewALLGuides() {
                 status: "pending",
             });
             console.log("Response from createRequest:", res);
-        if (requestId) {
-            console.log("Canceling request for guide:", guideId);
 
-            try {
-                const res = await deleteRequest(requestId);
-                console.log("Response from deleteRequest:", res);
-
-                setRequestedGuides((prev) => {
-                    const updated = new Map(prev);
-                    updated.delete(guideId);
-                    return updated;
-                });
-            } catch (error) {
-                console.error("Error in handleRequestGuide (cancel):", error);
-            }
-        } else {
-            console.log("Requesting guide for:", guideId);
-
-            try {
-                const res = await createRequest({
-                    guideId: guideId,
-                    projectId: projectResponse.id,
-                    status: "pending",
-                });
-                console.log("Response from createRequest:", res);
-
-                setRequestedGuides((prev) => {
-                    const updated = new Map(prev);
-                    updated.set(guideId, res.id);
-                    return updated;
-                });
-            } catch (error) {
-                console.error("Error in handleRequestGuide (create):", error);
-            }
+            setRequestedGuides((prev) => new Set(prev).add(guideId)); // Update state
+        } catch (error) {
+            console.error("Error in handleRequestGuide:", error);
         }
     };
 
@@ -117,11 +86,11 @@ export default function ViewALLGuides() {
                         </Button>
                         <Button
                             className={"w-1/2"}
-                            variant={isRequested ? 'faded' : 'solid'}
+                            variant="solid"
                             color={isRequested ? 'default' : 'success'}
-                            onClick={() => handleRequestGuide(params)}
+                            onClick={() => !isRequested && handleRequestGuide(params)}
                         >
-                            {isRequested ? 'Cancel Request' : 'Request Guide'}
+                            {isRequested ? 'Requested' : 'Request Guide'}
                         </Button>
                     </div>
                 );
@@ -155,4 +124,4 @@ export default function ViewALLGuides() {
             />
         </Box>
     );
-}}
+}
