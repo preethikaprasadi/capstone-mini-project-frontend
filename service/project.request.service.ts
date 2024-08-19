@@ -66,3 +66,35 @@ export async function getRequestsByGuide(guideId:string): Promise<ProjectRequest
 
     return projectRequests;
 }
+
+export async function  rejectRequest(id: string): Promise<ProjectRequest> {
+    const url: string = "http://localhost:3000/projectRequests/" + id+"/reject";
+    const request = new Request(url, {
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        method: "PATCH",
+        cache: "no-store",
+    });
+    const response: Response = await fetch(request);
+    const projectRequest: ProjectRequest = await response.json();
+
+    return projectRequest;
+}
+
+export async function  acceptRequest(id: string): Promise<ProjectRequest> {
+    const url: string = "http://localhost:3000/projectRequests/" + id+"/accept";
+    const request = new Request(url, {
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        method: "PATCH",
+        cache: "no-store",
+    });
+    const response: Response = await fetch(request);
+    const projectRequest: ProjectRequest = await response.json();
+
+    return projectRequest;
+}

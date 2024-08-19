@@ -10,17 +10,13 @@ import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Resume from "@/app/profile/resume";
 import Notification from "@/app/profile/notification";
-import NavigationIcon from '@mui/icons-material/Navigation';
-import Fab from '@mui/material/Fab';
-import { IoIosArrowDropleftCircle } from "react-icons/io";
-
+import { IoNotificationsCircle } from "react-icons/io5";
 const drawerWidth = 300;
 
 const Main = styled('main')<{ open?: boolean }>`
@@ -81,7 +77,11 @@ export default function PersistentDrawerRight() {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open}>
+            <AppBar position="fixed" open={open}
+                    sx={{
+                        boxShadow: 'none',
+                        backgroundColor: 'transparent',
+                    }}>
                 <Toolbar>
                     <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
                     </Typography>
@@ -92,11 +92,11 @@ export default function PersistentDrawerRight() {
                         onClick={handleDrawerOpen}
                         sx={{ ...(open && { display: 'none' }), width: "150px", fontSize:"15px" }}
                     >
-                        <div className={"flex flex-row gap-5"}>
-                        <div >
-                        <IoIosArrowDropleftCircle className={"size-8"}/>
+                        <div className={"flex flex-row "}>
+                        <div className={"mt-2"}>
+                        <IoNotificationsCircle     className={"size-8 fill-red-700"}/>
                         </div>
-                        <div className={"text-left font-semibold"} >
+                        <div className={" font-semibold"} >
                         See Project Requests
                         </div>
                             </div>
