@@ -3,59 +3,38 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import { getAllGuideUpdated, MatchingGuide } from "@/service/guide.service";
-import { useMultiStepContext } from "@/app/step-context";
 import { Button } from "@nextui-org/react";
-import { createRequest, deleteRequest } from "@/service/project.request.service";
+import { createRequest } from "@/service/project.request.service";
+import Rating from '@mui/material/Rating'; // Import the Rating component
+import { useRouter } from 'next/navigation';
 
 export default function ViewALLGuides() {
-    const { projectResponse } = useMultiStepContext();
     const [rows, setRows] = useState([]);
-    const [requestedGuides, setRequestedGuides] = useState(new Map());
+    const [requestedGuides, setRequestedGuides] = useState(new Set());
+    const router = useRouter()
 
     const handleViewGuide = (params) => {
         const guideId = params.row.id;
+        router.push(`/profile2?id=${guideId}`);
         console.log("Viewing guide profile for:", guideId);
         // Implement the logic to navigate to the guide's profile page or open a modal
     };
 
     const handleRequestGuide = async (params) => {
         const guideId = params.row.id;
-        const requestId = requestedGuides.get(guideId);
+        console.log("Requesting guide for:", guideId);
 
-        if (requestId) {
-            console.log("Canceling request for guide:", guideId);
+        try {
+            const res = await createRequest({
+                guideId: guideId,
+                projectId: params.row.projectId, // Adjust if necessary based on your context
+                status: "pending",
+            });
+            console.log("Response from createRequest:", res);
 
-            try {
-                const res = await deleteRequest(requestId);
-                console.log("Response from deleteRequest:", res);
-
-                setRequestedGuides((prev) => {
-                    const updated = new Map(prev);
-                    updated.delete(guideId);
-                    return updated;
-                });
-            } catch (error) {
-                console.error("Error in handleRequestGuide (cancel):", error);
-            }
-        } else {
-            console.log("Requesting guide for:", guideId);
-
-            try {
-                const res = await createRequest({
-                    guideId: guideId,
-                    projectId: projectResponse.id,
-                    status: "pending",
-                });
-                console.log("Response from createRequest:", res);
-
-                setRequestedGuides((prev) => {
-                    const updated = new Map(prev);
-                    updated.set(guideId, res.id);
-                    return updated;
-                });
-            } catch (error) {
-                console.error("Error in handleRequestGuide (create):", error);
-            }
+            setRequestedGuides((prev) => new Set(prev).add(guideId)); // Update state
+        } catch (error) {
+            console.error("Error in handleRequestGuide:", error);
         }
     };
 
@@ -69,10 +48,12 @@ export default function ViewALLGuides() {
         {
             field: 'rating',
             headerName: 'Rating',
-            type: 'number',
             width: 150,
             editable: false,
             resizable: false,
+            renderCell: (params) => (
+                <Rating value={params.value} readOnly precision={0.5} />
+            ),
         },
         {
             field: 'reviewCount',
@@ -105,11 +86,11 @@ export default function ViewALLGuides() {
                         </Button>
                         <Button
                             className={"w-1/2"}
-                            variant={isRequested ? 'faded' : 'solid'}
+                            variant="solid"
                             color={isRequested ? 'default' : 'success'}
-                            onClick={() => handleRequestGuide(params)}
+                            onClick={() => !isRequested && handleRequestGuide(params)}
                         >
-                            {isRequested ? 'Cancel Request' : 'Request Guide'}
+                            {isRequested ? 'Requested' : 'Request Guide'}
                         </Button>
                     </div>
                 );
@@ -118,17 +99,18 @@ export default function ViewALLGuides() {
     ];
 
     useEffect(() => {
-        getAllGuideUpdated().then(
-            res => {
-                console.log("fetch response: ", res);
-                setRows((prevRows: MatchingGuide[]) => res);
-            }
-        )
+        getAllGuideUpdated().then((res) => {
+            console.log("fetch response: ", res);
+            setRows(res);
+        });
     }, []);
+
+    useEffect(() => {
+        console.log("useEffect: ", rows);
+    }, [rows]);
 
     return (
         <Box sx={{ height: '100%', width: '100%' }}>
-
             <DataGrid
                 rowHeight={60}
                 rows={rows}

@@ -7,6 +7,7 @@ import FeedbackFormPage from './FeedbackFormPage';
 import FeedbackDisplay from './FeedbackDisplay';
 import useAxiosAuth from '@/lib/hook/useAxiosAuth';
 import { useSession } from 'next-auth/react';
+import FeedbackDisplayGuide from './FeedbackDisplayGuide';
 
 const HomePage = () => {
     const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
@@ -15,6 +16,7 @@ const HomePage = () => {
     const [rating, setRating] = useState(0);
     const axiosAuth = useAxiosAuth();
     const { data: session } = useSession();
+
     useEffect(() => {
         loadFeedbacks();
     }, [axiosAuth]);
@@ -30,7 +32,7 @@ const HomePage = () => {
 
     const handleFeedbackSubmit = async (feedbackRequest: FeedbackRequest) => {
         try {
-            await createFeedback(axiosAuth,  feedbackRequest);
+            await createFeedback(axiosAuth, feedbackRequest);
             setCurrentStep(3);  
             loadFeedbacks(); 
         } catch (error) {
@@ -39,7 +41,6 @@ const HomePage = () => {
     };
 
     const handleDeleteFeedback = async (id: string) => {
-        
         try {
             const feedbackToDelete = feedbacks.find((feedback) => feedback.id === id);
             if (!feedbackToDelete) {
@@ -49,7 +50,7 @@ const HomePage = () => {
 
             // Check ownership before deletion
             if (session?.user?.id === feedbackToDelete.student.id) {
-                await deleteFeedback(axiosAuth,id);
+                await deleteFeedback(axiosAuth, id);
                 loadFeedbacks();
             } else {
                 console.error('You are not authorized to delete this feedback.');
@@ -59,10 +60,14 @@ const HomePage = () => {
         }
     };
 
+    const handleClose = () => {
+        setCurrentStep(1);  
+    };
+
     return (
-        <div className="bg-black  text-white w-3/5 relative left-2">
+        <div className="bg-black text-white w-3/5 relative left-2">
             {currentStep === 1 && (
-                <FeedbackDecision setCurrentStep={setCurrentStep} feedbacks={feedbacks} />
+                <FeedbackDecision setCurrentStep={setCurrentStep} feedbacks={feedbacks} onClose={handleClose} />
             )}
             {currentStep === 2 && (
                 <FeedbackFormPage
@@ -72,14 +77,16 @@ const HomePage = () => {
                     rating={rating}
                     setRating={setRating}
                     handleFeedbackSubmit={handleFeedbackSubmit}
+                    isOpen={currentStep === 2}
+                    onClose={handleClose}
                 />
             )}
-            {currentStep === 3 && (
+            {/* {currentStep === 3 && (
                 <FeedbackDisplay
                     feedbacks={feedbacks}
                     handleDeleteFeedback={handleDeleteFeedback}
                 />
-            )}
+            )} */}
         </div>
     );
 };
