@@ -12,11 +12,10 @@ import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import {Button} from "@nextui-org/react";
 import Typography from '@mui/material/Typography';
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure} from "@nextui-org/react";
-import {findByStudentId} from "@/service/project.service";
+import {findByID, findByStudentId} from "@/service/project.service";
 import {Link} from "@nextui-org/react";
-import FormFirstStep from "@/app/project/form-first-step-1";
-import FormSecondStep2 from "@/app/project/form-second-step-2";
-import FormThirdStep3 from "@/app/project/form-third-step-3";
+import { Chip} from '@nextui-org/react';
+import {useMultiStepContext} from "@/app/step-context";
 
 const CustomNoRowsOverlay = () => {
     console.log('CustomNoRowsOverlay rendered');
@@ -27,19 +26,25 @@ const CustomNoRowsOverlay = () => {
     );
 };
 
-const HandleStatusButton =  (r) => {
-    const [status, setStatus] = useState(null);
 
+const HandleStatusButton =  ({response}) => {
+    const { projectResponse,setProjectResponse } = useMultiStepContext();
+
+setProjectResponse(response);
+    const [status, setStatus] = useState(null);
     useEffect(() => {
         const fetchStatus = async () => {
-            if (r) {
-                const result = await getFinalStatusOfProject(r.r.toString()); // Call the async function
+            if (response.id) {
+                // const response=await findByID(r.r.toString());
+                // setProjectResponse(response);
+                // console.log("response:",response);
+                const result = await getFinalStatusOfProject(response.id.toString()); // Call the async function
                 setStatus(result); // Set the status state
             }
         };
 
         fetchStatus();
-    }, [r]);
+    }, [response]);
 
 
     switch (status) {
@@ -53,7 +58,7 @@ const HandleStatusButton =  (r) => {
                         Accepted
                     </Button>
 
-                    <Link href="#" underline="always" color="success">View Guide Profile</Link>
+                    <Link href={""} underline="always" color="success">View Guide Profile</Link>
                 </>
             )
         case 'rejected':
@@ -66,7 +71,7 @@ const HandleStatusButton =  (r) => {
                         Rejected
                     </Button>
 
-                    <Link href="#" underline="always" color="danger">Find a Guide</Link>
+                    <Link href={`/project/filtering-system?id=${projectResponse.id}`} underline="always" color="danger">Find a Guide</Link>
                 </>
             )
         case 'noRequests':
@@ -79,7 +84,7 @@ const HandleStatusButton =  (r) => {
                         Still  Not Requested
                     </Button>
 
-                    <Link href="#" underline="always" color="primary">Find a Guide</Link>
+                    <Link href={`/project/filtering-system?id=${projectResponse.id}`} underline="always" color="primary">Find a Guide</Link>
                 </>
             )
 
@@ -105,7 +110,7 @@ const HandleStatusButton =  (r) => {
 export default function Notification() {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [rows, setRows] = useState([]);
-    const [response, setResponse] = useState("");
+    const [response, setResponse] = useState(null);
     const { data: session } = useSession();
     const id = session?.user?.id;
 
@@ -158,18 +163,9 @@ export default function Notification() {
                             justifyContent="space-between" // Distribute space between title and button
                             alignItems="flex-start"
                             gap={2}>
-                            <HandleStatusButton r={params.row.id}/>
+                            <HandleStatusButton  response={params.row}/>
                         </Box>
-                        {/*<Button*/}
-                        {/*    size="small"*/}
-                        {/*    color="success"*/}
-                        {/*    sx={{  padding: 0, border: 0, borderColor: 'transparent' }}*/}
-                        {/*    onClick={() => handleViewMoreDetails(params.row)}*/}
-                        {/*>*/}
-                        {/*    Accepted*/}
-                        {/*</Button>*/}
 
-                        {/*<Link href="#" underline="always" color="success">View Guide Profile</Link>*/}
 
                     </Box>
                     <Box >
@@ -192,9 +188,12 @@ export default function Notification() {
     ];
 
     const handleViewMoreDetails = (row) => {
-        {onOpen()}
+
         setResponse(row);
         console.log("More Info clicked for row: ", row);
+        {onOpen()}
+
+
     };
 
 
@@ -260,45 +259,47 @@ export default function Notification() {
 
                         <ModalBody
                         >
-                            <div className={"text-3xl font-bold mb-3"}>{response.projectTitle}
+                            {console.log("sfsdf",response.projectTitle)}
+                            <div className={"text-3xl font-bold mb-3"}>{response.title}
                             </div>
-                            <div className={"h-3/4"}>
+                            <div className={"h-1/2"}>
 
                                 <h1>Project Summary:</h1>
-                                <div className={"border-1 rounded-lg border-slate-600 h-full pt-1 pl-3 mt-2 "}>
+                                <div className={"border-1 rounded-lg border-slate-600 h-5/6 pt-1 pl-3 mt-2 "}>
                                     <p>
-                                        {response.projectSummary}
+                                        {response.summary}
                                     </p>
                                 </div>
                             </div>
-                            <p>
-                                <br />
-                                For further discussion or to provide guidance, please feel free to reach out to the student
-                                directly via email at <a href={`mailto:${response.studentEmail}`} style={{ color: '#3b82f6' }}>{response.studentEmail}</a>.
-                            </p>
+                            <h1>Technologies:</h1>
+                            <div className=' grid grid-cols-8  gap-2'>
 
+
+                                {response.technologies?.map((tech, index) => (
+                                    <Chip
+                                        key={index}
+                                        className="flex justify-center items-center text-white  rounded-lg px-6  border border-transparent hover:border-gray-400 min-w-[50px] h-[40px]"
+                                    >
+                                        {tech.technologyName}
+                                    </Chip>
+                                ))}
+                            </div>
+                            <h1>Categories:</h1>
+                            <div className=' grid grid-cols-6  gap-2'>
+
+
+                                {response.categories?.map((cat, index) => (
+                                    <Chip
+                                        key={index}
+                                        className="flex justify-center items-center text-white  rounded-lg px-6  border border-transparent hover:border-gray-400  h-[40px]"
+                                    >
+                                        {cat.categoryName}
+                                    </Chip>
+                                ))}
+                            </div>
 
                         </ModalBody>
-                        <div className={"flex flex-col gap-3 "}>
-                            <div className={" mr-5 ml-5"}>
-                                <Button className={"w-full font-semibold "} color="default" onPress={onClose} >
-                                    Request Project Proposal
-                                </Button>
-                            </div>
-                            <div className={"flex flex-row justify-center mb-5 mr-5 ml-5 gap-2"}>
-                                <div className={"w-1/2"}>
-                                    <Button className={"w-full font-semibold"} color="success" onPress={handleAcceptRequest}>
-                                        Accept Request
-                                    </Button>
 
-                                </div>
-                                <div className={"w-1/2"}>
-                                    <Button className={"w-full bg-red-700 font-semibold"}  onPress={handleRejectRequest}>
-                                        Cancel Request
-                                    </Button>
-                                </div>
-                            </div>
-                        </div>
                     </>
                 )}
             </ModalContent>

@@ -1,4 +1,5 @@
 import {ProjectRequest} from "@/service/project.request.service";
+import {Guide} from "@/service/guide.service";
 
 export interface Project {
   id: string;
@@ -26,6 +27,13 @@ export async function getAllSpecificProject(studentId: string): Promise<Project>
   if (!response.ok) {
     throw new Error(`Failed to fetch project for student ID ${studentId}: ${response.statusText}`);
   }
+
+  return project;
+}
+export async function findByID(id: string): Promise<Project> {
+  const url: string = "http://localhost:3000/projects/" + id;
+  const response: Response = await fetch(url,{ cache: "no-store" });
+  const project: Project = await response.json();
 
   return project;
 }
