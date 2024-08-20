@@ -1,4 +1,5 @@
-import {Guide} from "@/service/guide.service";
+import {Guide, MatchingGuide} from "@/service/guide.service";
+import {Project} from "@/service/project.service";
 
 export interface ProjectRequest {
      id: string;
@@ -46,6 +47,50 @@ export async function deleteRequest(id: string): Promise<ProjectRequest> {
             Accept: "application/json",
         },
         method: "DELETE",
+        cache: "no-store",
+    });
+    const response: Response = await fetch(request);
+    const projectRequest: ProjectRequest = await response.json();
+
+    return projectRequest;
+}
+
+export async function getRequestsByGuide(guideId:string): Promise<ProjectRequest[]> {
+    const url: string = "http://localhost:3000/projectRequests/"+guideId;
+    const response: Response = await fetch(url, { cache: "no-store" });
+    console.log("project requests for guide, "+guideId+ ":  \n"+response);
+
+    const projectRequests: ProjectRequest[] = await response.json();
+
+    console.log ("response(service)",projectRequests);
+
+    return projectRequests;
+}
+
+export async function  rejectRequest(id: string): Promise<ProjectRequest> {
+    const url: string = "http://localhost:3000/projectRequests/" + id+"/reject";
+    const request = new Request(url, {
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        method: "PATCH",
+        cache: "no-store",
+    });
+    const response: Response = await fetch(request);
+    const projectRequest: ProjectRequest = await response.json();
+
+    return projectRequest;
+}
+
+export async function  acceptRequest(id: string): Promise<ProjectRequest> {
+    const url: string = "http://localhost:3000/projectRequests/" + id+"/accept";
+    const request = new Request(url, {
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        method: "PATCH",
         cache: "no-store",
     });
     const response: Response = await fetch(request);
