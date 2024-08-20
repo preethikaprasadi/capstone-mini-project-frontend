@@ -11,7 +11,7 @@ interface DisplayFeedbackPageProps {
 const DisplayFeedbackPage: React.FC<DisplayFeedbackPageProps> = ({ feedbacks, setCurrentStep, onClose }) => {
     return (
         <div className="fixed bottom-0 right-0 z-50 m-4 ">
-            <div className="relative w-full max-w-lg bg-black shadow-lg rounded-lg p-0 text-white">
+            <div className="relative w-full max-w-lg bg-black shadow-lg rounded-lg p-0 text-white p-2">
                 <button
                     className="absolute top-2 right-2 text-white hover:text-gray-400"
                     onClick={onClose}
