@@ -4,6 +4,7 @@ import { FeedbackRequest } from './feedback';
 import { FaStar } from 'react-icons/fa';
 import { useSession } from 'next-auth/react';
 import { createFeedback } from '@/service/feedback.service';
+import { axiosInstance } from '@/lib/axios';
 
 
 interface FeedbackFormPageProps {
@@ -14,7 +15,9 @@ interface FeedbackFormPageProps {
     setRating: (rating: number) => void;
     handleFeedbackSubmit: (feedbackRequest: FeedbackRequest) => void;
     isOpen: boolean;
-    onClose: () => void; // Added onClose prop
+    onClose: () => void;
+    guideId: string;
+    
 }
 
 const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
@@ -25,7 +28,9 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
     setRating,
     handleFeedbackSubmit,
     isOpen,
-    onClose, // Destructure onClose prop
+    onClose,
+    guideId
+    
 }) => {
     const { data: session } = useSession();
 
@@ -36,13 +41,14 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
                 content: feedbackText,
                 rating,
                 student: session?.user.id || '',
-                guide: '66976b0b8594dacfe1740427',
+                guide:guideId,
             };
 
             try {
                 await createFeedback(axiosInstance, feedbackRequest);
                 setCurrentStep(3);
                 onClose();
+                window.location.reload();
             } catch (error) {
                 console.error('Failed to submit feedback:', error);
                 alert('There was an error submitting your feedback. Please try again.');
@@ -50,6 +56,7 @@ const FeedbackFormPage: React.FC<FeedbackFormPageProps> = ({
         } else {
             alert('Please provide feedback and a rating.');
         }
+        console.log(guideId)
     };
 
     useEffect(() => {
