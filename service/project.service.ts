@@ -1,3 +1,6 @@
+import {ProjectRequest} from "@/service/project.request.service";
+import {Guide} from "@/service/guide.service";
+
 export interface Project {
   id: string;
   title: string;
@@ -24,6 +27,13 @@ export async function getAllSpecificProject(studentId: string): Promise<Project>
   if (!response.ok) {
     throw new Error(`Failed to fetch project for student ID ${studentId}: ${response.statusText}`);
   }
+
+  return project;
+}
+export async function findByID(id: string): Promise<Project> {
+  const url: string = "http://localhost:3000/projects/" + id;
+  const response: Response = await fetch(url,{ cache: "no-store" });
+  const project: Project = await response.json();
 
   return project;
 }
@@ -83,6 +93,21 @@ export async function deleteProject(id: string): Promise<Project> {
 
   return project;
 }
+
+export async function findByStudentId(studentId:string): Promise<Project[]> {
+  const url: string = "http://localhost:3000/projects/"+studentId;
+  const response: Response = await fetch(url, { cache: "no-store" });
+  console.log("existing projects for student, "+studentId+ ":  \n"+response);
+
+  const projects: Project[] = await response.json();
+
+  // console.log ("response(service)",projectRequests);
+
+  return projects;
+}
+
+
+
 // In your service file (e.g., projectService.ts)
  
 // import useAxiosAuth from "@/lib/hook/useAxiosAuth";

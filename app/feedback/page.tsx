@@ -7,7 +7,8 @@ import FeedbackFormPage from './FeedbackFormPage';
 import FeedbackDisplay from './FeedbackDisplay';
 import useAxiosAuth from '@/lib/hook/useAxiosAuth';
 import { useSession } from 'next-auth/react';
-import FeedbackDisplayGuide from './FeedbackDisplayGuide';
+import { useRouter, useSearchParams } from 'next/navigation';
+
 
 const HomePage = () => {
     const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
@@ -16,6 +17,10 @@ const HomePage = () => {
     const [rating, setRating] = useState(0);
     const axiosAuth = useAxiosAuth();
     const { data: session } = useSession();
+    const searchParams = useSearchParams();
+    const guideId = searchParams?.get('id') || '';
+
+    
 
     useEffect(() => {
         loadFeedbacks();
@@ -39,6 +44,8 @@ const HomePage = () => {
             console.error('Error submitting feedback:', error);
         }
     };
+
+    console.log(guideId);
 
     const handleDeleteFeedback = async (id: string) => {
         try {
@@ -79,14 +86,9 @@ const HomePage = () => {
                     handleFeedbackSubmit={handleFeedbackSubmit}
                     isOpen={currentStep === 2}
                     onClose={handleClose}
+                    guideId={guideId}
                 />
             )}
-            {/* {currentStep === 3 && (
-                <FeedbackDisplay
-                    feedbacks={feedbacks}
-                    handleDeleteFeedback={handleDeleteFeedback}
-                />
-            )} */}
         </div>
     );
 };
