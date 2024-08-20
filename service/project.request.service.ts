@@ -98,3 +98,16 @@ export async function  acceptRequest(id: string): Promise<ProjectRequest> {
 
     return projectRequest;
 }
+
+export async function getFinalStatusOfProject(projectId: string): Promise<string> {
+    const url: string = "http://localhost:3000/projectRequests/" + projectId +"/projectFinalStatus";
+    const response = await fetch(url, { cache: "no-store" });
+    const data = await response.text(); // Capture the JSON data
+
+    if (!response.ok) {
+        throw new Error(`Failed to fetch project for student ID ${projectId}: ${response.statusText}`);
+    }
+
+    console.log("Fetched Data for   "+projectId+"   :", data); // Log the actual data received
+    return data; // Assuming data is the status string you need
+}

@@ -1,3 +1,5 @@
+import {ProjectRequest} from "@/service/project.request.service";
+
 export interface Project {
   id: string;
   title: string;
@@ -83,6 +85,21 @@ export async function deleteProject(id: string): Promise<Project> {
 
   return project;
 }
+
+export async function findByStudentId(studentId:string): Promise<Project[]> {
+  const url: string = "http://localhost:3000/projects/"+studentId;
+  const response: Response = await fetch(url, { cache: "no-store" });
+  console.log("existing projects for student, "+studentId+ ":  \n"+response);
+
+  const projects: Project[] = await response.json();
+
+  // console.log ("response(service)",projectRequests);
+
+  return projects;
+}
+
+
+
 // In your service file (e.g., projectService.ts)
  
 // import useAxiosAuth from "@/lib/hook/useAxiosAuth";
