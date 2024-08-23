@@ -9,6 +9,7 @@ import Filtering from "@/app/project/filtering-system/filtering";
 import ViewALLGuides from "@/app/project/filtering-system/view-all-guides";
 import {useSearchParams} from "next/navigation";
 import FilteringForExistingProjectPage from "@/app/project/filtering-system-for-existing-project-page/filtering";
+import Newnav from "@/app/components/nav2";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -50,21 +51,24 @@ export default function BasicTabs() {
     };
 
     return (
-        <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="View Best Guides for Your Project" {...a11yProps(0)} />
-                    <Tab label="View All Guides" {...a11yProps(1)} />
+        <>
+            <Box sx={{ width: '100%' }}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
+                        <Tab label="View Best Guides for Your Project" {...a11yProps(0)} />
+                        <Tab label="View All Guides" {...a11yProps(1)} />
 
-                </Tabs>
+                    </Tabs>
+                </Box>
+                <CustomTabPanel value={value} index={0}>
+                    <FilteringForExistingProjectPage projectId={id}/>
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={1}>
+                    <ViewALLGuides/>
+                </CustomTabPanel>
+
             </Box>
-            <CustomTabPanel value={value} index={0}>
-                <FilteringForExistingProjectPage projectId={id}/>
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={1}>
-                <ViewALLGuides/>
-            </CustomTabPanel>
+        </>
 
-        </Box>
     );
 }

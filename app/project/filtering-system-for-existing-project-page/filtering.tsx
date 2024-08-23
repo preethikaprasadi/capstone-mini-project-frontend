@@ -265,7 +265,7 @@ const handleRequestGuide = async (params) => {
     }, [projectId]);
 
     return (
-        <Box sx={{ height: '100%', width: '100%' }}>
+        <Box sx={{ height: '100%', width: '100%',}}>
             <DataGrid
                 rowHeight={60}
                 rows={rows}

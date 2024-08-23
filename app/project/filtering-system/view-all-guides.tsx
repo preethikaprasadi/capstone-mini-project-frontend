@@ -114,7 +114,6 @@ export default function ViewALLGuides() {
     return (
         <>
         <div className='absolute inset-x-0'>
-             <Newnav/>
         </div>
         <Box sx={{ height: '100%', width: '100%' }}>
             <DataGrid

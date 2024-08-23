@@ -20,7 +20,7 @@ export default function Newnav() {
         <a href="/" className="text-white hover:text-yellow-400 text-xl transition duration-300 ease-in-out transform hover:scale-105">
                 Home
           </a>
-          <a href="/project/create-new-project-form" className="text-white hover:text-yellow-400 text-xl transition duration-300 ease-in-out transform hover:scale-105">
+          <a href="/project" className="text-white hover:text-yellow-400 text-xl transition duration-300 ease-in-out transform hover:scale-105">
                 Create Project
           </a>
           <a href="/contactus" className="text-white hover:text-yellow-400 text-xl transition duration-300 ease-in-out transform hover:scale-105">
