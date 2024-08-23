@@ -16,6 +16,7 @@ import {findByID, findByStudentId} from "@/service/project.service";
 import {Link} from "@nextui-org/react";
 import { Chip} from '@nextui-org/react';
 import {useMultiStepContext} from "@/app/step-context";
+import Nav from '@/app/components/nav3';
 
 const CustomNoRowsOverlay = () => {
     console.log('CustomNoRowsOverlay rendered');
@@ -245,7 +246,12 @@ export default function Notification() {
 
     return (
 
-        <> <Modal className={"max-w-2xl h-4/5 p-5 pt-3"} classNames={{
+        <> 
+        <div className='absolute inset-x-0'>
+            <Nav/>
+        </div>
+        
+        <Modal className={"max-w-2xl h-4/5 p-5 pt-3 "} classNames={{
             body: "py-6",
             base: "border-[#52525B] bg-[#18181B] dark:bg-[#18181B]" ,
             backdrop: "bg-[#09090b]/90 backdrop-opacity-40",
@@ -313,7 +319,7 @@ export default function Notification() {
                     alignItems: 'center', // Center vertically
                 }}
             >
-                <Box sx={{ height: '100%', width: '80%'}}>
+                <Box sx={{ height: '100%', width: '80%', marginTop:'100px'}}>
                     <DataGrid
 
 

@@ -7,6 +7,7 @@ import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import {Button} from "@nextui-org/react";
 import Typography from '@mui/material/Typography';
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure} from "@nextui-org/react";
+import Nav from "../components/nav1";
 
 
 const CustomNoRowsOverlay = () => {
@@ -125,7 +126,8 @@ export default function Notification() {
 
     return (
 
-        <> <Modal className={"max-w-2xl h-4/5 p-5 pt-3"} classNames={{
+        <> 
+        <Modal className={"max-w-xl h-4/5 p-5 pt-3"} classNames={{
             body: "py-6",
             base: "border-[#52525B] bg-[#18181B] dark:bg-[#18181B]" ,
             backdrop: "bg-[#09090b]/90 backdrop-opacity-40",

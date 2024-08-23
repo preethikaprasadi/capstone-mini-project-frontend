@@ -17,6 +17,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Resume from "@/app/profile/resume";
 import Notification from "@/app/profile/notification";
 import { IoNotificationsCircle } from "react-icons/io5";
+import Nav from "../components/nav1";
 const drawerWidth = 300;
 
 const Main = styled('main')<{ open?: boolean }>`
@@ -75,7 +76,11 @@ export default function PersistentDrawerRight() {
     };
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        
+        <Box sx={{ display: 'flex' , }}>
+            <div className='absolute inset-x-0'>
+                    <Nav/>
+            </div>
             <CssBaseline />
             <AppBar position="fixed" open={open}
                     sx={{

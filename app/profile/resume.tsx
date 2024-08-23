@@ -13,6 +13,7 @@ import { Category, getAllCategory } from '@/service/category.service';
 import { FaCamera} from 'react-icons/fa';
 import ImageUploadModal from '../components/ImageUploadmodel';
 import { Chip, useDisclosure } from '@nextui-org/react';
+import Nav from '../components/nav1';
 
 
 export default function Resume () {
@@ -174,9 +175,10 @@ export default function Resume () {
     return (
 
         <div className="absolute inset-0 w-full  rounded-l-lg">
+            
             {!isEditing ? (
 
-                <div className="absolute inset-0 w-full bg-gradient-to-br from-gray-900 via-gray-900 to-black text-white  rounded-l-lg">
+                <div className="absolute inset-0 w-full bg-gradient-to-br from-gray-700 via-black to-gray-800 text-white  rounded-l-lg">
                     <div className=" absolute inset-x-0 w-full h-[260px] bg-cover bg-center bg-gradient-to-br from-indigo-950 via-black to-indigo-950 " style={{ borderRadius: '0.75rem'  }}>
                         <hr className="my-64 border-t-5 " style={{ borderColor: '#FFFFFF' }}/>
                     </div>
