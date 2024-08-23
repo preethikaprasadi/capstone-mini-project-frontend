@@ -14,6 +14,7 @@ import { FaCamera} from 'react-icons/fa';
 import ImageUploadModal from '../components/ImageUploadmodel';
 import { Chip, useDisclosure } from '@nextui-org/react';
 import Nav from '../components/nav1';
+import {Box} from "@mui/system";
 
 
 export default function Resume () {
@@ -338,7 +339,11 @@ export default function Resume () {
                 </div>
 
             ) : (
-
+<Box sx={{marginTop:'150px',
+paddingLeft:'200px',
+paddingRight:'200px',
+fontSize:'20px',
+paddingBottom:'150px'}}>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700">First Name:</label>
@@ -472,13 +477,15 @@ export default function Resume () {
                             </div>
                         ))}
                     </div>
-                    <button type="submit" className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700">
+                    <br/>
+                    <button type="submit" className="mt-4 px-10 py-4 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700">
                         Update Guide
                     </button>
-                    <button onClick={() => setIsEditing(false)} type="button" className="mt-4 ml-4 px-4 py-2 bg-gray-600 text-white rounded-md shadow-sm hover:bg-gray-700">
+                    <button onClick={() => setIsEditing(false)} type="button" className="mt-4 ml-4 px-10 py-4  bg-gray-600 text-white rounded-md shadow-sm hover:bg-gray-700">
                         Cancel
                     </button>
                 </form>
+</Box>
             )}
         </div>
     );
