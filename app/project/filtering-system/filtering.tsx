@@ -9,6 +9,7 @@ import Rating from '@mui/material/Rating';
 import { useRouter } from 'next/navigation';
 import { createRequest, deleteRequest } from "@/service/project.request.service"; // Assume deleteRequest is the API for deleting a request
 import emailjs from 'emailjs-com';
+import Newnav from '@/app/components/nav2';
 
 export default function Filtering() {
     const { projectResponse } = useMultiStepContext();
@@ -176,7 +177,11 @@ const handleRequestGuide = async (params) => {
     }, [projectResponse]);
 
     return (
-        <Box sx={{ height: '100%', width: '100%' }}>
+         <>
+         <div className='absolute inset-x-0'>
+         <Newnav/>
+         </div> 
+        <Box sx={{ height: '100%', width: '100%', marginTop:'40px' }} >
             <DataGrid
                 rowHeight={60}
                 rows={rows}
@@ -189,5 +194,7 @@ const handleRequestGuide = async (params) => {
                 }}
             />
         </Box>
+      
+        </>
     );
 }

@@ -11,6 +11,7 @@ import { Category, getAllCategory } from '@/service/category.service';
 import { Chip} from '@nextui-org/react';
 import GuideUserDisplayFeedbackPage from '../feedback/FeedbackDisplayGuide1';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Nav from '../components/nav1';
  
 
 const UserResume = () => { 
@@ -74,15 +75,17 @@ useEffect(() => {
           
         <div className="absolute inset-0 w-full  rounded-l-lg">
           
-           
-          <div className="absolute inset-0 w-full bg-gradient-to-br from-gray-900 via-gray-900 to-black text-white  rounded-l-lg">
-          <div className=" absolute inset-x-0 w-full h-80 bg-cover bg-center bg-gradient-to-br from-violet-900 via-black to-violet-900 " style={{ borderRadius: '0.75rem'  }}>
+          <div className='absolute inset-x-0'>
+                    <Nav/>
+            </div>
+          <div className="absolute inset-0 w-full bg-gradient-to-br from-gray-900 via-gray-900 to-black text-white  rounded-l-lg ">
+          <div className=" absolute inset-x-0 w-full h-80 bg-cover bg-center bg-gradient-to-br from-gray-700 via-black to-gray-800 " style={{ borderRadius: '0.75rem'  }}>
           <hr className="my-64 border-t-5 " style={{ borderColor: '#FFFFFF' }}/>
           </div>
             <div className="text-center ">
                 
               {/* image section   */}
-             <div className="relative w-80 h-80 mx-auto p-2  rounded-full top-20"  style={{ backgroundColor: '#FFFFFF' }}>
+             <div className="relative w-80 h-80 mx-auto p-2  rounded-full top-24"  style={{ backgroundColor: '#FFFFFF' }}>
                <div className="relative w-full h-full bg-black rounded-full p-2">
                 <div className="relative w-full h-full bg-blue-800 rounded-full">
                     <Image
