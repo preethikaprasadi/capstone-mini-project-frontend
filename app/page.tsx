@@ -69,7 +69,7 @@ export default function Home() {
 
        <section 
       
-       className="absolute inset-x-0 mt-1 bg-gradient-to-br from-gray-800 via-black to-violet-900" id="features-section">
+       className="absolute inset-x-0 mt-1 bg-gradient-to-br from-gray-800 via-black to-violet-900" id="features-section" style={{ paddingTop: '72px' }}>
 
         
        <div className="text-3xl font-bold my-8 text-left  text-center mb-10" >
@@ -93,7 +93,7 @@ export default function Home() {
       
        
         <FeaturesSection/>
-      <section id="mentors-section" className="relative z-10"  style={{ paddingTop: '2px' }}>
+      <section id="mentors-section" className="relative z-10"  style={{ paddingTop: '18px' }}>
 
         <div>
         <div className="text-3xl font-bold my-8 text-left mb-10 text-center ">
@@ -136,7 +136,7 @@ export default function Home() {
 
  
 
-      <div className=" bottom-40 relative z-10" id="technologies-section"   style={{ paddingTop: '28px' }}>
+      <div className=" bottom-40 relative z-10" id="technologies-section"   style={{ paddingTop: '72px' }}>
        <div className="text-3xl font-bold my-8  text-center" id="technologies-section">  
        <div className='text-4xl font-bold text-center mb-10'>
 
