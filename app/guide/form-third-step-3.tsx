@@ -7,6 +7,8 @@ import { Category, getAllCategory } from "@/service/category.service";
 import GuideSelectCategory from "@/app/guide/guide-select-category";;
 import {saveGuide} from "@/service/guide.service";
 import Nav from '../components/nav1';
+import { useRouter } from 'next/navigation';
+
  
 
 export default function GuideFormThirdStep() {
@@ -29,9 +31,12 @@ export default function GuideFormThirdStep() {
         console.log("useEffect: ", rows);
     }, [rows]);
 
+    const router = useRouter()
+
     const submitData = async () => {
         const newUserData = { ...guideUserData, guideSelectedTechnologies: Array.from(new Set(guideSelectedTechnologies)), guideSelectedCategories: Array.from(new Set(guideSelectedCategories)) };
 
+         
         try {
             // Save project data
             console.log("Guide data being sent to server:", newUserData);
@@ -50,6 +55,8 @@ export default function GuideFormThirdStep() {
                 categories:newUserData.guideSelectedCategories
             });
             console.log("Response from saveGuide:", res);
+            const guideId = res.id;
+            router.push(`/profile3?guideId=${guideId}`)
 
             // Update finalData with the newUserData
             setGuideFinalData(prevFinalData => [...prevFinalData, newUserData]);
