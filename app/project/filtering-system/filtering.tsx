@@ -1,108 +1,105 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import { getAllMatchingGuide } from "@/service/guide.service";
 import { useMultiStepContext } from "@/app/step-context";
 import { Button } from "@nextui-org/react";
 import Rating from '@mui/material/Rating';  
 import { useRouter } from 'next/navigation';
-import { createRequest, deleteRequest } from "@/service/project.request.service"; // Assume deleteRequest is the API for deleting a request
+import { createRequest, deleteRequest } from "@/service/project.request.service";
 import emailjs from 'emailjs-com';
 
 export default function Filtering() {
     const { projectResponse } = useMultiStepContext();
     const [rows, setRows] = useState([]);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
     const router = useRouter();
-
-
-     
     const [requestedGuides, setRequestedGuides] = useState(new Map());
 
     const handleViewGuide = (params) => {
         const guideId = params.row.id;
         router.push(`/profile2?id=${guideId}`);
         console.log("Viewing guide profile for:", guideId);
-        // Implement the logic to navigate to the guide's profile page or open a modal
     };
 
-   
+    const handleRequestGuide = async (params) => {
+        const guideId = params.row.id;
+        const requestId = requestedGuides.get(guideId);
 
-// Add the email sending functionality inside the handleRequestGuide function
-const handleRequestGuide = async (params) => {
-    const guideId = params.row.id;
-    const requestId = requestedGuides.get(guideId); // Get the request ID if it exists
+        if (requestId) {
+            // If the guide is already requested, delete the request
+            try {
+                await deleteRequest(requestId);
+                setRequestedGuides((prev) => {
+                    const newMap = new Map(prev);
+                    newMap.delete(guideId);
+                    return newMap;
+                });
+                setSnackbarMessage('Request canceled successfully.');
+                setSnackbarSeverity('info');
+                setSnackbarOpen(true);
+            } catch (error) {
+                setSnackbarMessage('Failed to cancel request. Please try again.');
+                setSnackbarSeverity('error');
+                setSnackbarOpen(true);
+            }
+        } else {
+            // If the guide is not requested, create the request
+            try {
+                const res = await createRequest({
+                    guideId: guideId,
+                    projectId: projectResponse.id,
+                    status: "pending",
+                });
+                setRequestedGuides((prev) => {
+                    const newMap = new Map(prev);
+                    newMap.set(guideId, res.id);
+                    return newMap;
+                });
 
-    if (requestId) {
-        // If the guide is already requested, delete the request
-        console.log("Deleting request for guide:", guideId);
+                // Send the email (same as before)
+                const { guideEmail, studentEmail, projectTitle, projectSummary } = res;
 
-        try {
-            const res = await deleteRequest(requestId);
-            console.log("Response from deleteRequest:", res);
+                emailjs.send(
+                    process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+                    process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+                    {
+                        to_email: guideEmail,
+                        from_email: studentEmail,
+                        message: `
+                            Dear Guide,
+                            You have a new project request from ${studentEmail}. Please review the details below:
+                            Project Title: ${projectTitle}
+                            Project Summary: ${projectSummary}
+                            Best regards, Guidely Team
+                        `,
+                    },
+                    process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+                ).then((response) => {
+                    console.log('SUCCESS!', response.status, response.text);
+                    setSnackbarMessage('Request sent successfully! Thank you for using our service.');
+                    setSnackbarSeverity('success');
+                    setSnackbarOpen(true);
+                }).catch((err) => {
+                    console.error('FAILED...', err);
+                    setSnackbarMessage('Failed to send request. Please try again.');
+                    setSnackbarSeverity('error');
+                    setSnackbarOpen(true);
+                });
 
-            // Remove the guideId from the requestedGuides state
-            setRequestedGuides((prev) => {
-                const newMap = new Map(prev);
-                newMap.delete(guideId);
-                return newMap;
-            });
-        } catch (error) {
-            console.error("Error in handleRequestGuide (delete):", error);
+            } catch (error) {
+                console.error("Error in handleRequestGuide (create):", error);
+                setSnackbarMessage('Failed to send request. Please try again.');
+                setSnackbarSeverity('error');
+                setSnackbarOpen(true);
+            }
         }
-    } else {
-        // If the guide is not requested, create the request
-        console.log("Requesting guide for:", guideId);
-
-        try {
-            const res = await createRequest({
-                guideId: guideId,
-                projectId: projectResponse.id,
-                status: "pending",
-            });
-            console.log("Response from createRequest:", res);
-
-            // Add the guideId and requestId to the requestedGuides state
-            setRequestedGuides((prev) => {
-                const newMap = new Map(prev);
-                newMap.set(guideId, res.id);
-                return newMap;
-            });
-
-            // Extract the required details for email
-            const { guideEmail, studentEmail, projectTitle, projectSummary } = res;
-
-            // Send the email
-            emailjs.send(
-                process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-                process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-                {
-                    to_email: guideEmail,
-                    from_email: studentEmail,
-                    message: `
-                        Dear Guide,
-                        You have a new project request from ${studentEmail}. Please review the details below:
-                        Project Title:${projectTitle}
-                      Project Summary: ${projectSummary}
-                       Best regards,Guidely Team
-                    `,
-                },
-                process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-            ).then((response) => {
-                console.log('SUCCESS!', response.status, response.text);
-                alert('Request sent successfully!');
-            }).catch((err) => {
-                console.error('FAILED...', err);
-                alert('Failed to send request. Please try again.');
-            });
-
-        } catch (error) {
-            console.error("Error in handleRequestGuide (create):", error);
-        }
-    }
-};
-
-
+    };
 
     const columns: GridColDef[] = [
         {
@@ -147,7 +144,6 @@ const handleRequestGuide = async (params) => {
                             color="primary"
                             style={{ marginRight: 8 }}
                             onClick={() => handleViewGuide(params)}
-                           
                         >
                             View Guide Profile
                         </Button>
@@ -167,9 +163,7 @@ const handleRequestGuide = async (params) => {
 
     useEffect(() => {
         if (projectResponse?.id) {
-            console.log("projectResponseID-------", projectResponse.id.toString());
             getAllMatchingGuide(projectResponse.id.toString()).then((res) => {
-                console.log("fetch response: ", res);
                 setRows(res);
             });
         }
@@ -188,6 +182,16 @@ const handleRequestGuide = async (params) => {
                     toolbar: GridToolbar,
                 }}
             />
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={() => setSnackbarOpen(false)}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}  // Updated position
+            >
+                <Alert onClose={() => setSnackbarOpen(false)} severity={snackbarSeverity}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 }
