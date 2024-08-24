@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import { title } from '../components/primitives';
+import Nav from '../components/nav1';
 
 const ContactUs: React.FC = () => {
   const form = useRef<HTMLFormElement | null>(null);
@@ -30,8 +31,10 @@ const ContactUs: React.FC = () => {
   };
 
   return (
-   
-    
+       <>
+    <div className='absolute inset-x-0'>
+                <Nav/>
+            </div>
     <div className="min-h-screen bg-gray-900 text-gray-300  absolute inset-0 ">
 
     <div className="text-3xl font-bold text-center  bg-gray-900 h-4/5 p-10"  style={{
@@ -108,6 +111,7 @@ const ContactUs: React.FC = () => {
 
        
     </div>
+    </>
   );
 };
 

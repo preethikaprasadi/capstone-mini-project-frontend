@@ -15,6 +15,8 @@ import ImageUploadModal from '../components/ImageUploadmodel';
 import { Chip, useDisclosure } from '@nextui-org/react';
 import Nav from '../components/nav1';
 import {Box} from "@mui/system";
+import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/dist/client/components/navigation';
 
 
 export default function Resume () {
@@ -29,13 +31,14 @@ export default function Resume () {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [imageUrl, setImageUrl] = useState<string>('');
     const [isExpanded, setIsExpanded] = useState(false);
-    const id = session?.user?.id;
+    const searchParams = useSearchParams();
+    const guideId = searchParams?.get('guideId');
 
 
 
     useEffect(() => {
-        if (id) {
-            getOneGuide(id).then(guide => {
+        if (guideId) {
+            getOneGuide(guideId).then(guide => {
                 setGuide(guide);
                 setFormData({
                     firstName: guide.firstName,
@@ -59,7 +62,7 @@ export default function Resume () {
                 setCategories(cats);
             }).catch(console.error);
         }
-    }, [id]);
+    }, [guideId]);
 
     useEffect(() => {
         const loadFeedbacks = async () => {

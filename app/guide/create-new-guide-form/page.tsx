@@ -38,8 +38,8 @@ export default function Page() {
         <>
             <section className="flex flex-col justify-center items-center p-0 m-0 gap-8 ">
 
-            <h1>Create your account here..</h1>
-    <Box sx={{ width: '100%' }}>
+            <h1 className="mt-16">Create your account here..</h1>
+    <Box sx={{ width: '100%', marginTop:'20px'}}>
     <Stepper activeStep={guideCurrentStep - 1} alternativeLabel>
     {steps.map((label) => (
             <Step key={label}>

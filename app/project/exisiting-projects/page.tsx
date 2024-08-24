@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import {
-    acceptRequest,
-    getFinalStatusOfProject,
+    acceptRequest, getAcceptedGuideIdByProjectId,
+    getFinalStatusOfProject, getRejectedGuideIdsByProjectId,
     getRequestsByGuide,
     rejectRequest
 } from "@/service/project.request.service";
@@ -16,6 +16,7 @@ import {findByID, findByStudentId} from "@/service/project.service";
 import {Link} from "@nextui-org/react";
 import { Chip} from '@nextui-org/react';
 import {useMultiStepContext} from "@/app/step-context";
+import Nav from '@/app/components/nav3';
 
 const CustomNoRowsOverlay = () => {
     console.log('CustomNoRowsOverlay rendered');
@@ -28,10 +29,10 @@ const CustomNoRowsOverlay = () => {
 
 
 const HandleStatusButton =  ({response}) => {
-    const { projectResponse,setProjectResponse } = useMultiStepContext();
 
-setProjectResponse(response);
     const [status, setStatus] = useState(null);
+    const [guideId, setGuideId] = useState(null);
+    // const [rejectedGuideIds, setRejectedGuideIds] = useState(null);
     useEffect(() => {
         const fetchStatus = async () => {
             if (response.id) {
@@ -49,29 +50,35 @@ setProjectResponse(response);
 
     switch (status) {
         case 'accepted':
+            const fetchGuideId = async () => {
+                const result = await getAcceptedGuideIdByProjectId(response.id.toString());
+                setGuideId(result);
+            }
+            fetchGuideId()
             return (
+
                 <>
                     <Button className={"w-80"}
                             size="small"
-                            color="success"
-                    >
+                            color="success">
                         Accepted
                     </Button>
 
-                    <Link href={""} underline="always" color="success">View Guide Profile</Link>
+                    <Link href={`/profile2?id=${guideId}`} underline="always" color="success">View Guide Profile</Link>
                 </>
             )
         case 'rejected':
-            return (
+            return(
+
                 <>
                     <Button className={"w-80"}
                             size="small"
                             color="danger"
                     >
-                        Rejected
+                        All Requests Rejected
                     </Button>
 
-                    <Link href={`/project/filtering-system?id=${projectResponse.id}`} underline="always" color="danger">Find a Guide</Link>
+                    <Link href={`/project/filtering-system-for-existing-project-page?id=${response.id}`} underline="always" color="danger">Find a Guide</Link>
                 </>
             )
         case 'noRequests':
@@ -84,7 +91,7 @@ setProjectResponse(response);
                         Still  Not Requested
                     </Button>
 
-                    <Link href={`/project/filtering-system?id=${projectResponse.id}`} underline="always" color="primary">Find a Guide</Link>
+                    <Link href={`/project/filtering-system-for-existing-project-page?id=${response.id}`} underline="always" color="primary">Find a Guide</Link>
                 </>
             )
 
@@ -98,7 +105,7 @@ setProjectResponse(response);
                         Pending
                     </Button>
 
-                    <Link href="#" underline="always" color="warning">View Guide Profile</Link>
+                    <Link href={`/project/filtering-system-for-existing-project-page?id=${response.id}`} underline="always" color="warning">Find a Guide</Link>
                 </>
             )
     }
@@ -191,6 +198,7 @@ export default function Notification() {
 
         setResponse(row);
         console.log("More Info clicked for row: ", row);
+
         {onOpen()}
 
 
@@ -245,7 +253,12 @@ export default function Notification() {
 
     return (
 
-        <> <Modal className={"max-w-2xl h-4/5 p-5 pt-3"} classNames={{
+        <> 
+        <div className='absolute inset-x-0'>
+            <Nav/>
+        </div>
+        
+        <Modal className={"max-w-2xl h-4/5 p-5 pt-3 "} classNames={{
             body: "py-6",
             base: "border-[#52525B] bg-[#18181B] dark:bg-[#18181B]" ,
             backdrop: "bg-[#09090b]/90 backdrop-opacity-40",
@@ -285,13 +298,14 @@ export default function Notification() {
                                 ))}
                             </div>
                             <h1>Categories:</h1>
-                            <div className=' grid grid-cols-6  gap-2'>
+                            <div className=' grid grid-cols-4'>
 
 
-                                {response.categories?.map((cat, index) => (
+                                {response.category?.map((cat, index) => (
+
                                     <Chip
                                         key={index}
-                                        className="flex justify-center items-center text-white  rounded-lg px-6  border border-transparent hover:border-gray-400  h-[40px]"
+                                        className="flex justify-center items-center text-white rounded-lg px-2 border border-transparent hover:border-gray-400 h-[40px]"
                                     >
                                         {cat.categoryName}
                                     </Chip>
@@ -313,7 +327,7 @@ export default function Notification() {
                     alignItems: 'center', // Center vertically
                 }}
             >
-                <Box sx={{ height: '100%', width: '80%'}}>
+                <Box sx={{ height: '100%', width: '80%', marginTop:'100px'}}>
                     <DataGrid
 
 

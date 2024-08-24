@@ -9,6 +9,8 @@ import { MultiStepContext } from "@/app/step-context";
 import FormThirdStep3 from "@/app/project/form-third-step-3";
 import FormSecondStep2 from "@/app/project/form-second-step-2";
 import FormFirstStep from "@/app/project/form-first-step-1";
+import Nav from "@/app/components/nav1";
+import Newnav from "@/app/components/nav2";
 
 const steps = ['Add title and summary', 'Select Technology Stack', 'Select Category'];
 
@@ -36,7 +38,10 @@ export default function Page() {
 
   return (
       <>
-        <div>
+      <div className="absolute inset-x-0">
+      <Newnav/>
+      </div>
+        <div className="mt-20">
           <div className="flex flex-col justify-center items-center p-0 m-0 gap-8">
             <h1>Create New Project</h1>
             <Box sx={{ width: '100%' }}>

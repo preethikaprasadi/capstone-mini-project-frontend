@@ -21,7 +21,7 @@ export default function NewStudentSignupPopup({ onSave }) {
    
 
   const validateEmail = (email: string) => {  
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    return /^[^\s@]+@[^\s@]+\.(ac\.lk|lk)$/.test(email);
   };
 
   const validatePassword = (password: string) => {
@@ -36,7 +36,7 @@ export default function NewStudentSignupPopup({ onSave }) {
     }
 
     if (!validateEmail(email)) {
-      setError("Invalide email address!");
+      setError("Please use your univercity email!");
       return;
     }
   

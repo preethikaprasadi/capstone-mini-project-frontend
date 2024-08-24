@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from "@nextui-org/react";
 import { Input } from "@nextui-org/input";
 import { useMultiStepContext } from "@/app/step-context";
+import Nav from '../components/nav1';
 
 export default function GuideFormSecondStep() {
     const { guideCurrentStep, setGuideCurrentStep, guideUserData, setGuideUserData } = useMultiStepContext();
@@ -19,20 +20,14 @@ export default function GuideFormSecondStep() {
     };
 
     return (
+        <>
+        <div className='absolute inset-x-0'>
+                <Nav/>
+            </div>
         <div className="flex items-center justify-center gap-4">
             <section className="w-6/12">
                 <div className="flex flex-col gap-4">
-                    <div>
-                        <Input
-                            label="Profile Picture"
-                            placeholder="Enter Profile Picture"
-                            type="text"
-                            variant="flat"
-                            className="w-full"
-                            value={guideUserData['profilePicValue']}
-                            onChange={(e) => setGuideUserData({...guideUserData, "profilePicValue": e.target.value})}
-                        />
-                    </div>
+                   
                     <div>
                         <Input
                             label="Job"
@@ -89,5 +84,6 @@ export default function GuideFormSecondStep() {
                 </div>
             </section>
         </div>
+        </>
     );
 }

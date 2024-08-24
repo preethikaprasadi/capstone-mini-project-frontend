@@ -7,7 +7,6 @@ import { Button } from "@nextui-org/react";
 import { createRequest } from "@/service/project.request.service";
 import Rating from '@mui/material/Rating'; // Import the Rating component
 import { useRouter } from 'next/navigation';
-import Newnav from '@/app/components/nav2';
 
 export default function ViewALLGuides() {
     const [rows, setRows] = useState([]);
@@ -76,7 +75,6 @@ export default function ViewALLGuides() {
 
                 return (
                     <div>
-                        
                         <Button
                             className={"w-1/2"}
                             variant="solid"
@@ -112,9 +110,6 @@ export default function ViewALLGuides() {
     }, [rows]);
 
     return (
-        <>
-        <div className='absolute inset-x-0'>
-        </div>
         <Box sx={{ height: '100%', width: '100%' }}>
             <DataGrid
                 rowHeight={60}
@@ -128,6 +123,5 @@ export default function ViewALLGuides() {
                 }}
             />
         </Box>
-        </>
     );
 }

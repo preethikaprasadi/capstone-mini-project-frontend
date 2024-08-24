@@ -6,6 +6,9 @@ import ParentTechnologySet from "@/app/project/parentTechnologySet";
 import { Category, getAllCategory } from "@/service/category.service";
 import GuideSelectCategory from "@/app/guide/guide-select-category";;
 import {saveGuide} from "@/service/guide.service";
+import Nav from '../components/nav1';
+import { useRouter } from 'next/navigation';
+
  
 
 export default function GuideFormThirdStep() {
@@ -28,9 +31,12 @@ export default function GuideFormThirdStep() {
         console.log("useEffect: ", rows);
     }, [rows]);
 
+    const router = useRouter()
+
     const submitData = async () => {
         const newUserData = { ...guideUserData, guideSelectedTechnologies: Array.from(new Set(guideSelectedTechnologies)), guideSelectedCategories: Array.from(new Set(guideSelectedCategories)) };
 
+         
         try {
             // Save project data
             console.log("Guide data being sent to server:", newUserData);
@@ -40,7 +46,7 @@ export default function GuideFormThirdStep() {
                 lastName: newUserData.lastNameValue,
                 email: newUserData.emailValue,
                 password:newUserData.passwordValue,
-                profilePic:newUserData.profilePicValue,
+                profilePic:'/',
                 job: newUserData.jobValue,
                 about: newUserData.aboutValue,
                 milestones: newUserData.milestonesValue,
@@ -49,6 +55,8 @@ export default function GuideFormThirdStep() {
                 categories:newUserData.guideSelectedCategories
             });
             console.log("Response from saveGuide:", res);
+            const guideId = res.id;
+            router.push(`/profile3?guideId=${guideId}`)
 
             // Update finalData with the newUserData
             setGuideFinalData(prevFinalData => [...prevFinalData, newUserData]);
@@ -81,8 +89,12 @@ export default function GuideFormThirdStep() {
 
 
     return (
-        <div className="flex justify-center items-center">
-            <section className="w-6/12">
+        <>
+        <div className='absolute inset-x-0'>
+                <Nav/>
+            </div>
+        <div className="flex justify-center items-center ">
+            <section className="w-6/12 ">
                 <div className="flex flex-col gap-4">
                     <h2>Select Technologies</h2>
                     <ParentTechnologySet
@@ -107,5 +119,6 @@ export default function GuideFormThirdStep() {
             </section>
              
         </div>
+        </>
     );
 }

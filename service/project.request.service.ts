@@ -67,6 +67,18 @@ export async function getRequestsByGuide(guideId:string): Promise<ProjectRequest
     return projectRequests;
 }
 
+export async function getRequestsByProject(projectId:string): Promise<ProjectRequest[]> {
+    const url: string = "http://localhost:3000/projectRequests/projectId/"+projectId;
+    const response: Response = await fetch(url, { cache: "no-store" });
+    console.log("project requests for guide, "+projectId+ ":  \n"+response);
+
+    const projectRequests: ProjectRequest[] = await response.json();
+
+    console.log ("response(service)",projectRequests);
+
+    return projectRequests;
+}
+
 export async function  rejectRequest(id: string): Promise<ProjectRequest> {
     const url: string = "http://localhost:3000/projectRequests/" + id+"/reject";
     const request = new Request(url, {
@@ -103,6 +115,27 @@ export async function getFinalStatusOfProject(projectId: string): Promise<string
     const url: string = "http://localhost:3000/projectRequests/" + projectId +"/projectFinalStatus";
     const response = await fetch(url, { cache: "no-store" });
     const data = await response.text(); // Capture the JSON data
+    
+    return data; // Assuming data is the status string you need
+}
+
+export async function getAcceptedGuideIdByProjectId(projectId: string): Promise<string> {
+    const url: string = "http://localhost:3000/projectRequests/" + projectId +"/acceptedGuideID";
+    const response = await fetch(url, { cache: "no-store" });
+    const data = await response.text(); // Capture the JSON data
+
+    if (!response.ok) {
+        throw new Error(`Failed to fetch project for student ID ${projectId}: ${response.statusText}`);
+    }
+
+    console.log("Fetched Data for   "+projectId+"   :", data); // Log the actual data received
+    return data; // Assuming data is the status string you need
+}
+
+export async function getRejectedGuideIdsByProjectId(projectId: string): Promise<string[]> {
+    const url: string = "http://localhost:3000/projectRequests/" + projectId +"/rejectedGuidesIds";
+    const response = await fetch(url, { cache: "no-store" });
+    const data = await response.json(); // Capture the JSON data
 
     if (!response.ok) {
         throw new Error(`Failed to fetch project for student ID ${projectId}: ${response.statusText}`);

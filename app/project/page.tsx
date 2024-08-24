@@ -5,6 +5,7 @@ import { title} from "@/app/components/primitives";
 import {Button} from "@nextui-org/react";
 import {useRouter} from "next/navigation";
 import {useMultiStepContext} from "@/app/step-context";
+import Nav from "../components/nav1";
 
 
 export default function ProjectPage() {
@@ -63,7 +64,10 @@ export default function ProjectPage() {
 
   return (
     <>
-      <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+    <div className="absolute inset-x-0 mb-20">
+    <Nav/>
+    </div>
+      <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 mt-20">
 
       <div className="inline-block text-center justify-center ">
         <h1 className={title()}>Discover Your Perfect Guide</h1>

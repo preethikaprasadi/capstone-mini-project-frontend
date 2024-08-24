@@ -17,6 +17,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Resume from "@/app/profile/resume";
 import Notification from "@/app/profile/notification";
 import { IoNotificationsCircle } from "react-icons/io5";
+import Nav from "../components/nav1";
 const drawerWidth = 300;
 
 const Main = styled('main')<{ open?: boolean }>`
@@ -32,26 +33,35 @@ const ResumeWrapper = styled('div')`
   /* Ensure the Resume component takes full available space */
 `;
 
+
+
+
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
 }
 
 const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
-    transition: theme.transitions.create(['margin', 'width'], {
+    shouldForwardProp: (prop) => prop !== 'open' && prop !== 'visible',
+})<AppBarProps & { visible?: boolean }>(({ theme, open, visible }) => ({
+    transition: theme.transitions.create(['margin', 'width', 'opacity'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
     }),
-    ...(open && {
+    ...(visible ? {
+        opacity: 0, // Fully visible
         width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['margin', 'width'], {
+        transition: theme.transitions.create(['margin', 'width', 'opacity'], {
             easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen+1,
+            duration: theme.transitions.duration.enteringScreen,
         }),
         marginRight: drawerWidth,
+    } : {
+        opacity: 1, // Hidden
+        width: 0, // Adjust width to 0 to ensure it’s not taking up space
+        marginRight: 0,
     }),
 }));
+
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -75,12 +85,22 @@ export default function PersistentDrawerRight() {
     };
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        
+        <Box sx={{ display: 'flex' , }}>
+            <div className='absolute inset-x-0'>
+                    <Nav/>
+            </div>
             <CssBaseline />
             <AppBar position="fixed" open={open}
                     sx={{
-                        boxShadow: 'none',
-                        backgroundColor: 'transparent',
+                        paddingLeft:'0',
+
+                        borderRadius:'5px',
+                        paddingTop:'12px',
+                        height:'95px',
+                        width:'10%',
+                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.5)',
+                        backgroundColor: '#0f172a',
                     }}>
                 <Toolbar>
                     <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
@@ -90,13 +110,13 @@ export default function PersistentDrawerRight() {
                         aria-label="open drawer"
                         edge="end"
                         onClick={handleDrawerOpen}
-                        sx={{ ...(open && { display: 'none' }), width: "150px", fontSize:"15px" }}
+                        sx={{ ...(open && { display: 'none' }), width: "150px", fontSize:"15px", paddingRight:'25px' }}
                     >
                         <div className={"flex flex-row "}>
                         <div className={"mt-2"}>
                         <IoNotificationsCircle     className={"size-8 fill-red-700"}/>
                         </div>
-                        <div className={" font-semibold"} >
+                        <div className={"  font-semibold "} >
                         See Project Requests
                         </div>
                             </div>

@@ -1,7 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { title} from "@/app/components/primitives";
-import { Navbar } from "@/app/components/navbar";
 import { Student } from "@/service/student.service";
 import NewStudentSignupPopup from "@/app/student/new-student-signup-popup";
 import GuideLoginPopup from "@/app/guide/login-popup";
@@ -11,13 +10,10 @@ import StandardImageList from "./components/imageLsit";
 import FeaturesSection from "./components/featuresection";
 import Footer from "./components/footer";
 import { useRouter } from "next/navigation";
- 
- 
- 
+import Navbar from "./components/nav";
 
 export default function Home() {
 
-   
   const router = useRouter();
   
   const handleSave = (student: Student) => {
@@ -32,12 +28,16 @@ export default function Home() {
    
   return (
       <>
-        
-        <Navbar />
-        <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10" 
+      <div className="absolute inset-0">
+      <Navbar/>
+      </div>
+        <section 
+        id="home-section"
+        className="flex flex-col items-center justify-center gap-4 py-8 md:py-10" 
              style={{ 
-                     minHeight: '600px',
+                     minHeight: '700px' 
                     }}>
+                     
             <div
                  className="absolute inset-0 w-full h-full"
              style={{
@@ -53,7 +53,7 @@ export default function Home() {
                <br />
               <h1 className={title()}>Software Development Skills</h1>
                <br />
-              <h1 className={title()}>with <span className={title({ color: "violet" })}>Guidly</span>
+              <h1 className={title()}>with<span className={title({ color: "violet" })}>Guidly</span>
               </h1>
               <br />
             <TypeWrite/>
@@ -67,10 +67,12 @@ export default function Home() {
 
         </section>
 
-       <section className="absolute inset-x-0 mt-10 bg-gradient-to-br from-gray-800 via-black to-violet-900">
+       <section 
+      
+       className="absolute inset-x-0 mt-1 bg-gradient-to-br from-gray-800 via-black to-violet-900" id="features-section" style={{ paddingTop: '72px' }}>
 
         
-       <div className="text-3xl font-bold my-8 text-left  text-center mb-10">
+       <div className="text-3xl font-bold my-8 text-left  text-center mb-10" >
         <div className="m-16">
            
           <h1 className="mt-20">
@@ -81,21 +83,23 @@ export default function Home() {
         </div> 
  
         <div className='flex items-center justify-center h-full text-lg text- leading-relaxed  '>
-          <h2 className='text-xl  '>
+          <h2 className='text-xl'>
             "Find out why our platform is the preferred choice for IT projects. 
              With expert guides, diverse technologies,<br/> and a supportive community, 
              we provide the tools you need to succeed."
           </h2>
          </div>
         </div>
-         
+      
+       
         <FeaturesSection/>
+      <section id="mentors-section" className="relative z-10"  style={{ paddingTop: '18px' }}>
 
-        <div className="">
-        <div className="text-3xl font-bold my-8 text-left mb-20 text-center ">
+        <div>
+        <div className="text-3xl font-bold my-8 text-left mb-10 text-center ">
         <div className="m-16">
 
-          <h1 className="mt-60">
+          <h1 className="mt-20">
           <img src="/images/20.png" alt="Icon" className="inline-block mr-4 h-14 w-14" />
             Explore <span className={title({ color: "yellow",size:"sm" })}>1,000 +</span> Available Mentors
           </h1>
@@ -113,17 +117,27 @@ export default function Home() {
 
         </div>
         </div>
-        <div className="mb-20"><GuideList /></div>
-        <div className="flex justify-center mb-40">
+        
+        <div><GuideList />
+        
+        </div>
+      
+        <div className="flex justify-center mb-10">
         <button 
         onClick={handleExploreMoreClick}
-        className="bg-gradient-to-br from-blue-900 via-blue-800 to-black text-xl text-white p-3 rounded-xl hover:from-yellow-400 hover:via-yellow-700 hover:to-red-900 hover:shadow-lg transition duration-300">
+        className="bg-gradient-to-br from-blue-900 via-blue-800 to-black text-xl text-white p-3 rounded-lg hover:from-yellow-400 hover:via-yellow-700 hover:to-red-900 hover:shadow-lg transition duration-300 relative bottom-0 m-10">
              Explore more
         </button>
 
         </div>
         </div>
-       <div className="text-3xl font-bold my-8  text-center ">  
+        </section>
+        <div>
+
+ 
+
+      <div className=" bottom-40 relative z-10" id="technologies-section"   style={{ paddingTop: '72px' }}>
+       <div className="text-3xl font-bold my-8  text-center mt-20" >  
        <div className='text-4xl font-bold text-center mb-10'>
 
           
@@ -133,8 +147,8 @@ export default function Home() {
          </h1>
 
        </div> 
-       <div className=' p-6 rounded-lg shadow-lg ' >
-       <div className='text-lg text- leading-relaxed '>
+       <div className=' p-6 rounded-lg shadow-lg'>
+       <div className='text-lg text- leading-relaxed'>
 
         <h2 className='text-xl text-center '>
           "Our mentors are experts in a wide array of programming languages and frameworks,
@@ -147,12 +161,15 @@ export default function Home() {
      </div>
      </div>
      </div>
-     <div className="mb-40">
+     <div className="mb-10">
         <StandardImageList/>
-     </div> 
-       <Footer/> 
-     </section> 
+     </div>
+      </div>
+      </div>
      
+       <Footer/> 
+     
+      </section>
       </>
   );
 }

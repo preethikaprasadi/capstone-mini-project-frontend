@@ -47,8 +47,8 @@ return(
                       <div className={"basis-3/5 bg-gradient-to-br from-gray-800 via-black to-gray-900 backdrop-blur-lg bg-opacity-10 relative"}>
                         <Button color="danger" variant="light" onClick={onClose} className="absolute top-4 right-4"><FaTimes /></Button>
                         <div className="w-full flex flex-col  gap-2 justify-center pt-10 pb-10 pl-10 pr-10  top-10 relative ">
-                         <p className={"pb-10 ml-16 text-lg"}> Congratulations {session?.user.firstName},!! You are successfully login your account!</p>
-                        <img src="https://static.vecteezy.com/system/resources/previews/026/766/399/original/account-has-been-successfully-created-registered-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-ui-infographic-icon-vector.jpg" alt="Your Image" className="w-1/2 h-auto mx-auto mb-10 rounded-full opacity-90" />
+                         <p className={"pb-10 ml-16 text-lg mx-auto"}>You are successfully login your account!</p>
+                        <img src="https://static.vecteezy.com/system/resources/previews/026/766/399/original/account-has-been-successfully-created-registered-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-ui-infographic-icon-vector.jpg" alt="Your Image" className="w-1/3 h-auto mx-auto mb-10 rounded-full opacity-90" />
                         <Button onPress={routeProjectHomePage} radius="full" className="bg-gradient-to-t from-blue-500 via-blue-700 to-blue-800 text-white shadow-lg text-xl font-semibold p-8" endContent={<CgAdd className={"font-bold text-2xl "}/>}>
                             Create New Project
                         </Button>
