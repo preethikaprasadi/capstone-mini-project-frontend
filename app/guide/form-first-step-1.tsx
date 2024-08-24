@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/react";
 import { useMultiStepContext } from "@/app/step-context";
+import Nav from '../components/nav1';
 
 export default function GuideFormFirstStep() {
     const { guideCurrentStep, setGuideCurrentStep, guideUserData, setGuideUserData } = useMultiStepContext();
@@ -33,7 +34,12 @@ export default function GuideFormFirstStep() {
     };
 
     return (
-        <div className="flex items-center justify-center gap-4">
+        <>
+        <div className='absolute inset-x-0'>
+                <Nav/>
+            </div>
+        <div className="flex items-center justify-center gap-4 ">
+            
             <section className="w-6/12">
                 <div className="flex flex-col gap-4">
                     <div>
@@ -92,5 +98,6 @@ export default function GuideFormFirstStep() {
                 </div>
             </section>
         </div>
+        </>
     );
 }

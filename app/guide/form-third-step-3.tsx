@@ -6,6 +6,7 @@ import ParentTechnologySet from "@/app/project/parentTechnologySet";
 import { Category, getAllCategory } from "@/service/category.service";
 import GuideSelectCategory from "@/app/guide/guide-select-category";;
 import {saveGuide} from "@/service/guide.service";
+import Nav from '../components/nav1';
  
 
 export default function GuideFormThirdStep() {
@@ -40,7 +41,7 @@ export default function GuideFormThirdStep() {
                 lastName: newUserData.lastNameValue,
                 email: newUserData.emailValue,
                 password:newUserData.passwordValue,
-                profilePic:newUserData.profilePicValue,
+                profilePic:'/',
                 job: newUserData.jobValue,
                 about: newUserData.aboutValue,
                 milestones: newUserData.milestonesValue,
@@ -81,8 +82,12 @@ export default function GuideFormThirdStep() {
 
 
     return (
-        <div className="flex justify-center items-center">
-            <section className="w-6/12">
+        <>
+        <div className='absolute inset-x-0'>
+                <Nav/>
+            </div>
+        <div className="flex justify-center items-center ">
+            <section className="w-6/12 ">
                 <div className="flex flex-col gap-4">
                     <h2>Select Technologies</h2>
                     <ParentTechnologySet
@@ -107,5 +112,6 @@ export default function GuideFormThirdStep() {
             </section>
              
         </div>
+        </>
     );
 }
