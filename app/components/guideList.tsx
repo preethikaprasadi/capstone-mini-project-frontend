@@ -8,6 +8,12 @@ const GuideList: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
+  const handleExploreMoreClick = () => {
+    
+    router.push('/searchGuide');
+  };  
+  
+
   useEffect(() => {
     const fetchGuides = async () => {
       try {
@@ -27,11 +33,11 @@ const GuideList: React.FC = () => {
     return <p>Loading...</p>;
   }
   
-  const limitedGuides = Array.isArray(guides) ? guides.slice(0, 12) : [];
+  const limitedGuides = Array.isArray(guides) ? guides.slice(0, 8) : [];
   console.log('Limited guides:', limitedGuides);
   return (
-    <div className="min-h-screen">
-    <div className="container mx-auto p-4  bg-gradient-to-br from-pink-700 via-black to-violet-800 w-4/5 ">
+    <div className="min-h-2xl">
+    <div className="container mx-auto p-4  bg-gradient-to-br from-pink-700 via-black to-violet-800 ">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 m-4 ">
         {limitedGuides.map((guide) => (
           <div
@@ -68,9 +74,17 @@ const GuideList: React.FC = () => {
 
           </div>
         ))}
-      </div>
+      </div> 
+      <div className="flex justify-center mt-10 ">
+        
+        <button onClick={handleExploreMoreClick} className="bg-gradient-to-br from-blue-900 via-blue-800 to-black text-xl text-white p-3 rounded-lg hover:from-yellow-400 hover:via-yellow-700 hover:to-red-900 hover:shadow-lg transition duration-300 cursor-pointer">Explore more</button>
+        
+        </div>
     </div>
+
+   
   </div>
+   
   
   );
 };

@@ -20,11 +20,7 @@ export default function Home() {
     console.log("Trying to save: ", student);
   };
 
-  const handleExploreMoreClick = () => {
-    
-    router.push('searchGuide')
-  };  
-  
+ 
    
   return (
       <>
@@ -118,25 +114,18 @@ export default function Home() {
         </div>
         </div>
         
-        <div><GuideList />
+        <GuideList /> 
         
+       
         </div>
-      
-        <div className="flex justify-center mb-10">
-        <button 
-        onClick={handleExploreMoreClick}
-        className="bg-gradient-to-br from-blue-900 via-blue-800 to-black text-xl text-white p-3 rounded-lg hover:from-yellow-400 hover:via-yellow-700 hover:to-red-900 hover:shadow-lg transition duration-300 relative bottom-0 m-10">
-             Explore more
-        </button>
 
-        </div>
-        </div>
+        
         </section>
         <div>
 
  
 
-      <div className=" bottom-40 relative z-10" id="technologies-section"   style={{ paddingTop: '72px' }}>
+      <div className=" bottom-20 " id="technologies-section"   style={{ paddingTop: '72px' }}>
        <div className="text-3xl font-bold my-8  text-center mt-20" >  
        <div className='text-4xl font-bold text-center mb-10'>
 

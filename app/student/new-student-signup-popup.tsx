@@ -36,7 +36,7 @@ export default function NewStudentSignupPopup({ onSave }) {
     }
 
     if (!validateEmail(email)) {
-      setError("Please use your univercity email!");
+      setError("Please use your university email!");
       return;
     }
   

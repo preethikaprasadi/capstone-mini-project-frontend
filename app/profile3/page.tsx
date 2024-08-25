@@ -179,7 +179,7 @@ export default function Resume () {
     return (
 
         <div className="absolute inset-0 w-full  rounded-l-lg">
-            
+            <Nav/>
             {!isEditing ? (
 
                 <div className="absolute inset-0 w-full bg-gradient-to-br from-gray-700 via-black to-gray-800 text-white  rounded-l-lg">
@@ -240,10 +240,10 @@ export default function Resume () {
 
                     <div className="py-2  flex flex-col items-center text-center bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white">
                         <div className='w-full '>
-                            <h3 className="text-3xl font-semibold flex items-center justify-center p-8 mr-10">
+                            <h3 className="text-2xl font-semibold flex items-center justify-center p-8 mr-10">
                                 <img src="/images/24.png" alt="Info Icon" className="mr-4 w-14 h-14" /> About Me
                             </h3>
-                            <div className="w-3/4 mx-auto max-w-2xl  border border-gray-400 rounded-lg p-4 ">
+                            <div className=" mx-auto max-w-6xl  border border-gray-400 rounded-lg p-4 ">
                                 <p className="m-4 text-xl text-gray-300">{displayedText}</p>
                                 {shouldTruncate && (
                                     <button onClick={handleToggle} className="text-blue-500 hover:text-blue-700 mt-2">
