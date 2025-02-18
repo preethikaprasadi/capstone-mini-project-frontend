@@ -1,5 +1,5 @@
 # Demo:
-- [LinkdIn](https://www.linkedin.com/feed/update/urn:li:activity:7283802601173762048/))
+- [LinkdIn](https://www.linkedin.com/feed/update/urn:li:activity:7283802601173762048/)
 
 # Next.js & NextUI Template
 
