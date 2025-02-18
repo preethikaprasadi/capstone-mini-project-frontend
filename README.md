@@ -1,5 +1,6 @@
 # Demo:
 - [LinkdIn](https://www.linkedin.com/feed/update/urn:li:activity:7283802601173762048/)
+- [Backend](https://github.com/preethikaprasadi/capstone-mini-project-backend)
 
 # Next.js & NextUI Template
 
