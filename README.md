@@ -1,3 +1,6 @@
+# Demo:
+- [LinkdIn](https://www.linkedin.com/feed/update/urn:li:activity:7283798022034010112/)
+
 # Next.js & NextUI Template
 
 This is a template for creating applications using Next.js 14 (app directory) and NextUI (v2).
